@@ -42,7 +42,7 @@ const tabs = [
   {label: "Pausados", value:"pausados"},
 ];
 
-const habilitarFiltro = ref(true);
+const habilitarFiltro = ref(false);
 
 </script>
 

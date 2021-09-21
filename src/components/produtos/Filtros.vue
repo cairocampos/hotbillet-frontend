@@ -58,6 +58,7 @@
 
 
 <script lang="ts" setup>
+import SelectInput from "@/components/global/SelectInput.vue"
 </script>
 
 <style>
