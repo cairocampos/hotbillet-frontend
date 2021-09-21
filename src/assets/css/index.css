@@ -1,0 +1,110 @@
+
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+
+body {
+	@apply bg-gray-100;
+}
+
+.btn {
+	@apply text-center py-2 px-8;
+}
+
+.btn-circle {
+	@apply rounded-full;
+}
+
+.btn-primary {
+}
+
+.btn-dark {
+	background: linear-gradient(180deg, #2F2D2C 0%, #494545 164.47%);
+	@apply text-white;
+}
+
+.btn-secondary {
+	@apply bg-gray-200;
+}
+
+.btn-danger {
+}
+
+.title-page {
+	@apply text-2xl text-gray-600;
+}
+
+.text-default {
+	@apply text-gray-600;
+}
+
+.text-default-bold {
+	@apply text-gray-800;
+}
+
+.text-danger {
+	@apply text-red-500;
+}
+
+.form {
+	@apply space-y-4;
+}
+
+.form-group {
+	@apply flex flex-col text-left space-y-1;
+}
+
+.form-control {
+	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none  focus:bg-white;
+}
+
+.form-check {
+	@apply flex items-center space-x-2
+}
+
+.label {
+	@apply text-sm text-gray-500;
+}
+
+.table {
+	border-spacing: 0 8px;
+}
+
+.input-group {
+	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none flex items-center;
+}
+
+@tailwind utilities;
+
+@layer base {
+	h1 {
+		@apply text-2xl;
+	}
+	h2 {
+		@apply text-xl;
+	}
+	table {
+		border-spacing: 0 8px;
+		@apply text-left table-auto border-separate;
+	}
+
+	table tbody tr td {
+		@apply bg-gray-200 text-gray-500;
+	}
+
+	table tbody tr td:first-child {
+		@apply rounded-l-md;
+	}
+
+	table tbody tr td:last-child {
+		@apply rounded-r-md;
+	}
+
+	table tbody td {
+		@apply p-4;
+	}
+
+	table thead th {
+		@apply text-sm font-light pl-4;
+	}
+}
