@@ -11,6 +11,10 @@ body {
 	@apply text-center py-2 px-8;
 }
 
+.btn-sm {
+	@apply text-sm px-6 py-2;
+}
+
 .btn-circle {
 	@apply rounded-full;
 }
@@ -20,11 +24,15 @@ body {
 
 .btn-dark {
 	background: linear-gradient(180deg, #2F2D2C 0%, #494545 164.47%);
-	@apply text-white;
+	@apply text-white font-semibold;
 }
 
 .btn-secondary {
 	@apply bg-gray-200;
+}
+
+.btn-outline-secondary {
+	@apply border border-gray-800 text-gray-600;
 }
 
 .btn-danger {

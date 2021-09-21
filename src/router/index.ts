@@ -5,7 +5,11 @@ import Dashboard from '@/views/Dashboard.vue';
 import Leads from '@/views/leads/Leads.vue';
 import Agenda from '@/views/agenda/Agenda.vue';
 import Usuarios from '@/views/usuarios/Usuarios.vue';
+
+// Produtos
 import Produtos from '@/views/produtos/Produtos.vue';
+import AdicionarProduto from '@/views/produtos/AdicionarProduto.vue';
+
 import Mensagens from '@/views/mensagens/Mensagens.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -38,6 +42,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/produtos',
     name: 'Produtos',
     component: Produtos,
+    meta: {requiresAuth:true}
+  },
+  {
+    path: '/produtos/adicionar',
+    name: 'AdicionarProduto',
+    component: AdicionarProduto,
     meta: {requiresAuth:true}
   },
   {
