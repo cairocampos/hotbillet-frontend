@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import {auth} from '@/services'
+// import {auth} from '@/services'
 import Login from '@/views/Auth/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import Leads from '@/views/leads/Leads.vue';
 import Agenda from '@/views/agenda/Agenda.vue';
 import Usuarios from '@/views/usuarios/Usuarios.vue';
+import AdicionarUsuario from '@/views/usuarios/AdicionarUsuario.vue';
 
 // Produtos
 import Produtos from '@/views/produtos/Produtos.vue';
@@ -60,6 +61,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/usuarios',
     name: 'Usuarios',
     component: Usuarios,
+    meta: {requiresAuth:true}
+  },
+
+  {
+    path: '/usuarios/adicionar',
+    name: 'AdicionarUsuario',
+    component: AdicionarUsuario,
     meta: {requiresAuth:true}
   }
 ];

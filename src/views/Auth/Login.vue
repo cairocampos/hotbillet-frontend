@@ -40,7 +40,7 @@
 import {useRouter} from 'vue-router'
 import { defineComponent } from "@vue/runtime-core"
 import {ref} from 'vue';
-import { api } from '@/services';
+// import { api } from '@/services';
 
 export default defineComponent({
     name: 'Login',

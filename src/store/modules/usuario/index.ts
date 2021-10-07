@@ -1,6 +1,7 @@
 import { Module } from "vuex"
 import router from '@/router'
 
+// eslint-disable-next-line
 const usuarioModule: Module<any, any> = {
     namespaced:true,
     state: {

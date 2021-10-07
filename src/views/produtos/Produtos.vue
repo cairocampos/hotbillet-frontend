@@ -20,7 +20,7 @@
     </transition>
     
     <div class="my-10 text-right">
-      <router-link :to="{name: 'AdicionarProduto'}" class="btn btn-dark rounded-full">Adicionar Produto</router-link>
+      <router-link :to="{name: 'AdicionarProduto'}" class="btn btn-sm btn-dark rounded-full py-3">Adicionar Produto</router-link>
     </div>
     <div class="grid grid-cols-4 gap-6">
       <CardProduto v-for="item in 12" :key="item"/>

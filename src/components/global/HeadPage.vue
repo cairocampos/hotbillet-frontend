@@ -1,5 +1,5 @@
 <template>
-  <header class="flex justify-between items-center my-6 relative">
+  <header class="flex justify-between items-center my-10 relative">
     <slot></slot>
     <div class="flex divide-x divide-gray-200 text-gray-600 icons">
       <div class="bg-white py-2 px-4 rounded-l-md cursor-pointer">

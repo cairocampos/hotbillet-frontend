@@ -1,8 +1,8 @@
 <template>
   <aside class="menu flex flex-col">
 
-    <div class="mx-4 my-6 text-center border-b border-gray-400 pb-6">
-      <img src="@/assets/logo.png" alt="" width="150" class="mx-auto">
+    <div class="mx-4 my-10 text-center border-b border-gray-400 pb-6">
+      <img src="@/assets/logo.png" alt="" width="135" class="mx-auto">
     </div>
 
     <div class="flex space-x-4 mx-4 border-b border-gray-400 pb-6">
@@ -12,7 +12,7 @@
       </div>
 
       <div class="flex flex-col">
-        <p class="text-white">Olá, Marcos</p>
+        <p class="text-white text-md">Olá, Marcos</p>
         <span class="text-gray-50 text-xs font-light">Bem-vindo!</span>
         <router-link to="/" class="text-xs mt-2 text-blue-500 font-bold">Minha Conta</router-link>
       </div>
@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
-  width: 260px;
+  width: 225px;
   background-color: #2F2D2C;
   min-height: 100vh;
 }

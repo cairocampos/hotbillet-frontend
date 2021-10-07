@@ -3,6 +3,10 @@
 @tailwind base;
 @tailwind components;
 
+* {
+	font-family: 'Poppins', sans-serif;
+}
+
 body {
 	@apply bg-gray-100;
 }
@@ -12,7 +16,7 @@ body {
 }
 
 .btn-sm {
-	@apply text-sm px-6 py-2;
+	@apply text-xs px-6 py-2;
 }
 
 .btn-circle {
@@ -23,8 +27,9 @@ body {
 }
 
 .btn-dark {
-	background: linear-gradient(180deg, #2F2D2C 0%, #494545 164.47%);
-	@apply text-white font-semibold;
+	background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
+	font-weight: 600;
+	@apply text-white;
 }
 
 .btn-secondary {
@@ -36,6 +41,11 @@ body {
 }
 
 .btn-danger {
+	@apply bg-red-500;
+}
+
+.btn-blue {
+	@apply bg-blue-500 text-white;
 }
 
 .title-page {
@@ -58,12 +68,20 @@ body {
 	@apply space-y-4;
 }
 
+.form-sm {
+	@apply text-sm;
+}
+
 .form-group {
-	@apply flex flex-col text-left space-y-1;
+	@apply flex flex-col text-left space-y-1 transition;
 }
 
 .form-control {
-	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none  focus:bg-white;
+	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none  focus:bg-white focus:border-b-2;
+}
+
+.form-control-line {
+	@apply border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent;
 }
 
 .form-check {
@@ -74,12 +92,24 @@ body {
 	@apply text-sm text-gray-500;
 }
 
+.form-sm .label {
+	@apply text-xs;
+}
+
 .table {
 	border-spacing: 0 8px;
 }
 
 .input-group {
 	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none flex items-center;
+}
+
+.input-group-line {
+	@apply border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent;
+}
+
+.text-link {
+	@apply text-blue-600 text-xs;
 }
 
 @tailwind utilities;
@@ -97,7 +127,11 @@ body {
 	}
 
 	table tbody tr td {
-		@apply bg-gray-200 text-gray-500;
+		@apply bg-gray-200 text-gray-700;
+	}
+
+	table.table-white tbody tr td {
+		@apply bg-white;
 	}
 
 	table tbody tr td:first-child {
