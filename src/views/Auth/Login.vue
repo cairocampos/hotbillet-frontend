@@ -40,23 +40,32 @@
 import {useRouter} from 'vue-router'
 import { defineComponent } from "@vue/runtime-core"
 import {ref} from 'vue';
-// import { api } from '@/services';
+import { api } from '@/services';
+import { useStore } from 'vuex';
+
+interface ILogin {
+  jwt_access:string;
+  jwt_refresh:string;
+}
 
 export default defineComponent({
-    name: 'Login',
+  name: 'Login',
     setup() {
       const router = useRouter();
-      const email = ref("");
-      const password = ref("");
+      const store = useStore();
+      const email = ref("company1@hotbillet.com.br");
+      const password = ref("123456");
 
       const login = async () => {
         try {
+          const response = await api.post<ILogin>('/login', {
+            email:email.value,
+            password:password.value,
+          });
+
+
+          store.dispatch('usuario/defineUsuario', response.data);
           router.push({name:"Dashboard"})
-            // await api.post('/login', {
-            //   email:email.value,
-            //   password:password.value,
-            // });
-            // router.push({name:"Dashboard"});
         } catch (error) {
           console.log(error)
         }

@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen w-full">
-
-    <Alert v-model="store.getters['alerta/alerta']" />
+    <Notify />
 
     <!-- <LoadingPage v-model="obj" /> -->
 
@@ -10,8 +9,8 @@
 		<Menu class="flex-shrink-0"/>
     <main id="main">
         <router-view v-slot="{Component}">
-          <transition>
-            <component :is="Component"></component>
+          <transition name="slide">
+            <component :is="Component" :key="$route.path"></component>
           </transition>
         </router-view>
     </main>
@@ -29,11 +28,15 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Alert from '@/components/Alert.vue'
 import LoadingPage from '@/components/LoadingPage.vue'
+
+import Notify from '@/components/Notify.vue';
+
 export default defineComponent({
   components: {
     Menu,
     Alert,
-    LoadingPage
+    LoadingPage,
+    Notify
   },
   setup() {
     const store = useStore();
@@ -54,6 +57,10 @@ export default defineComponent({
     // }
 
     const open = ref<boolean>(false);
+
+    onMounted(() => {
+      store.dispatch('usuario/getJwtData')
+    })
 
     setTimeout(() => {
       open.value = true

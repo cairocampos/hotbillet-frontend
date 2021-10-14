@@ -3,7 +3,7 @@
         <ul class="flex items-center space-x-8">
             <li 
             v-for="tab in tabs"
-            :class="['text-default pb-4 cursor-pointer', tab.value == tabAtivo ? 'border-b-2 border-yellow-500 text-gray-800' : '']"
+            :class="['text-default pb-4 cursor-pointer', tab.label == tabAtivo.label ? 'border-b-2 border-yellow-500 text-gray-800' : '']"
             @click="handleTab(tab)"
             :key="tab.value">{{tab.label}}</li>
         </ul>
@@ -29,10 +29,10 @@ const emit = defineEmits(['change-tab']);
 
 const {tabs} = toRefs(props);
 
-const tabAtivo = ref(tabs.value[0].value);
+const tabAtivo = ref(tabs.value[0]);
 
 const handleTab = (tab: {label:string;value:any}) => {
-    tabAtivo.value = tab.value;
+    tabAtivo.value = tab;
 }
 
 watch(tabAtivo, (value) => {

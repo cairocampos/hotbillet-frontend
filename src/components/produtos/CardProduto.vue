@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-md overflow-hidden bg-white cursor-pointer hover:shadow-lg card pb-4">
+  <div class="rounded-md overflow-hidden bg-white cursor-pointer hover:shadow-lg card pb-4" @click="router.push({name:'Produto', params: {id:1}})">
     <div class="w-full card__image bg-red-500">
         <img src="@/assets/fake/produto.png" class="h-full">
     </div>
@@ -19,6 +19,20 @@
     </div>
 </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core"
+import { useRouter } from "vue-router"
+
+export default defineComponent({
+    setup() {
+        const router = useRouter();
+
+
+        return {router}
+    }
+})
+</script>
 
 <style lang="scss" scoped>
 .card {

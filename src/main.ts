@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Maska from 'maska';
+import Notifications from 'notiwind'
 import '@/assets/css/index.css'
 
 // Components globais
@@ -18,4 +19,5 @@ app.component('ButtonClose', ButtonClose);
 app.use(store)
 app.use(router)
 app.use(Maska)
+app.use(Notifications)
 app.mount('#app')

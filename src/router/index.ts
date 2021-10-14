@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-// import {auth} from '@/services'
+import {auth} from '@/services'
 import Login from '@/views/Auth/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import Leads from '@/views/leads/Leads.vue';
@@ -9,6 +9,7 @@ import AdicionarUsuario from '@/views/usuarios/AdicionarUsuario.vue';
 
 // Produtos
 import Produtos from '@/views/produtos/Produtos.vue';
+import Produto from '@/views/produtos/Produto.vue';
 import AdicionarProduto from '@/views/produtos/AdicionarProduto.vue';
 
 import Mensagens from '@/views/mensagens/Mensagens.vue';
@@ -46,6 +47,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresAuth:true}
   },
   {
+    path: '/produtos/:id',
+    name: 'Produto',
+    component: Produto,
+    meta: {requiresAuth:true}
+  },
+  {
     path: '/produtos/adicionar',
     name: 'AdicionarProduto',
     component: AdicionarProduto,
@@ -77,19 +84,19 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if(to.matched.some(record => record.meta.requiresAuth)) {
-//     if(!auth.loggedIn()) {
-//       next({
-//         path: '/login',
-//         query: {redirect:to.fullPath}
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if(!auth.loggedIn()) {
+      next({
+        path: '/login',
+        query: {redirect:to.fullPath}
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+});
 
 export default router

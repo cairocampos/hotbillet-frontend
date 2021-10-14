@@ -49,6 +49,8 @@ import Ebooks from '@/components/produtos/steps/Ebooks.vue'
 import Faq from '@/components/produtos/steps/Faq.vue'
 import Conversao from '@/components/produtos/steps/Conversao.vue'
 
+import useNotification from '@/composables/useNotifications';
+
 interface Step {
     label:string;
     ordem:number;

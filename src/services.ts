@@ -1,13 +1,12 @@
 import axios, {AxiosPromise} from 'axios';
 const auth = {
-    loggedIn() {
-        const token = localStorage.getItem('token');
-        return token ?? false;
+    loggedIn(): boolean {
+        return localStorage.getItem('hot_token') ? true : false;
     }
 }
 
-const instance = axios.create({
-    baseURL: process.env.NODE_ENV == 'production' ? 'http://localhost:8081/api' : 'http://localhost:8081/api'
+const api = axios.create({
+    baseURL: process.env.NODE_ENV == 'production' ? 'http://localhost:8081/api' : 'http://homolog.hotbillet.com.br:8090/api'
 });
 
 // instance.interceptors.request.use(function(config) {
@@ -26,23 +25,4 @@ const instance = axios.create({
 // }, function (error) {
 //     return Promise.reject(error)
 // });
-
-const api = {
-    get(uri: string, params?: any):AxiosPromise {
-        return instance.get(uri, {params})
-    },
-
-    post(uri:string, data:any): AxiosPromise {
-        return instance.post(uri, data)
-    },
-
-    put(uri:string, data:any): AxiosPromise {
-        return instance.put(uri, data)
-    },
-
-    delete(uri:string): AxiosPromise {
-        return instance.delete(uri)
-    }
-}
-
 export { api, auth };

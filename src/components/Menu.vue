@@ -7,12 +7,12 @@
 
     <div class="flex space-x-4 mx-4 border-b border-gray-400 pb-6">
 
-      <div class="h-20 w-20 rounded-full bg-gradient-to-r from-yellow-500 to-red-700 p-1">
+      <div class="h-16 w-16 rounded-full bg-gradient-to-r from-yellow-500 to-red-700 p-1">
         <img src="@/assets/fake/perfil.jpeg" class="rounded-full">
       </div>
 
       <div class="flex flex-col">
-        <p class="text-white text-md">Olá, Marcos</p>
+        <p class="text-white text-xs text__username">Olá, {{username}}</p>
         <span class="text-gray-50 text-xs font-light">Bem-vindo!</span>
         <router-link to="/" class="text-xs mt-2 text-blue-500 font-bold">Minha Conta</router-link>
       </div>
@@ -25,10 +25,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MenuItems from './MenuItems.vue'
 export default {
   components: {
     MenuItems
+  },
+  computed: {
+    ...mapGetters({username: 'usuario/getNomeUsuario'})
   }
 }
 </script>
@@ -38,5 +42,12 @@ export default {
   width: 225px;
   background-color: #2F2D2C;
   min-height: 100vh;
+}
+
+.text__username {
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
