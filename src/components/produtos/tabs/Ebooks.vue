@@ -1,46 +1,36 @@
 <template>
-  <section class="links grid grid-cols-2 gap-6justify-between">
-    <div>
-        <button class="text-blue-600 flex items-center space-x-2 mb-10" @click="modalAdd = true">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg> 
-            <span class="text-sm">Ebooks e Anexos</span>
-        </button>
-
-        <div class="space-y-4">
-            <Card v-for="item in 5" :key="item">
-                <template #header>
-                    <h3 class="text-sm font-medium">Ebook {{item}} </h3>
-                    <button class="text-red-500 text-xs font-medium">Remover</button>
-                </template>
-                <template #body>
-                    <p class="text-default text-xs mb-2">Descrição do Ebook</p>
-                    <a href="#" class="text-link">https://web.whatsapp.com/</a>
-                </template>
-            </Card>
+    <section class="links space-y-10">
+        <div>
+            <p class="text-default font-medium text-sm mb-4">Ebooks</p>
+            <div class="flex items-center space-x-6">
+                <button class="space-x-2 flex items-center text-xs text-default">
+                    <img src="@/assets/icons/download.svg" alt="">
+                    <span>Baixar Todos</span>
+                </button>
+                <button class="space-x-2 flex items-center text-xs text-default">
+                    <img src="@/assets/icons/shared.svg" alt="">
+                    <span>Compartilhar Todos</span>
+                </button>
+            </div>
+            <table class="table-white text-xs w-full lg:w-3/4">
+                <tbody>
+                    <tr v-for="item in 2" :key="item">
+                        <td>Bônus</td>
+                        <td class="text-default font-light">just4you.com/ebook.pdf</td>
+                        <td align="right" class="flex items-center justify-end space-x-2">
+                            <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
+                                <img src="@/assets/icons/shared.svg" alt="">
+                            </button>
+                            <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
+                                <img src="@/assets/icons/download.svg" alt="">
+                            </button>
+                            <a href="#" target="_blank" class="text-blue-500">Abrir Link</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
-
-    <Modal v-model:open="modalAdd" screen="w-1/4" title="Adicionar Link de Ebook">
-        <template #body>
-            <form class="form-sm space-y-12">
-                <div class="form-group">
-                    <label class="label">Nome do Ebook</label>
-                    <input type="text" class="form-control form-control-line" />
-                </div>
-                <div class="form-group">
-                    <label class="label">Link do Ebook</label>
-                    <input type="text" class="form-control form-control-line" />
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-sm btn-dark rounded-full">Adicionar</button>
-                </div>
-            </form>
-        </template>
-    </Modal>
-    
-  </section>
+    </section>
 </template>
 
 <script lang="ts" setup>

@@ -3,7 +3,7 @@
         <ul class="flex items-center space-x-8">
             <li 
             v-for="tab in tabs"
-            :class="['text-default pb-4 cursor-pointer', tab.label == tabAtivo.label ? 'border-b-2 border-yellow-500 text-gray-800' : '']"
+            :class="['text-default pb-4 px-4 cursor-pointer text-sm', tab.label == tabAtivo.label ? 'border-b-2 border-yellow-500 text-gray-800' : '']"
             @click="handleTab(tab)"
             :key="tab.value">{{tab.label}}</li>
         </ul>

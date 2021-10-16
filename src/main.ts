@@ -6,10 +6,14 @@ import Maska from 'maska';
 import Notifications from 'notiwind'
 import '@/assets/css/index.css'
 
+import copy from './directives/copy';
+
 // Components globais
 import {HeadPage, Modal, SelectInput, Card, ButtonClose} from '@/components/global';
 
 const app = createApp(App);
+
+app.directive('copy', copy);
 
 app.component('HeadPage', HeadPage);
 app.component('Modal', Modal);

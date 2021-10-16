@@ -1,12 +1,41 @@
 <template>
   <div>
     <HeadPage class="mb-10">
-      <h1 class="text-2xl text-gray-600">Adicionar Produto</h1>
+      <RouteBack :route="{name:'Produtos'}">
+        <h1 class="text-xl text-dark">Just4You</h1>
+      </RouteBack>
     </HeadPage>
 
     <NavTabHeader :tabs="tabs" @change-tab="tab = $event"/>
 
     <section class="m-4 my-16">
+      <div class="grid grid-cols-3 mb-10">
+
+        <div class="flex items-center space-x-4">
+          <div class="w-16 h-16 bg-gray-200 rounded-full">
+            <!-- <img src="@/assets/fake/produto.png" alt="" class="h-100 w-100 object-contain rounded-full"> -->
+          </div>
+          <div>
+            <h3 class="font-medium text-xl">Just4You</h3>
+            <span class="text-default text-xs font-light">Shampoo milagroso</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex space-x-1">
+            <span class="text-default font-extralight">R$</span>
+            <h3 class="text-xl font-medium">59,90</h3>
+          </div>
+          <span class="text-default font-bold text-xs">até 3x s/ juros</span>
+        </div>
+
+
+        <div class="space-x-2">
+          <button class="btn btn-sm btn-outline-secondary rounded-full">Editar Produto</button>
+          <button class="btn btn-sm btn-primary rounded-full">Pausar Produto</button>
+        </div>
+
+      </div>
       <component :is="tab.value"></component>
     </section>
   </div>
@@ -24,6 +53,8 @@ import Conversao from "@/components/produtos/tabs/Conversao.vue";
 
 import NavTabHeader from '@/components/NavTabHeader.vue';
 
+import RouteBack from '@/components/RouteBack.vue'
+
 export default defineComponent({
     components: {
         Dados,
@@ -32,7 +63,8 @@ export default defineComponent({
         Ebooks,
         Faq,
         Conversao,
-        NavTabHeader
+        NavTabHeader,
+        RouteBack
     },
     setup() {
         const tabs = ref([

@@ -15,6 +15,10 @@ body {
 	@apply text-center py-2 px-8;
 }
 
+.btn-md {
+	@apply text-base px-6 py-2;
+}
+
 .btn-sm {
 	@apply text-xs px-6 py-2;
 }
@@ -28,6 +32,12 @@ body {
 
 .btn-dark {
 	background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
+	font-weight: 600;
+	@apply text-white;
+}
+
+.btn-primary {
+	background: linear-gradient(180deg, #FF7800 -65.37%, #E31E22 100%);
 	font-weight: 600;
 	@apply text-white;
 }
@@ -58,6 +68,10 @@ body {
 
 .text-default-bold {
 	@apply text-gray-800;
+}
+
+.text-dark {
+	@apply text-gray-700;
 }
 
 .text-danger {
