@@ -11,7 +11,7 @@
                             <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
                                 <img src="@/assets/icons/shared.svg" alt="">
                             </button>
-                            <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
+                            <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition" v-copy="'Link aqui'">
                                 <img src="@/assets/icons/copy.svg" alt="">
                             </button>
                             <a href="#" target="_blank" class="text-blue-500">Abrir Link</a>

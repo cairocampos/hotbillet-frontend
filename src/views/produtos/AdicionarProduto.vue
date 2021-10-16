@@ -1,13 +1,13 @@
 <template>
   <div>
     <HeadPage class="mb-10">
-      <h1 class="text-2xl text-gray-600">Adicionar Produto</h1>
+      <h1 class="text-2xl text-gray-600">Novo Produto</h1>
     </HeadPage>
 
 
     <div class="flex items-start justify-between">
-        <ul class="steps flex space-x-16 relative">
-            <li v-for="step in steps" :key="step.label" class="text-sm text-default flex flex-col items-center space-y-4">
+        <ul class="steps hidden md:flex space-x-16 relative">
+            <li v-for="step in steps" :key="step.label" class="text-sm text-default md:flex flex-col items-center space-y-4">
               <div 
                 :class="['steps__circle rounded-full w-8 h-8 border-2 flex items-center justify-center text-xs bg-gray-100 z-10',
                 step.ordem === currentStep.ordem ? 'border-gray-800' : ''

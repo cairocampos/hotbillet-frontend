@@ -1,5 +1,5 @@
 <template>
-  <form class="grid grid-cols-2 gap-32 form-sm">
+  <form class="lg:grid lg:grid-cols-2 lg:gap-32 form-sm">
 
     <div class="space-y-12">
         <div class="form-group">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="space-y-12">
+    <div class="mt-10 md:mt-0 space-y-12">
         <div class="form-group">
             <label class="label">Contato do Suporte</label>
             <div class="input-group input-group-line">

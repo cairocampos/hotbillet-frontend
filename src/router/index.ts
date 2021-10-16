@@ -13,6 +13,7 @@ import Produto from '@/views/produtos/Produto.vue';
 import AdicionarProduto from '@/views/produtos/AdicionarProduto.vue';
 
 import Mensagens from '@/views/mensagens/Mensagens.vue';
+import store from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -85,6 +86,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+
+  store.commit('TOGGLE_MENU');
+
   if(to.matched.some(record => record.meta.requiresAuth)) {
     if(!auth.loggedIn()) {
       next({

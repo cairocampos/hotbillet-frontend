@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeadPage class="mb-10">
-      <h1 class="text-2xl text-gray-600">Produtos</h1>
+      <h1 class="text-md lg:text-2xl text-gray-600">Produtos</h1>
     </HeadPage>
 
     <NavTabHeader :tabs="tabs">
@@ -22,7 +22,7 @@
     <div class="my-10 text-right">
       <router-link :to="{name: 'AdicionarProduto'}" class="btn btn-sm btn-dark rounded-full py-3">Adicionar Produto</router-link>
     </div>
-    <div class="grid grid-cols-4 gap-6">
+    <div class="space-y-4 lg:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
       <CardProduto v-for="item in 12" :key="item"/>
     </div>
     <Paginacao :por-pagina="10" :total="300" />

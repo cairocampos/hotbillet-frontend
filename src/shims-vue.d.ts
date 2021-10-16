@@ -11,3 +11,9 @@ declare module 'vue/types/vue' {
     $route: Router,
   }
 }
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $store: Store;
+  }
+}

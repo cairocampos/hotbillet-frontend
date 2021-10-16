@@ -3,7 +3,7 @@
     <HeadPage class="mb-10">
       <TitlePage>Usuários</TitlePage>
     </HeadPage>
-    <form class="flex justify-between form-sm px-10">
+    <form class="md:flex justify-between form-sm px-10">
       <div class="space-y-12">
           <div class="form-group">
               <label for="" class="label">Nome do Usuário</label>
@@ -34,9 +34,9 @@
           </div>
       </div>
 
-      <div class="separate bg-gray-200"></div>
+      <div class="hidden lg:block separate bg-gray-200"></div>
 
-      <div class="space-x-4">
+      <div class="my-10 md:my-0 space-x-4">
         <button class="btn btn-sm btn-blue rounded-full font-medium" @click.prevent="cadastrar">Cadastrar</button>
         <router-link :to="{name:'Usuarios'}" class="btn btn-sm btn-outline-secondary rounded-full">Cancelar</router-link>
       </div>

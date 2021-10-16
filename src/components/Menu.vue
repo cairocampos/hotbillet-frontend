@@ -1,5 +1,5 @@
 <template>
-  <aside class="menu flex flex-col">
+  <aside :class="['menu hidden lg:flex flex-col', mobile]">
 
     <div class="mx-4 my-10 text-center border-b border-gray-400 pb-6">
       <img src="@/assets/logo.png" alt="" width="135" class="mx-auto">
@@ -32,7 +32,15 @@ export default {
     MenuItems
   },
   computed: {
-    ...mapGetters({username: 'usuario/getNomeUsuario'})
+    ...mapGetters({username: 'usuario/getNomeUsuario'}),
+    mobile() {
+      const menuAtivo = this.$store.state.menuAtivo;
+
+      if(menuAtivo)
+        return 'menu-ativo';
+
+      return '';
+    }
   }
 }
 </script>
@@ -50,4 +58,23 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.menu-ativo {}
+
+
+@media (max-width:600px) {
+  .menu-ativo {
+    display:flex;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:10;
+    transition:all .3s ease-in;
+    overflow: hidden;
+    overflow-x: scroll;
+  }
+}
+
+
 </style>

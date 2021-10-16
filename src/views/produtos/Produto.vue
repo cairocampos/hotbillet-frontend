@@ -26,7 +26,7 @@
             <span class="text-default font-extralight">R$</span>
             <h3 class="text-xl font-medium">59,90</h3>
           </div>
-          <span class="text-default font-bold text-xs">até 3x s/ juros</span>
+          <span class="text-default font-medium text-xs">até 3x s/ juros</span>
         </div>
 
 
