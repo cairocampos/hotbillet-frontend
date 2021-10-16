@@ -23,7 +23,12 @@
               </div>
               <div class="form-group text-center">
                   <div>
-                    <button class="btn btn-circle btn-secondary" @click="login()">Entrar</button>
+                    <button v-if="btnLoading">
+                      <ButtonLoading class="w-12 h-12"/>
+                    </button>
+                    <button v-else class="btn btn-circle btn-secondary" @click="login()">
+                      <span>Entrar</span>
+                    </button>
                   </div>
               </div>
               <div>
@@ -55,9 +60,11 @@ export default defineComponent({
       const store = useStore();
       const email = ref("company1@hotbillet.com.br");
       const password = ref("123456");
+      const btnLoading = ref(false);
 
       const login = async () => {
         try {
+          btnLoading.value = true;
           const response = await api.post<ILogin>('/login', {
             email:email.value,
             password:password.value,
@@ -68,13 +75,16 @@ export default defineComponent({
           router.push({name:"Dashboard"})
         } catch (error) {
           console.log(error)
+        } finally {
+          btnLoading.value = false;
         }
       }
 
       return {
           email,
           password,
-          login
+          login,
+          btnLoading
       }
     }
 })

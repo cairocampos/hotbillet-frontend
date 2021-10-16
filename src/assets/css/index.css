@@ -91,11 +91,19 @@ body {
 }
 
 .form-control {
-	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none  focus:bg-white focus:border-b-2;
+	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none  focus:bg-white;
 }
 
 .form-control-line {
-	@apply border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent;
+	@apply border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent focus:border-b-2;
+}
+
+.input-sm {
+	@apply py-2 px-2 text-xs text-default;
+}
+
+.input-white {
+	@apply bg-white border border-gray-200 focus:border-gray-200;
 }
 
 .form-check {

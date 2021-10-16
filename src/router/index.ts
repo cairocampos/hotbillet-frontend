@@ -13,6 +13,8 @@ import Produto from '@/views/produtos/Produto.vue';
 import AdicionarProduto from '@/views/produtos/AdicionarProduto.vue';
 
 import Mensagens from '@/views/mensagens/Mensagens.vue';
+import Perfil from '@/views/perfil/Perfil.vue';
+
 import store from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
@@ -77,7 +79,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'AdicionarUsuario',
     component: AdicionarUsuario,
     meta: {requiresAuth:true}
+  },
+
+  {
+    path:'/perfil',
+    name:'Perfil',
+    component: Perfil,
+    meta: {requiresAuth:true}
   }
+
+
 ];
 
 const router = createRouter({

@@ -14,7 +14,7 @@
       <div class="flex flex-col">
         <p class="text-white text-xs text__username">Olá, {{username}}</p>
         <span class="text-gray-50 text-xs font-light">Bem-vindo!</span>
-        <router-link to="/" class="text-xs mt-2 text-blue-500 font-bold">Minha Conta</router-link>
+        <router-link to="/perfil" class="text-xs mt-2 text-blue-500 font-bold">Minha Conta</router-link>
       </div>
 
     </div>

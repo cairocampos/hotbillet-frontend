@@ -36,7 +36,9 @@
         </div>
 
       </div>
-      <component :is="tab.value"></component>
+        <transition name="slide-fade" mode="out-in">
+          <component :is="tab.value"></component>
+        </transition>
     </section>
   </div>
 </template>
@@ -98,4 +100,19 @@ export default defineComponent({
     background: #eee;
   }
 }
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .3s;
+}
+
+
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
 </style>

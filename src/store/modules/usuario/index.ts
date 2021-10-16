@@ -10,7 +10,8 @@ const usuarioModule: Module<any, any> = {
             name: "",
             email:"",
             last_name:"",
-            profile:""
+            profile:"",
+            phone:""
         }
     },
     mutations: {

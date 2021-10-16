@@ -9,7 +9,7 @@ import '@/assets/css/index.css'
 import copy from './directives/copy';
 
 // Components globais
-import {HeadPage, Modal, SelectInput, Card, ButtonClose} from '@/components/global';
+import {HeadPage, Modal, SelectInput, Card, ButtonClose, Loading} from '@/components/global';
 
 const app = createApp(App);
 
@@ -20,6 +20,7 @@ app.component('Modal', Modal);
 app.component('SelectInput', SelectInput);
 app.component('Card', Card);
 app.component('ButtonClose', ButtonClose);
+app.component('Loading', Loading);
 app.use(store)
 app.use(router)
 app.use(Maska)
