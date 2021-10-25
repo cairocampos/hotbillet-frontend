@@ -10,36 +10,38 @@
     
         <div class="space-y-4">
             <p class="text-sm">Imagens</p>
-            <div class="flex flex-wrap">
-                <div v-for="item in 5 " :key="item" class="produto__img w-36 h-36 relative m-2">
-                    <ButtonClose  class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50" :rounded="false" length="4"/>
-                    <img src="@/assets/fake/produto.png" alt="" class="object-cover h-full rounded-md">
+            <transition-group name="slide" tag="div" class="flex flex-wrap">
+                <div v-for="(imagem, index) in imagens " :key="index" class="produto__img w-36 h-36 relative m-2">
+                    <ButtonClose @clicked="removeImagem(index)"  class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50" :rounded="false" length="4"/>
+                    <img :src="imagem.url" :alt="imagem.name" class="object-cover h-full rounded-md">
                 </div>
-            </div>
+            </transition-group>
+            <p  class="text-default text-sm" v-show="!imagens || !imagens.length">Nenhuma mídia adicionada.</p>
         </div>
     </div>
 
     <div>
         <div class="space-y-4">
             <p class="text-sm">Vídeos</p>
-            <div class="flex flex-wrap">
-                <Card v-for="item in 5" :key="item" class="w-1/4 m-2">
+            <transition-group name="slide" tag="div" class="flex flex-wrap">
+                <Card v-for="(video, index) in videos" :key="index" class="w-1/4 m-2">
                     <template #header>
-                        <h3 class="text-sm font-medium">Checkout {{item}} </h3>
-                        <ButtonClose length="4" class="p-2"/>
+                        <h3 class="text-sm font-medium">{{video.nome}}</h3>
+                        <ButtonClose length="4" class="p-2" @clicked="removeVideo(index)" />
                     </template>
                     <template #body>
-                        <a href="#" class="text-link">https://web.whatsapp.com/</a>
+                        <a :href="video.url" class="text-link">{{video.url}}</a>
                     </template>
                 </Card>
-            </div>
+            </transition-group>
         </div>
+        <p  class="text-default text-sm" v-show="!videos || !videos.length">Nenhuma mídia adicionada.</p>   
     </div>
 
 
     <Modal v-model:open="modalEscolherMidia" screen="w-2/4" title="Adicionar Imagens e Vídeos">
         <template #body>
-            <input type="file" v-show="false" ref="inputFile" @change="handleInputFile">
+            <input type="file" multiple v-show="false" ref="inputFile" @change="handleInputFile">
             <div class="grid grid-cols-2 gap-6">
                 <div class="flex flex-col space-y-4 bg-gray-200 p-4 rounded-md items-center cursor-pointer" @click="inputFile.click()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,14 +67,14 @@
 
     <Modal v-model:open="modalAdicionarVideo" screen="w-1/4" title="Adicionar Link de Vídeos">
         <template #body>
-            <form class="form-sm space-y-12">
+            <form @submit.prevent="adicionaVideo" class="form-sm space-y-12">
                 <div class="form-group">
                     <label class="label">Nome do vídeo</label>
-                    <input type="text" class="form-control form-control-line" />
+                    <input type="text" class="form-control form-control-line" v-model="videoForm.nome" />
                 </div>
                 <div class="form-group">
                     <label class="label">Link do vídeo</label>
-                    <input type="text" class="form-control form-control-line" />
+                    <input type="text" class="form-control form-control-line" v-model="videoForm.url" />
                 </div>
                 <div class="text-center">
                     <button class="btn btn-sm btn-dark rounded-full">Adicionar</button>
@@ -84,22 +86,97 @@
   </section>
 </template>
 
-<script lang="ts" setup>
-import {ref} from 'vue';
-const inputFile = ref<HTMLInputElement>()
-const modalEscolherMidia = ref(false);
-const modalAdicionarVideo = ref(false);
+<script lang="ts">
+import {defineComponent, ref} from 'vue';
 
-const handleInputFile = () => {
-    console.log(inputFile.value?.files);
+
+interface IVideo {
+    nome:string;
+    url:string;
 }
 
-const showFormVideo = () => {
-    modalEscolherMidia.value = false;
-    modalAdicionarVideo.value = true;
-}
+type Imagem = File & {url?:string};
+
+export default defineComponent({
+    emit: ['change-step'],
+    setup(props, {emit}) {
+        const inputFile = ref<HTMLInputElement>()
+        const modalEscolherMidia = ref(false);
+        const modalAdicionarVideo = ref(false);
+        const videoForm = ref<IVideo>({nome:"", url:""});
+        const videos = ref<IVideo[]>([])
+        const imagens = ref<File & {url?:string}[]>([]);
+        
+        const handleInputFile = () => {
+            if(inputFile.value?.files.length) {
+                Array.from(inputFile.value?.files).forEach((file: Imagem) => {
+                    const fileReader = new FileReader();
+
+                    fileReader.readAsDataURL(file);
+
+                    fileReader.onload = (data) => {
+                        file.url = String(data.target.result);
+                        imagens.value.unshift(file);
+                    }
+                })
+
+                modalEscolherMidia.value = false;
+            }
+        }
+        
+        const showFormVideo = () => {
+            modalEscolherMidia.value = false;
+            modalAdicionarVideo.value = true;
+        }
+
+        const adicionaVideo = () => {
+            videos.value.unshift(videoForm.value);
+            videoForm.value = {nome:"", url:""};
+            modalAdicionarVideo.value = false;
+        }
+
+        const removeVideo = (index:number) => {
+            videos.value.splice(index, 0)
+        }
+
+        const removeImagem = (index: number) => {
+            imagens.value.splice(index, 0)
+        }
+
+        const submitForm = () => {
+            setTimeout(() => {
+                emit('change-step');
+            }, 500);
+        }
+
+        return {
+            inputFile,
+            modalEscolherMidia,
+            modalAdicionarVideo,
+            handleInputFile,
+            showFormVideo,
+            imagens,
+            videos,
+            videoForm,
+            submitForm,
+            adicionaVideo,
+            removeImagem,
+            removeVideo,
+        }
+    }
+})
+
 
 </script>
 
 <style scoped lang="scss">
+.slide-enter-active,
+.slide-leave-active {
+  transition: all .3s ease;
+}
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>

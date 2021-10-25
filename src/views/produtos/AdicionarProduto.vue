@@ -25,14 +25,22 @@
               </a>
             </li>
         </ul>
-        <div class="space-x-2">
-            <button class="btn btn-sm btn-dark rounded-full" @click="nextStep">Salvar e Continuar</button>
+        <transition name="slide">
+          <div v-if="sendingForm" key="teste1">
+            <button class="btn btn-sm btn-dark rounded-full flex space-x-2 items-center">
+              <Loading class="h-5 w-5" />
+              <span>Salvando...</span>
+            </button>
+          </div>
+          <div v-else class="space-x-2" key="teste2">
+            <button class="btn btn-sm btn-dark rounded-full" @click="validateStep">Salvar e Continuar</button>
             <button class="btn btn-sm btn-outline-secondary rounded-full">Cancelar</button>
-        </div>
+          </div>
+        </transition>
     </div>
 
     <section class="m-4 my-16">
-      <component :is="currentStep.component"></component>
+      <component ref="childComponent" @change-step="nextStep" :is="currentStep.component"></component>
     </section>
 
   </div>
@@ -49,7 +57,7 @@ import Ebooks from '@/components/produtos/steps/Ebooks.vue'
 import Faq from '@/components/produtos/steps/Faq.vue'
 import Conversao from '@/components/produtos/steps/Conversao.vue'
 
-import useNotification from '@/composables/useNotifications';
+// import useNotification from '@/composables/useNotifications';
 
 interface Step {
     label:string;
@@ -65,6 +73,8 @@ const steps = ref<Step[]>([
     {ordem: 5,label: "Faq", component: Faq},
     {ordem: 6,label: "Conversão", component: Conversao}
 ]);
+const childComponent = ref(null);
+const sendingForm = ref(false);
 
 const currentStep = ref<Step>({ordem:1,label:"Dados", component: Dados})
 
@@ -72,7 +82,13 @@ const lastStep = computed(() => {
   return steps.value[steps.value.length - 1].ordem;
 });
 
+const validateStep = () => {
+  sendingForm.value = true;
+  childComponent.value?.submitForm();
+}
+
 const nextStep = () => {
+  sendingForm.value = false;
   if(currentStep.value.ordem < lastStep.value) {
     currentStep.value = steps.value.find(step => step.ordem == (currentStep.value.ordem + 1));
   }
@@ -91,5 +107,31 @@ const nextStep = () => {
     position: absolute;
     background: #EEE;
   }
+}
+
+// .slide-enter-active ,
+// .slide-leave-active {
+//   transition: all .3s forwards;
+// }
+
+
+// .slide-enter-from,
+// .slide-leave-to {
+//   opacity: 0;
+//   transform:translateY(-20px);
+// }
+
+.slide-fade-enter-active {
+  transition: all 5s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 </style>

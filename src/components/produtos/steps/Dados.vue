@@ -58,8 +58,23 @@
   </form>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core";
 
+export default defineComponent({
+    emits: ['change-step'],
+    setup(props, {emit}) {
+        const submitForm = () => {
+            setTimeout(() => {
+                emit('change-step');
+            }, 500);
+        }
+
+        return {
+            submitForm
+        }
+    }
+});
 </script>
 
 <style>
