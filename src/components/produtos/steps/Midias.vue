@@ -105,7 +105,7 @@ export default defineComponent({
         const modalAdicionarVideo = ref(false);
         const videoForm = ref<IVideo>({nome:"", url:""});
         const videos = ref<IVideo[]>([])
-        const imagens = ref<File & {url?:string}[]>([]);
+        const imagens = ref<Imagem[]>([]);
         
         const handleInputFile = () => {
             if(inputFile.value?.files.length) {

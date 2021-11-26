@@ -6,7 +6,7 @@
       </RouteBack>
     </HeadPage>
 
-    <NavTabHeader :tabs="tabs" @change-tab="tab = $event"/>
+    <NavTabHeader :tabs="tabs" v-model:tabActive="tabActive"/>
 
     <section class="m-4 my-16">
       <div class="grid grid-cols-3 mb-10">
@@ -37,7 +37,7 @@
 
       </div>
         <transition name="slide-fade" mode="out-in">
-          <component :is="tab.value"></component>
+          <component :is="tabActive.value" :key="tabActive.label"></component>
         </transition>
     </section>
   </div>
@@ -69,19 +69,19 @@ export default defineComponent({
         RouteBack
     },
     setup() {
-        const tabs = ref([
+        const tabs = [
             { label: "Dados", value: 'Dados'},
             { label: "Links", value: 'Links' },
             { label: "Mídias", value: 'Midias' },
             { label: "Ebooks", value: 'Ebooks' },
             { label: "Faq", value: 'Faq' },
             { label: "Conversão", value: 'Conversao' },
-        ]);
+        ]
 
-        const tab = ref(tabs.value[0]);
+        const tabActive = ref(tabs[0]);
 
         return {
-            tabs, tab
+            tabs, tabActive
         }
     }
 })

@@ -1,26 +1,13 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import app from './index';
 import router from './router'
 import store from './store'
 import Maska from 'maska';
 import Notifications from 'notiwind'
 import '@/assets/css/index.css'
 
-import copy from './directives/copy';
+import '@/components/global'; // Componentes globais
+import '@/directives/global'; // Diretivas globais
 
-// Components globais
-import {HeadPage, Modal, SelectInput, Card, ButtonClose, Loading} from '@/components/global';
-
-const app = createApp(App);
-
-app.directive('copy', copy);
-
-app.component('HeadPage', HeadPage);
-app.component('Modal', Modal);
-app.component('SelectInput', SelectInput);
-app.component('Card', Card);
-app.component('ButtonClose', ButtonClose);
-app.component('Loading', Loading);
 app.use(store)
 app.use(router)
 app.use(Maska)

@@ -2,7 +2,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import {auth} from '@/services'
 import Login from '@/views/Auth/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
+
 import Leads from '@/views/leads/Leads.vue';
+import Lead from '@/views/leads/Lead.vue';
+
 import Agenda from '@/views/agenda/Agenda.vue';
 import Usuarios from '@/views/usuarios/Usuarios.vue';
 import AdicionarUsuario from '@/views/usuarios/AdicionarUsuario.vue';
@@ -35,6 +38,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/leads',
     name: 'Leads',
     component: Leads,
+    meta: {requiresAuth:true}
+  },
+  {
+    path: '/leads/:id',
+    name: 'Lead',
+    component: Lead,
     meta: {requiresAuth:true}
   },
   {

@@ -4,7 +4,7 @@
       <h1 class="text-md lg:text-2xl text-gray-600">Produtos</h1>
     </HeadPage>
 
-    <NavTabHeader :tabs="tabs">
+    <NavTabHeader :tabs="tabs" v-model:tabActive="tabActive">
       <template #acessorios>
         <button @click="habilitarFiltro = !habilitarFiltro" class="flex items-center space-x-2 text-sm text-default">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,19 +30,37 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {ref} from 'vue';
+<script lang="ts">
+import {defineComponent, ref} from 'vue';
 import CardProduto from '@/components/produtos/CardProduto.vue'
 import Paginacao from '@/components/Paginacao.vue';
 import NavTabHeader from '@/components/NavTabHeader.vue';
 import Filtros from "@/components/produtos/Filtros.vue"
 
-const tabs = [
-  {label: "Ativos", value:"ativos"},
-  {label: "Pausados", value:"pausados"},
-];
+export default defineComponent({
+  components: {
+    CardProduto,
+    Paginacao,
+    NavTabHeader,
+    Filtros
+  },
+  setup() {
+    const tabs = [
+      {label: "Ativos", component:"Ativo"},
+      {label: "Pausados", component:"Pausados"},
+    ];
 
-const habilitarFiltro = ref(false);
+    const tabActive = ref(tabs[0]);
+
+    const habilitarFiltro = ref(false);
+
+    return {
+      tabs, 
+      habilitarFiltro,
+      tabActive
+    }
+  }
+})
 
 </script>
 

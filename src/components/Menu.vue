@@ -34,7 +34,8 @@ export default {
   computed: {
     ...mapGetters({username: 'usuario/getNomeUsuario'}),
     mobile() {
-      const menuAtivo = this.$store.state.menuAtivo;
+      // const menuAtivo = this.$store.state.menuAtivo;
+      const menuAtivo = false;
 
       if(menuAtivo)
         return 'menu-ativo';

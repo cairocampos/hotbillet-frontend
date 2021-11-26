@@ -5,11 +5,18 @@
     <!-- <LoadingPage v-model="obj" /> -->
 
     <template v-if="!isLogin">
+      <div class="w-full bg-gray-100 text-right px-6 flex items-center justify-end py-2 md:hidden">
+        <button class="p-2 bg-gray-200 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
 		<div class="flex">
 		<Menu class="flex-shrink-0"/>
     <main id="main">
         <router-view v-slot="{Component}">
-          <transition name="slide">
+          <transition name="slide" mode="out-in">
             <component :is="Component" :key="$route.path"></component>
           </transition>
         </router-view>
@@ -105,5 +112,20 @@ html, body {
 ::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.slide-leave-to {
+  transform: translateX(20px);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all .3s;
 }
 </style>

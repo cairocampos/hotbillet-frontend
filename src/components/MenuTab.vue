@@ -1,9 +1,9 @@
 <template>
-    <div class="flex items-center justify-between border-b">
-        <ul class="flex items-center space-x-8">
+    <div :class="['flex items-center', {'border-b': !secondary}]">
+        <ul class="flex items-center justify-around w-full">
             <li 
             v-for="tab in tabs"
-            :class="['text-default pb-4 px-4 cursor-pointer text-sm', tab.label == tabActive.label ? 'border-b-2 border-yellow-600 text-gray-700 font-semibold' : '']"
+            :class="['text-default pb-4 px-4 cursor-pointer', secondary ? 'text-xs' : 'text-sm', tab.label == tabActive.label ? tabActiveStyle : '']"
             @click="handleTab(tab)"
             :key="tab.label">{{tab.label}}</li>
         </ul>
@@ -23,11 +23,23 @@ export default defineComponent({
         },
         tabActive: {
             type: Object
+        },
+        secondary: {
+            type: Boolean,
+            default:() => {
+                return false
+            }
         }
     },
     data() {
         return {
             propTabs: this.tabs
+        }
+    },
+    computed: {
+        tabActiveStyle() {
+            const border = this.secondary ? 'border-gray-500' : 'border-yellow-500'
+            return `border-b-2 ${border} text-gray-700 font-medium`;
         }
     },
     methods: {

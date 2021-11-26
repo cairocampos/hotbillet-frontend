@@ -27,7 +27,10 @@ body {
 	@apply rounded-full;
 }
 
-.btn-primary {
+.btn-blue {
+	@apply text-white hover:bg-blue-600;
+	background-color: #006FD6;
+	transition: all .3s;
 }
 
 .btn-dark {
@@ -64,6 +67,10 @@ body {
 
 .text-default {
 	@apply text-gray-600;
+}
+
+.text-base {
+	color:#2F2D2C;
 }
 
 .text-default-bold {
@@ -122,6 +129,10 @@ body {
 	border-spacing: 0 8px;
 }
 
+.table-sm {
+	@apply text-sm;
+}
+
 .input-group {
 	@apply w-full bg-gray-200 rounded-sm px-4 py-2 focus:outline-none flex items-center;
 }
@@ -132,6 +143,65 @@ body {
 
 .text-link {
 	@apply text-blue-600 text-xs;
+}
+
+.tooltip__custom {
+    position: absolute;
+    font-size: 12px;
+    color:white;
+    padding: 6px;
+    opacity: 0.9;
+    border-radius: 4px;
+    background: #111;
+    white-space: pre-wrap;
+    max-width: 200px;
+	transition: opacity .3s;
+    top: 0;
+    left: 0;
+}
+
+.tooltip__custom::before {
+    content:'';
+    position: absolute;
+    background: inherit;
+    height: 10px;
+    width: 10px;
+    transform: rotate(45deg);
+}
+
+.tooltip__custom-top::before, 
+.tooltip__custom-bottom::before {
+    left: 50%;
+    margin-left: -5px;
+}
+
+.tooltip__custom-left::before, 
+.tooltip__custom-right::before {
+    top: 50%;
+    margin-top: -5px;
+}
+
+.tooltip__custom-top::before {
+    bottom: -5px;
+}
+
+.tooltip__custom-bottom::before {
+    top: -5px;
+}
+
+.tooltip__custom-left::before {
+    right: -5px;
+}
+.tooltip__custom-right::before {
+    left: -5px;
+}
+
+.tooltip__custom-top::before {
+    bottom: -5px;
+}
+
+.tooltip__custom-bottom::before {
+    top: -5px;
 }
 
 @tailwind utilities;
