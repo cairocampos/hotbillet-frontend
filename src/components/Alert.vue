@@ -35,23 +35,8 @@
 
 <script lang="ts">
 
-import {defineComponent, watch, computed, onMounted} from 'vue';
+import {defineComponent, watch, computed} from 'vue';
 import { useStore } from 'vuex';
-
-class AlertaObj {
-    constructor (type: string, text: string, show: boolean, duration:number) {
-        this.type = type;
-        this.text = text;
-        this.show = show
-        this.duration = duration
-    }
-    
-    type: string;
-    // title: string;
-    text: string;
-    show: boolean;
-    duration: number;
-}
 
 export default defineComponent({
     props: {

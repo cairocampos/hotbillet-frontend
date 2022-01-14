@@ -10,89 +10,124 @@
             <li v-for="step in steps" :key="step.label" class="text-sm text-default md:flex flex-col items-center space-y-4">
               <div 
                 :class="['steps__circle rounded-full w-8 h-8 border-2 flex items-center justify-center text-xs bg-gray-100 z-10',
-                step.ordem === currentStep.ordem ? 'border-gray-800' : ''
+                step.ordem === 1 ? 'border-gray-800' : ''
                 ]">
-                <span :class="[step.ordem === currentStep.ordem ? 'text-black font-medium' : '']">{{step.ordem}}º</span>
+                <span :class="[step.ordem === 1 ? 'text-black font-medium' : '']">{{step.ordem}}º</span>
               </div>
-              <span :class="[step.ordem === currentStep.ordem ? 'text-black font-medium' : '']">{{step.label}}</span>
-              <a href="#" @click="currentStep = step" class="text-xs text-blue-500 flex items-center space" v-if="step.ordem < currentStep.ordem">
-                <span class="underline border-b border-blue-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                  </svg>
-                </span>
-                <span class="ml-1">Editar</span>
-              </a>
+              <span :class="[step.ordem === 1 ? 'text-black font-medium' : '']">{{step.label}}</span>
             </li>
         </ul>
         <transition name="slide">
-          <div v-if="sendingForm" key="teste1">
+          <div v-if="loading" key="teste1">
             <button class="btn btn-sm btn-dark rounded-full flex space-x-2 items-center">
               <Loading class="h-5 w-5" />
               <span>Salvando...</span>
             </button>
           </div>
           <div v-else class="space-x-2" key="teste2">
-            <button class="btn btn-sm btn-dark rounded-full" @click="validateStep">Salvar e Continuar</button>
+            <button class="btn btn-sm btn-dark rounded-full" @click="submitForm">Salvar e Continuar</button>
             <button class="btn btn-sm btn-outline-secondary rounded-full">Cancelar</button>
           </div>
         </transition>
     </div>
 
     <section class="m-4 my-16">
-      <component ref="childComponent" @change-step="nextStep" :is="currentStep.component"></component>
+      <form class="lg:grid lg:grid-cols-2 lg:gap-32 form-sm">
+
+        <div class="space-y-12">
+            <div class="form-group">
+                <label for="" class="label">Nome do Produto</label>
+                <input type="text" class="form-control form-control-line" />
+            </div>
+            <div class="form-group">
+                <label for="" class="label">Subtitulo</label>
+                <input type="text" class="form-control form-control-line" />
+            </div>
+            <div class="form-group">
+                <label for="" class="label">Link do Produto</label>
+                <input type="text" class="form-control form-control-line" placeholder="Cole aqui a URL da página do produto" />
+            </div>
+            <div class="form-group">
+                <label for="" class="label">Tipo de Produto</label>
+                <select class="form-control form-control-line">
+                    <option value="">Digital</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mt-10 md:mt-0 space-y-12">
+            <div class="form-group">
+                <label class="label">Contato do Suporte</label>
+                <div class="input-group input-group-line">
+                    <div class="input-prepend mr-2">
+                        <span class="text-default">
+                            Telefone:
+                        </span>
+                    </div>
+                    <input type="text" v-maska="'(##) #####-####'" placeholder="(xx) xxxxx-xxxx" class="bg-transparent outline-none">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label"></label>
+                <div class="input-group input-group-line">
+                    <div class="input-prepend mr-2">
+                        <span class="text-default">
+                            Email:
+                        </span>
+                    </div>
+                    <input type="text" placeholder="suporte@suporte.com" class="bg-transparent outline-none">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="label">Descrição do Produto</label>
+                <textarea class="form-control form-control-line border rounded-sm" placeholder="Descreva o produto aqui" rows="10"></textarea>
+            </div>
+        </div>
+          
+      </form>
     </section>
 
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 
-import {ref, computed, Component} from 'vue';
-
-import Dados from '@/components/produtos/steps/Dados.vue'
-import Links from '@/components/produtos/steps/Links.vue'
-import Midias from '@/components/produtos/steps/Midias.vue'
-import Ebooks from '@/components/produtos/steps/Ebooks.vue'
-import Faq from '@/components/produtos/steps/Faq.vue'
-import Conversao from '@/components/produtos/steps/Conversao.vue'
-
-// import useNotification from '@/composables/useNotifications';
-
+import {ref, defineComponent} from 'vue';
+import useNotifications from '@/composables/useNotifications';
+import { IProductData } from '@/interfaces/IProduct';
+import { useRouter } from 'vue-router';
 interface Step {
     label:string;
     ordem:number;
-    component:Component;
 }
+export default defineComponent({
+  setup() {
+    const router = useRouter();
+    const steps = ref<Step[]>([
+        {ordem: 1,label: "Dados"},
+        {ordem: 2,label: "Links"},
+        {ordem: 3,label: "Mídias"},
+        {ordem: 4,label: "Ebooks"},
+        {ordem: 5,label: "Faq"},
+        {ordem: 6,label: "Conversão"}
+    ]);
+    const form = ref<IProductData>();
+    const loading = ref(false);
 
-const steps = ref<Step[]>([
-    {ordem: 1,label: "Dados", component: Dados},
-    {ordem: 2,label: "Links", component: Links},
-    {ordem: 3,label: "Mídias", component: Midias},
-    {ordem: 4,label: "Ebooks", component: Ebooks},
-    {ordem: 5,label: "Faq", component: Faq},
-    {ordem: 6,label: "Conversão", component: Conversao}
-]);
-const childComponent = ref(null);
-const sendingForm = ref(false);
+    const {notifications} = useNotifications();
+    const submitForm = async () => {
+      notifications.success('Aii sim')
+      router.push({name: 'EditarProduto', params: {id: 1}, query: {redirect:1}})
+    }
 
-const currentStep = ref<Step>({ordem:1,label:"Dados", component: Dados})
-
-const lastStep = computed(() => {
-  return steps.value[steps.value.length - 1].ordem;
-});
-
-const validateStep = () => {
-  sendingForm.value = true;
-  childComponent.value?.submitForm();
-}
-
-const nextStep = () => {
-  sendingForm.value = false;
-  if(currentStep.value.ordem < lastStep.value) {
-    currentStep.value = steps.value.find(step => step.ordem == (currentStep.value.ordem + 1));
+    return {
+      steps,
+      loading,
+      form,
+      submitForm
+    }
   }
-}
+})
 
 </script>
 

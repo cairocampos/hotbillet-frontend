@@ -28,15 +28,15 @@
         <th></th>
       </thead>
       <tbody>
-        <tr v-for="item in 5" :key="item">
+        <tr v-for="(user, index) in users" :key="index">
           <td class="flex items-center space-x-2">
             <img src="@/assets/fake/perfil.jpeg" alt="" class="object-cover h-10 w-10 rounded-full" />
-            <span>Alan Medeiros</span>
+            <span>{{user.name}} {{user.last_name}}</span>
           </td>
-          <td>alan@gmail.com</td>
-          <td>25/08/2021</td>
+          <td>{{user.email}}</td>
+          <td>{{formatDateIsoToBRL(user.created_at)}}</td>
           <td class="font-medium">
-            <span v-if="[1,3,5].includes(item)">Ativo</span>
+            <span v-if="[1,3,5].includes(index)">{{user.status}}</span>
             <span v-else class="text-red-500 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -59,10 +59,45 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {ref} from 'vue';
+<script lang="ts">
 import TitlePage from '@/components/TitlePage.vue';
 import HeadContent from '@/components/HeadContent.vue';
+
+import {defineComponent, onMounted, ref} from 'vue';
+import { IUserData } from '@/interfaces/IUser';
+import { api } from '@/services';
+import { useDateTime } from '@/composables/useDateTime';
+
+export default defineComponent({
+
+  components: {
+    TitlePage,
+    HeadContent
+  },
+  setup() {
+    const { formatDateIsoToBRL } = useDateTime();
+    const users = ref<IUserData[]>()
+
+    const fetchUsers = async () => {
+      try {
+        const response = await api.get<{users: IUserData[]}>('/users')
+        users.value = response.data.users;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    onMounted(() => {
+      fetchUsers();
+    })
+
+    return {
+      formatDateIsoToBRL,
+      users
+    }
+  }
+})
+
 
 </script>
 

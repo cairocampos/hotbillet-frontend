@@ -7,6 +7,7 @@ import Card from './Card.vue';
 import ButtonClose from './ButtonClose.vue';
 import Loading from './Loading.vue';
 import Badge from './Badge.vue';
+import Button from './Button.vue';
 
 app.component('HeadPage', HeadPage);
 app.component('Modal', Modal);
@@ -15,3 +16,4 @@ app.component('Card', Card);
 app.component('ButtonClose', ButtonClose);
 app.component('Loading', Loading);
 app.component('Badge', Badge);
+app.component('Button', Button);

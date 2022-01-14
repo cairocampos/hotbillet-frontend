@@ -14,15 +14,16 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, PropType} from 'vue';
+import { ITab } from '@/interfaces/ITab';
 
 export default defineComponent({
     props: {
         tabs: {
-            type: Array
+            type: Array as PropType<ITab[]>
         },
         tabActive: {
-            type: Object
+            type: Object as PropType<ITab>
         },
         secondary: {
             type: Boolean,
@@ -43,7 +44,7 @@ export default defineComponent({
         }
     },
     methods: {
-        handleTab(tab){
+        handleTab(tab: ITab){
             this.$emit('update:tabActive', tab);
         }
     }

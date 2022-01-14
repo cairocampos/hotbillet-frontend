@@ -31,7 +31,7 @@
 import Menu from '@/components/Menu.vue';
 // import {api} from '@/services';
 import {computed, defineComponent, onMounted, ref} from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import Alert from '@/components/Alert.vue'
 import LoadingPage from '@/components/LoadingPage.vue'
@@ -48,7 +48,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const router = useRouter();
 
     const isLogin = computed(() => {
       return route.name === 'Login'
@@ -67,6 +66,7 @@ export default defineComponent({
 
     onMounted(() => {
       store.dispatch('usuario/getJwtData')
+      store.dispatch('loadSpec');
     })
 
     setTimeout(() => {

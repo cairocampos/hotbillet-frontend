@@ -14,11 +14,12 @@ import AdicionarUsuario from '@/views/usuarios/AdicionarUsuario.vue';
 import Produtos from '@/views/produtos/Produtos.vue';
 import Produto from '@/views/produtos/Produto.vue';
 import AdicionarProduto from '@/views/produtos/AdicionarProduto.vue';
+import EditarProduto from '@/views/produtos/EditarProduto.vue';
 
 import Mensagens from '@/views/mensagens/Mensagens.vue';
 import Perfil from '@/views/perfil/Perfil.vue';
 
-import store from '@/store';
+import {useDefaultStore} from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -71,6 +72,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {requiresAuth:true}
   },
   {
+    path: '/produtos/:id/editar',
+    name: 'EditarProduto',
+    component: EditarProduto,
+    meta: {requiresAuth:true}
+  },
+  {
     path: '/mensagens',
     name: 'Mensagens',
     component: Mensagens,
@@ -107,10 +114,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
-  store.commit('TOGGLE_MENU');
+  useDefaultStore.commit('TOGGLE_MENU');
 
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(!auth.loggedIn()) {
+    if(!auth.token()) {
       next({
         path: '/login',
         query: {redirect:to.fullPath}

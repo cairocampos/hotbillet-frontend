@@ -24,7 +24,7 @@
   </aside>
 </template>
 
-<script>
+<script lang="ts">
 import { mapGetters } from 'vuex'
 import MenuItems from './MenuItems.vue'
 export default {
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters({username: 'usuario/getNomeUsuario'}),
-    mobile() {
+    mobile(): string {
       // const menuAtivo = this.$store.state.menuAtivo;
       const menuAtivo = false;
 

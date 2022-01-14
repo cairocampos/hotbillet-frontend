@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, shallowRef } from "vue";
+import { defineComponent, ref } from "vue";
 import NavTabHeader from '@/components/NavTabHeader.vue';
 import TableLeads from '@/components/leads/TableLeads.vue';
 import UploadManual from '@/components/leads/UploadManual.vue';

@@ -28,9 +28,8 @@
   </div>
 </template>
 
-<script lang="ts">import { defineComponent } from "@vue/runtime-core";
-
-import {toRefs, computed} from 'vue';
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
     props: {
@@ -48,7 +47,6 @@ export default defineComponent({
     },
    emits: ['update:open'],
    setup(props, {emit}) {
-        const {open, title, screen} = toRefs(props);
         const closeModal = ()   => {
             emit('update:open', false);       
         }

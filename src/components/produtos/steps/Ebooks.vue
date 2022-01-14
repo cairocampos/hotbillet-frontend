@@ -43,10 +43,13 @@
   </section>
 </template>
 
-<script lang="ts" setup>
-import {ref} from 'vue';
-
-const modalAdd = ref(false);
+<script lang="ts">
+import {defineComponent} from 'vue';
+export default defineComponent({
+    setup() {
+        //
+    }
+})
 </script>
 
 <style>

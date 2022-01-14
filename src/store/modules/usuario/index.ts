@@ -1,18 +1,24 @@
 import { Module } from "vuex"
 import router from '@/router'
+import { RootState } from "@/store/interface"
+
+
+interface IUserAuth {
+    id?:number;
+    name:string;
+    email:string;
+    last_name:string;
+    profile:string;
+}
+interface UsuarioState {
+    usuario: IUserAuth
+}
 
 // eslint-disable-next-line
-const usuarioModule: Module<any, any> = {
+const usuarioModule: Module<UsuarioState, RootState> = {
     namespaced:true,
     state: {
-        usuario: {
-            id:"",
-            name: "",
-            email:"",
-            last_name:"",
-            profile:"",
-            phone:""
-        }
+        usuario: {} as IUserAuth
     },
     mutations: {
         SET_USUARIO(state,payload) {

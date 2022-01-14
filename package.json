@@ -8,8 +8,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/luxon": "^2.0.9",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "luxon": "^2.3.0",
     "maska": "^1.4.6",
     "mosha-vue-toastify": "^1.0.21",
     "notiwind": "^1.2.3",
