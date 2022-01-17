@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
 interface Composition {
-    formatDateIsoToBRL(date:string):string;
+  formatDateIsoToBRL(date: string): string;
 }
 
 export function useDateTime(): Composition {
-    const formatDateIsoToBRL = (date:string): string => {
-        return DateTime.fromISO(date).toFormat('DD/MM/YY')
-    }
-    
-    return {
-        formatDateIsoToBRL
-    }
+  const formatDateIsoToBRL = (date: string): string => {
+    return DateTime.fromISO(date).toFormat("dd/mm/yyyy");
+  };
+
+  return {
+    formatDateIsoToBRL,
+  };
 }

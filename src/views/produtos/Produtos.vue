@@ -20,22 +20,30 @@
     </transition>
     
     <div class="my-10 text-right">
-      <router-link :to="{name: 'AdicionarProduto'}" class="btn btn-sm btn-dark rounded-full py-3">Adicionar Produto</router-link>
+      <router-link :to="{name: 'AdicionarProduto'}" class="btn btn-sm btn-dark rounded-full py-2">Adicionar Produto</router-link>
     </div>
-    <div class="space-y-4 lg:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
-      <CardProduto v-for="item in 12" :key="item"/>
+
+    <PageLoading  v-if="loading"/>
+
+    <div v-else-if="products && products.length">
+      <div class="space-y-4 lg:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
+        <CardProduto v-for="product in products" :key="product.name" :product="product"/>
+      </div>
+      <Paginacao :por-pagina="10" :total="300" />
     </div>
-    <Paginacao :por-pagina="10" :total="300" />
+    <p v-else>Nenhum registro encontrado.</p>
 
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import CardProduto from '@/components/produtos/CardProduto.vue'
 import Paginacao from '@/components/Paginacao.vue';
 import NavTabHeader from '@/components/NavTabHeader.vue';
 import Filtros from "@/components/produtos/Filtros.vue"
+import { api } from '@/services';
+import { IProductData } from '@/interfaces/IProduct';
 
 export default defineComponent({
   components: {
@@ -45,19 +53,38 @@ export default defineComponent({
     Filtros
   },
   setup() {
+    const loading = ref(false);
+    const products = ref<IProductData>();
     const tabs = [
       {label: "Ativos", component:"Ativo"},
       {label: "Pausados", component:"Pausados"},
     ];
-
     const tabActive = ref(tabs[0]);
-
     const habilitarFiltro = ref(false);
+
+
+    const fetchProducts = async () => {
+      try {
+        loading.value = true;
+        const {data} = await api.get('/product');
+        products.value = data.products;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        loading.value = false;
+      }
+    }
+
+    onMounted(() => {
+      fetchProducts();
+    })
 
     return {
       tabs, 
       habilitarFiltro,
-      tabActive
+      tabActive,
+      loading,
+      products
     }
   }
 })

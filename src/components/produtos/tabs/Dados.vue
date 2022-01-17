@@ -5,7 +5,7 @@
 
       <div>
           <p class="text-sm text-dark">Subtitulo</p>
-          <span class="text-default text-xs">Shampoo milagroso</span>
+          <span class="text-default text-xs">{{product?.abbreviation ?? '---'}}</span>
       </div>
 
       <div>
@@ -15,8 +15,8 @@
 
       <div class="space-y-1">
           <p class="text-sm text-dark">Suporte do Fornecedor</p>
-          <span class="text-default text-xs block">Email: suporte@hotbillet.com.br</span>
-          <span class="text-default text-xs block">Telefone: 11 99568-5999</span>
+          <span class="text-default text-xs block">Email: {{product?.support_email ?? '---'}}</span>
+          <span class="text-default text-xs block">Telefone: {{product?.support_tel ?? '---'}}</span>
       </div>
 
     </div>
@@ -25,12 +25,12 @@
 
       <div>
           <p class="text-sm text-dark">Link do Produto</p>
-          <a href="#" target="_blank" class="text-blue-500 text-xs">www.just4you.com/shampoo</a>
+          <a :href="product?.url" target="_blank" class="text-blue-500 text-xs">{{product?.url ?? '---'}}</a>
       </div>
 
       <div>
           <p class="text-sm text-dark">Tipo</p>
-          <span class="text-default text-xs">Físico</span>
+          <span class="text-default text-xs">{{product?.product_type ?? '---'}}</span>
       </div>
 
       <div>
@@ -47,7 +47,7 @@
     <div>
         <p class="text-sm text-dark">Descrição</p>
         <p class="text-xs text-default">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. In magni et molestiae quaerat sequi nihil accusamus, deserunt qui laudantium illum odit aspernatur a quis temporibus sapiente veritatis illo, quae laboriosam!
+          {{product?.description ?? '---'}}
         </p>
     </div>
     
@@ -55,9 +55,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { IProduct } from "@/interfaces/IProduct";
+import { defineComponent, PropType } from "@vue/runtime-core";
 
 export default defineComponent({
+  props: {
+    product: {
+      type: Object as PropType<IProduct>
+    }
+  },
   setup() {
     //
   }

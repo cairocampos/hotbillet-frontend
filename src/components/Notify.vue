@@ -2,7 +2,7 @@
   <div>
     <NotificationGroup group="success">
   <div
-    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50"
   >
     <div class="w-full max-w-sm">
       <Notification
@@ -17,7 +17,7 @@
         move-delay="delay-300"
       >
         <div
-          class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-white rounded-lg shadow-md"
+          class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-white rounded-lg shadow-md z-50"
           v-for="notification in notifications"
           :key="notification.id"
         >
@@ -42,7 +42,7 @@
 
 <NotificationGroup group="error">
   <div
-    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50"
   >
     <div class="w-full max-w-sm">
       <Notification
@@ -81,7 +81,7 @@
 
 <NotificationGroup group="info">
   <div
-    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50"
   >
     <div class="w-full max-w-sm">
       <Notification
@@ -120,7 +120,7 @@
 
 <NotificationGroup group="warning">
   <div
-    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+    class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-50"
   >
     <div class="w-full max-w-sm">
       <Notification

@@ -1,19 +1,21 @@
-import app from '@/index';
+import app from "@/index";
 
-import HeadPage from './HeadPage.vue';
-import Modal from './Modal.vue';
-import SelectInput from './SelectInput.vue';
-import Card from './Card.vue';
-import ButtonClose from './ButtonClose.vue';
-import Loading from './Loading.vue';
-import Badge from './Badge.vue';
-import Button from './Button.vue';
+import HeadPage from "./HeadPage.vue";
+import Modal from "./Modal.vue";
+import SelectInput from "./SelectInput.vue";
+import Card from "./Card.vue";
+import ButtonClose from "./ButtonClose.vue";
+import Loading from "./Loading.vue";
+import Badge from "./Badge.vue";
+import Button from "./Button.vue";
+import PageLoading from "./PageLoading.vue";
 
-app.component('HeadPage', HeadPage);
-app.component('Modal', Modal);
-app.component('SelectInput', SelectInput);
-app.component('Card', Card);
-app.component('ButtonClose', ButtonClose);
-app.component('Loading', Loading);
-app.component('Badge', Badge);
-app.component('Button', Button);
+app.component("HeadPage", HeadPage);
+app.component("Modal", Modal);
+app.component("SelectInput", SelectInput);
+app.component("Card", Card);
+app.component("ButtonClose", ButtonClose);
+app.component("Loading", Loading);
+app.component("Badge", Badge);
+app.component("Button", Button);
+app.component("PageLoading", PageLoading);

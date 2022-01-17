@@ -25,7 +25,13 @@
             </button>
           </div>
           <div v-else class="space-x-2" key="teste2">
-            <button class="btn btn-sm btn-dark rounded-full" @click="submitForm">Salvar e Continuar</button>
+            <Button
+              @click="submitForm"
+              :loading="loading"
+              :disabled="loading"
+              title="Salvar e Continuar"
+              class="btn btn-sm btn-dark rounded-full"
+            />
             <button class="btn btn-sm btn-outline-secondary rounded-full">Cancelar</button>
           </div>
         </transition>
@@ -37,20 +43,22 @@
         <div class="space-y-12">
             <div class="form-group">
                 <label for="" class="label">Nome do Produto</label>
-                <input type="text" class="form-control form-control-line" />
+                <input type="text" class="form-control form-control-line" v-model="form.name" />
             </div>
             <div class="form-group">
                 <label for="" class="label">Subtitulo</label>
-                <input type="text" class="form-control form-control-line" />
+                <input type="text" class="form-control form-control-line" v-model="form.abbreviation"/>
             </div>
             <div class="form-group">
                 <label for="" class="label">Link do Produto</label>
-                <input type="text" class="form-control form-control-line" placeholder="Cole aqui a URL da página do produto" />
+                <input type="text" class="form-control form-control-line" v-model="form.url" placeholder="Cole aqui a URL da página do produto" />
             </div>
             <div class="form-group">
                 <label for="" class="label">Tipo de Produto</label>
-                <select class="form-control form-control-line">
-                    <option value="">Digital</option>
+                <select class="form-control form-control-line" v-model="form.product_type">
+                  <option v-for="product_type in PRODUCT_TYPE" :value="product_type" :key="product_type">
+                    {{product_type}}
+                  </option>
                 </select>
             </div>
         </div>
@@ -64,7 +72,7 @@
                             Telefone:
                         </span>
                     </div>
-                    <input type="text" v-maska="'(##) #####-####'" placeholder="(xx) xxxxx-xxxx" class="bg-transparent outline-none">
+                    <input v-model="form.support_tel" type="text" v-maska="'(##) #####-####'" placeholder="(xx) xxxxx-xxxx" class="bg-transparent outline-none">
                 </div>
             </div>
             <div class="form-group">
@@ -75,12 +83,12 @@
                             Email:
                         </span>
                     </div>
-                    <input type="text" placeholder="suporte@suporte.com" class="bg-transparent outline-none">
+                    <input v-model="form.support_email" type="text" placeholder="suporte@suporte.com" class="bg-transparent outline-none">
                 </div>
             </div>
             <div class="form-group">
                 <label for="" class="label">Descrição do Produto</label>
-                <textarea class="form-control form-control-line border rounded-sm" placeholder="Descreva o produto aqui" rows="10"></textarea>
+                <textarea v-model="form.description" class="form-control form-control-line border rounded-sm" placeholder="Descreva o produto aqui" rows="10"></textarea>
             </div>
         </div>
           
@@ -96,12 +104,14 @@ import {ref, defineComponent} from 'vue';
 import useNotifications from '@/composables/useNotifications';
 import { IProductData } from '@/interfaces/IProduct';
 import { useRouter } from 'vue-router';
+import useConstants from '@/composables/useConstants';
 interface Step {
     label:string;
     ordem:number;
 }
 export default defineComponent({
   setup() {
+    const { PRODUCT_TYPE } = useConstants();
     const router = useRouter();
     const steps = ref<Step[]>([
         {ordem: 1,label: "Dados"},
@@ -111,20 +121,39 @@ export default defineComponent({
         {ordem: 5,label: "Faq"},
         {ordem: 6,label: "Conversão"}
     ]);
-    const form = ref<IProductData>();
+    const form = ref<IProductData>({
+      name: '',
+      abbreviation:"",
+      company_id:1,
+      url:'',
+      product_type: 'FISICO',
+      affiliate_product:false,
+      status: 'ATIVO',
+      support_email:'',
+      support_tel:'',
+      description: ''
+    });
     const loading = ref(false);
 
     const {notifications} = useNotifications();
     const submitForm = async () => {
-      notifications.success('Aii sim')
-      router.push({name: 'EditarProduto', params: {id: 1}, query: {redirect:1}})
+      try {
+        loading.value = true;
+        notifications.success('Continue cadastrando os dados do seu produto.')
+        router.push({name: 'EditarProduto', params: {id: 1}, query: {redirect:1}})
+      } catch (error) {
+        console.log(error);
+      } finally {
+        loading.value = false;
+      }
     }
 
     return {
       steps,
       loading,
       form,
-      submitForm
+      submitForm,
+      PRODUCT_TYPE
     }
   }
 })

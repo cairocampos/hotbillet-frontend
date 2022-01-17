@@ -69,7 +69,7 @@ body {
 	@apply text-gray-600;
 }
 
-.text-base {
+.text-color-base {
 	color:#2F2D2C;
 }
 
@@ -216,6 +216,11 @@ body {
 	table {
 		border-spacing: 0 8px;
 		@apply text-left table-auto border-separate;
+	}
+
+	table thead th {
+		color: #787676;
+		@apply text-sm;
 	}
 
 	table tbody tr td {

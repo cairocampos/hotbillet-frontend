@@ -34,7 +34,7 @@ import {computed, defineComponent, onMounted, ref} from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import Alert from '@/components/Alert.vue'
-import LoadingPage from '@/components/LoadingPage.vue'
+// import LoadingPage from '@/components/LoadingPage.vue'
 
 import Notify from '@/components/Notify.vue';
 
@@ -42,7 +42,6 @@ export default defineComponent({
   components: {
     Menu,
     Alert,
-    LoadingPage,
     Notify
   },
   setup() {
