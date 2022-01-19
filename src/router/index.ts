@@ -11,6 +11,7 @@ import leads from "./leads";
 import agenda from "./agenda";
 import mensagens from "./mensagens";
 import perfil from "./perfil";
+import empresas from "./empresas";
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
@@ -21,6 +22,7 @@ const routes: Array<RouteRecordRaw> = [
   ...agenda,
   ...mensagens,
   ...perfil,
+  ...empresas,
 ];
 
 const router = createRouter({

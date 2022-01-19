@@ -40,16 +40,19 @@
       <h3 class="text-sm text-dark mb-4">Todas as Mensagens</h3>
 
       <div class="md:grid grid-cols-2 gap-4 mb-10">
-        <Card v-for="item in 15" :key="item" class="mb-4 md:mb-0 mensagem cursor-pointer transition hover:shadow-md">
+        <Card v-for="item in 15" :key="item" class="mb-4 md:mb-0 mensagem cursor-pointer transition hover:shadow-md" @click="showDetails">
           <template #header>
             <div class="flex justify-between items-center w-full">
               <div class="flex items-center space-x-2">
                 <div class="h-6 w-6 rounded-full bg-gray-200">
-                  <!-- <img src="@/assets/fake/produto.png" alt="" class="object-contain w-16 h-16 rounded-full" /> -->
+                  <img src="@/assets/fake/produto.png" alt="" class="object-contain h-full w-full rounded-full" />
                 </div>
                 <div class="flex items-end space-x-2 divide-x divide-gray-200">
                   <h3 class="text-default text-sm">Just4You</h3>
-                  <span class="font-light text-xs text-default pl-2">Boleto Vencido</span>
+                  <div class="flex items-center">
+                    <img src="@/assets/icons/boleto-vencido.svg" alt="" class="h-6 ml-1">
+                    <span class="font-light text-xs text-default pl-2 mt-1">Boleto Vencido</span>
+                  </div>
                 </div>
               </div>
 
@@ -78,13 +81,29 @@
         </Card>
       </div>
     </div>
+
+    <ShowDetailsModal ref="modal" />
+
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+import ShowDetailsModal from "@/components/messages/ShowDetailsModal.vue";
 
 export default defineComponent({
+  components: { ShowDetailsModal },
+  setup() {
+    const modal = ref<typeof ShowDetailsModal>();
+    const showDetails = () => {
+      modal.value?.showModal();
+    }
+
+    return {
+      modal,
+      showDetails
+    }
+  }
 })
 </script>
 
