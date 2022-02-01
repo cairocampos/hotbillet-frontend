@@ -102,9 +102,10 @@
 
 import {ref, defineComponent} from 'vue';
 import useNotifications from '@/composables/useNotifications';
-import { IProductData } from '@/interfaces/IProduct';
+import { IProduct, IProductData } from '@/interfaces/IProduct';
 import { useRouter } from 'vue-router';
 import useConstants from '@/composables/useConstants';
+import { api } from '@/services';
 interface Step {
     label:string;
     ordem:number;
@@ -127,7 +128,6 @@ export default defineComponent({
       company_id:1,
       url:'',
       product_type: 'FISICO',
-      affiliate_product:false,
       status: 'ATIVO',
       support_email:'',
       support_tel:'',
@@ -139,10 +139,11 @@ export default defineComponent({
     const submitForm = async () => {
       try {
         loading.value = true;
+        const {data} = await api.post<IProduct>('/products', form.value);
         notifications.success('Continue cadastrando os dados do seu produto.')
-        router.push({name: 'EditarProduto', params: {id: 1}, query: {redirect:1}})
+        router.push({name: 'EditarProduto', params: {id: data.id}, query: {redirect:1}})
       } catch (error) {
-        console.log(error);
+        notifications.error(error);
       } finally {
         loading.value = false;
       }

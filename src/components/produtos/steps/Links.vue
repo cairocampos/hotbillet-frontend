@@ -11,11 +11,11 @@
         <transition-group name="slide" tag="div" class="space-y-4">
             <Card  v-for="(link, index) in linksCheckout" :key="index">
                 <template #header>
-                    <h3 class="text-sm font-medium">{{link.nome}}</h3>
+                    <h3 class="text-sm font-medium">{{link.description}}</h3>
                     <button class="text-red-500 text-xs font-medium" @click="removerLink(link)">Remover</button>
                 </template>
                 <template #body>
-                    <a href="#" class="text-link">{{link.link}}</a>
+                    <a href="#" class="text-link">{{link.URL}}</a>
                 </template>
             </Card>
         </transition-group>
@@ -33,12 +33,11 @@
         <transition-group name="slide" tag="div" class="space-y-4">
             <Card v-for="(link, index) in linksDesconto" :key="index">
                 <template #header>
-                    <h3 class="text-sm font-medium">{{link.nome}}</h3>
+                    <h3 class="text-sm font-medium">{{link.description}}</h3>
                     <button class="text-red-500 text-xs font-medium" @click="removerLink(link)">Remover</button>
                 </template>
                 <template #body>
-                    <p class="text-default text-sm">{{link.descricao}}</p>
-                    <a href="#" class="text-link">{{link.link}}</a>
+                    <a href="#" class="text-link">{{link.URL}}</a>
                 </template>
             </Card>
         </transition-group>
@@ -48,16 +47,12 @@
         <template #body>
             <form @submit.prevent="adicionaLink" class="form-sm space-y-12">
                 <div class="form-group">
-                    <label class="label">Nome</label>
-                    <input type="text" class="form-control form-control-line" v-model="linkForm.nome" />
-                </div>
-                <div class="form-group">
                     <label class="label">Descrição</label>
-                    <input type="text" class="form-control form-control-line" v-model="linkForm.descricao" />
+                    <input type="text" class="form-control form-control-line" v-model="linkForm.description" />
                 </div>
                 <div class="form-group">
                     <label class="label">Link</label>
-                    <input type="text" class="form-control form-control-line" v-model="linkForm.link" />
+                    <input type="text" class="form-control form-control-line" v-model="linkForm.URL" />
                 </div>
                 <div class="text-center">
                     <button class="btn btn-sm btn-dark rounded-full">Adicionar</button>
@@ -71,50 +66,62 @@
 
 <script lang="ts">
 import {ref} from 'vue';
-import { computed, defineComponent } from "@vue/runtime-core";
-
-interface ILink {
-    nome:string;
-    descricao:string;
-    link:string;
-    tipo:string;
-}
+import { computed, defineComponent, PropType, toRefs } from "@vue/runtime-core";
+import { IProduct, IProductLink } from '@/interfaces/IProduct';
+import { api } from '@/services';
+import useNotifications from '@/composables/useNotifications';
 
 export default defineComponent({
-    emits: ['change-step'],
+    props: {
+        product: {
+            type: Object as PropType<IProduct>,
+            required:true
+        },
+        loading: {
+            type: Boolean
+        }
+    },
+    emits: ['change-step', 'update:loading'],
     setup(props, {emit}) {
+        const { product } = toRefs(props)
+        const { notifications } = useNotifications();
         const modalAdd = ref(false);
-        const links = ref<ILink[]>([]);
+        const links = ref<IProductLink[]>([]);
         const linksCheckout = computed(() => {
-            return links.value.filter(link => link.tipo == 'CHECKOUT');
+            return links.value.filter(link => link.link_type == 'CHECKOUT');
         });
 
         const linksDesconto = computed(() => {
-            return links.value.filter(link => link.tipo == 'DESCONTO');
+            return links.value.filter(link => link.link_type == 'DESCONTO');
         });
 
-        const linkForm = ref<ILink>({nome:"", descricao:"", link:"", tipo:"CHECKOUT"})
+        const linkForm = ref<IProductLink>({description:"", URL:"", link_type:"CHECKOUT"})
 
         const adicionaLink = () => {
             modalAdd.value = false;
             links.value.push(linkForm.value);
-            linkForm.value = {nome:"", descricao:"", link:"", tipo:"CHECKOUT"};
+            linkForm.value = {description:"", URL:"", link_type:"CHECKOUT"};
         }
 
         const exibirFormLinksModal = (tipo:string) => {
-            linkForm.value.tipo = tipo;
+            linkForm.value.link_type = tipo;
             modalAdd.value = true;
         }
 
-        const removerLink = (item:ILink) => {
-            const index = links.value.findIndex(link => link.nome == item.nome)
+        const removerLink = (item:IProductLink) => {
+            const index = links.value.findIndex(link => link.description == item.description)
             links.value.splice(index, 1);
         }
 
-        const submitForm = () => {
-            setTimeout(() => {
+        const submitForm = async () => {
+            try {
+                await api.put(`/products/${product.value.id}/links`, {links:links.value})
                 emit('change-step');
-            }, 500);
+            } catch (error) {
+                notifications.error(error)
+            } finally {
+                emit('update:loading', false);
+            }
         }
 
         return {

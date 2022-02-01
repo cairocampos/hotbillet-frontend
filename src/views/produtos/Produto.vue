@@ -98,7 +98,7 @@ export default defineComponent({
         const fetchProduct = async () => {
           try {
             loading.value = true;
-            const {data} = await api.get<{product: IProduct}>(`/product/${props.id}`)
+            const {data} = await api.get<{product: IProduct}>(`/products/${props.id}`)
             product.value = data.product;
           } catch (error) {
             notifications.error(error);

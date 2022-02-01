@@ -4,7 +4,12 @@
       <h1 class="text-2xl text-gray-600">Mensagens</h1>
     </HeadPage>
     <div class="container mx-auto">
-
+      <button @click="messageModal?.showModal()" class="btn btn-sm btn-outline-secondary rounded-full py-1 px-4 flex items-center mb-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <span>Mensagem</span>
+      </button>
       <div>
         <div class="flex flex-wrap -mx-3">
           <div class="form-group md:w-1/4 px-3">
@@ -22,6 +27,7 @@
                 <input type="text" class="bg-transparent outline-none">
             </div>
           </div>
+
           <div class="form-group md:w-1/4 px-3">
             <label class="label">Filtrar Transação</label>
             <input type="text" class="form-control input-white input-sm"/>
@@ -50,7 +56,7 @@
                 <div class="flex items-end space-x-2 divide-x divide-gray-200">
                   <h3 class="text-default text-sm">Just4You</h3>
                   <div class="flex items-center">
-                    <img src="@/assets/icons/boleto-vencido.svg" alt="" class="h-6 ml-1">
+                    <img src="@/assets/icons/boleto-vencido.svg" alt="" class="h-5 ml-1">
                     <span class="font-light text-xs text-default pl-2 mt-1">Boleto Vencido</span>
                   </div>
                 </div>
@@ -65,7 +71,7 @@
                   </span>
                   Editar
                 </button>
-                <button class="transition hover:bg-gray-200 rounded-md p-1" v-copy="'Ok'">
+                <button class="transition hover:bg-gray-200 rounded-md p-1">
                   <img src="@/assets/icons/copy.svg" alt="">
                 </button>
               </div>
@@ -84,23 +90,28 @@
 
     <ShowDetailsModal ref="modal" />
 
+    <MessageModal ref="messageModal" />
+
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import ShowDetailsModal from "@/components/messages/ShowDetailsModal.vue";
+import MessageModal from "@/components/messages/MessageModal.vue";
 
 export default defineComponent({
-  components: { ShowDetailsModal },
+  components: { ShowDetailsModal, MessageModal },
   setup() {
     const modal = ref<typeof ShowDetailsModal>();
+    const messageModal = ref<typeof ShowDetailsModal>();
     const showDetails = () => {
       modal.value?.showModal();
     }
 
     return {
       modal,
+      messageModal,
       showDetails
     }
   }

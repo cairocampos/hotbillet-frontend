@@ -8,12 +8,9 @@ export interface IProductData {
   company_id: number;
   url: string;
   product_type: ProductType;
-  affiliate_product: boolean;
   status: ProductStatus;
   support_email: string;
   support_tel: string;
-  // commission_type: 'PERCENTUAL',
-  // commission_value: number;
   description: string;
 }
 
@@ -21,7 +18,7 @@ export interface IProductLink {
   id?: number;
   link_type: string;
   description: string;
-  url: string;
+  URL: string;
 }
 
 export interface IProductEbook {
@@ -47,9 +44,8 @@ export interface IProductVideo {
 
 export interface IProductFaq {
   id?: number;
-  link_type: string;
-  description: string;
-  url: string;
+  title:string;
+  description:string;
 }
 
 export interface IProductCheckout {

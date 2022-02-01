@@ -66,7 +66,7 @@ export default defineComponent({
     const fetchProducts = async () => {
       try {
         loading.value = true;
-        const {data} = await api.get('/product');
+        const {data} = await api.get('/products');
         products.value = data.products;
       } catch (error) {
         console.log(error);

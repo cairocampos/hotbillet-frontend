@@ -9,28 +9,30 @@
         </button>
 
         <div class="space-y-4">
-            <Card v-for="item in 5" :key="item">
+            <Card v-for="(faq, index) in faqs" :key="index">
                 <template #header>
-                    <h3 class="text-sm font-medium">Faq {{item}} </h3>
-                    <button class="text-red-500 text-xs font-medium">Remover</button>
+                    <h3 class="text-sm font-medium">{{faq.title}}</h3>
+                    <button class="text-red-500 text-xs font-medium" @click="removeFaq(faq)">Remover</button>
                 </template>
                 <template #body>
-                    <p class="text-default text-xs">Descrição do Ebook</p>
+                    <p class="text-default text-xs">
+                        {{faq.description}}
+                    </p>
                 </template>
             </Card>
         </div>
     </div>
 
-    <Modal v-model:open="modalAdd" screen="w-1/4" title="Adicionar Link de Ebook">
+    <Modal v-model:open="modalAdd" screen="w-2/4" title="Novo FAQ">
         <template #body>
-            <form class="form-sm space-y-12">
+            <form class="form-sm space-y-12" @submit.prevent="appendFaq()">
                 <div class="form-group">
-                    <label class="label">Nome do Ebook</label>
-                    <input type="text" class="form-control form-control-line" />
+                    <label class="label">Titulo</label>
+                    <input type="text" class="form-control form-control-line" v-model="faq.title"/>
                 </div>
                 <div class="form-group">
-                    <label class="label">Link do Ebook</label>
-                    <input type="text" class="form-control form-control-line" />
+                    <label for="" class="label">Descrição</label>
+                    <textarea v-model="faq.description" class="form-control form-control-line border rounded-sm" rows="10"></textarea>
                 </div>
                 <div class="text-center">
                     <button class="btn btn-sm btn-dark rounded-full">Adicionar</button>
@@ -43,10 +45,66 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import useNotifications from '@/composables/useNotifications';
+import { IProduct, IProductFaq } from '@/interfaces/IProduct';
+import { api } from '@/services';
+import {defineComponent, PropType, ref, toRefs} from 'vue';
 export default defineComponent({
-    setup() {
-        //
+    props: {
+        product: {
+            type: Object as PropType<IProduct>,
+            required:true
+        },
+        loading: {
+            type: Boolean
+        }
+    },
+    setup(props, {emit}) {
+        const { notifications } = useNotifications();
+        const { product } = toRefs(props)
+        const modalAdd = ref(false);
+        const faqs = ref<IProductFaq[]>([])
+        const faq = ref<IProductFaq>({
+            title: '',
+            description: ''
+        });
+
+        const appendFaq = () => {
+            console.log(faq.value)
+            modalAdd.value = false;
+            faqs.value?.push(faq.value);
+            faq.value = {
+                title: '',
+                description: ''
+            }
+        }
+
+        const removeFaq = (item:IProductFaq) => {
+            const index = faqs.value?.findIndex(faq => faq.description == item.description)
+            console.log(index);
+            if(index !== -1)
+                faqs.value?.splice(index, 1);
+        }
+
+        const submitForm = async () => {
+            try {
+                await api.put(`/products/${product.value.id}/links`, {faqs:faqs.value})
+                emit('change-step');
+            } catch (error) {
+                notifications.error(error)
+            } finally {
+                emit('update:loading', false);
+            }
+        }
+
+        return {
+            modalAdd,
+            faq,
+            faqs,
+            appendFaq,
+            removeFaq,
+            submitForm
+        }
     }
 })
 </script>
