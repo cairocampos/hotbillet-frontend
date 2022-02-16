@@ -15,3 +15,15 @@ export const STATUS = {
   ATIVO: 'ATIVO',
   INATIVO: 'INATIVO'
 }
+
+export const LINKS =  {
+  DISCOUNT: 'DISCOUNT',
+  CHECKOUT: 'CHECKOUT'
+}
+
+export const MIDIAS_TYPES = {
+  THUMBNAIL: 'THUMBNAIL',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  EBOOK: 'EBOOK',
+}

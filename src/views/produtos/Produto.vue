@@ -2,11 +2,16 @@
   <div>
     <HeadPage class="mb-10">
       <RouteBack :route="{name:'Produtos'}">
-        <h1 class="text-xl text-dark">Just4You</h1>
+        <h1 class="text-xl text-dark">
+          {{ product?.name }}
+        </h1>
       </RouteBack>
     </HeadPage>
 
-    <NavTabHeader :tabs="tabs" v-model:tabActive="tabActive"/>
+    <NavTabHeader
+      v-model:tabActive="tabActive"
+      :tabs="tabs"
+    />
 
     <section class="m-4 my-16">
       <PageLoading v-if="loading" />
@@ -17,28 +22,45 @@
               <!-- <img src="@/assets/fake/produto.png" alt="" class="h-100 w-100 object-contain rounded-full"> -->
             </div>
             <div>
-              <h3 class="font-medium text-xl">{{product?.name}}</h3>
-              <span class="text-default text-xs font-light">{{product?.abbreviation}}</span>
+              <h3 class="font-medium text-xl">
+                {{ product?.name }}
+              </h3>
+              <span class="text-default text-xs font-light">{{ product?.abbreviation }}</span>
             </div>
           </div>
 
           <div>
             <div class="flex space-x-1">
               <span class="text-default font-extralight">R$</span>
-              <h3 class="text-xl font-medium">59,90</h3>
+              <h3 class="text-xl font-medium">
+                59,90
+              </h3>
             </div>
             <span class="text-default font-medium text-xs">até 3x s/ juros</span>
           </div>
 
 
           <div class="space-x-2">
-            <router-link :to="{name: 'EditarProduto', params: {id: 1}}" class="btn btn-sm btn-outline-secondary rounded-full">Editar Produto</router-link>
-            <button class="btn btn-sm btn-primary rounded-full">Pausar Produto</button>
+            <router-link
+              :to="{name: 'EditarProduto', params: {id: 1}}"
+              class="btn btn-sm btn-outline-secondary rounded-full"
+            >
+              Editar Produto
+            </router-link>
+            <button class="btn btn-sm btn-primary rounded-full">
+              Pausar Produto
+            </button>
           </div>
-
         </div>
-        <transition name="slide-fade" mode="out-in">
-          <component :is="tabActive.value" :key="tabActive.label" :product="product"></component>
+        <transition
+          name="slide-fade"
+          mode="out-in"
+        >
+          <component
+            :is="tabActive.value"
+            :key="tabActive.label"
+            :product="product"
+          ></component>
         </transition>
       </div>
     </section>
@@ -64,11 +86,6 @@ import { api } from "@/services";
 import PageLoading from "@/components/global/PageLoading.vue";
 
 export default defineComponent({
-  props: {
-    id: {
-      type: Number
-    }
-  },
     components: {
     Dados,
     Links,
@@ -80,6 +97,11 @@ export default defineComponent({
     RouteBack,
     PageLoading
 },
+  props: {
+    id: {
+      type: Number
+    }
+  },
     setup(props) {
       const loading = ref(false);
       const {notifications} = useNotifications();

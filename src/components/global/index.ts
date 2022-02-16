@@ -9,6 +9,7 @@ import Loading from "./Loading.vue";
 import Badge from "./Badge.vue";
 import Button from "./Button.vue";
 import PageLoading from "./PageLoading.vue";
+import InputInfo from "./InputInfo.vue";
 
 app.component("HeadPage", HeadPage);
 app.component("Modal", Modal);
@@ -19,3 +20,4 @@ app.component("Loading", Loading);
 app.component("Badge", Badge);
 app.component("Button", Button);
 app.component("PageLoading", PageLoading);
+app.component("InputInfo", InputInfo);

@@ -18,7 +18,7 @@ export interface IProductLink {
   id?: number;
   link_type: string;
   description: string;
-  URL: string;
+  url: string;
 }
 
 export interface IProductEbook {
