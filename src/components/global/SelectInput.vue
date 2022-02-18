@@ -1,32 +1,50 @@
 <template>
-    <div class="relative">
-        <ul class="w-full border-b text-sm selected flex flex-wrap cursor-text" @click="showOptions = !showOptions">
-            <li v-if="!multiple">{{selectedOption.label}}</li>
-            <li 
-                v-for="(option, index) in selectedOptions" 
-                :key="index" 
-                class="bg-gray-200 rounded-lg m-1 px-2 flex items-center text-gray-400"
-                >
+  <div class="relative">
+    <ul
+      class="w-full border-b text-sm selected flex flex-wrap cursor-text"
+      @click="showOptions = !showOptions"
+    >
+      <li v-if="!multiple">
+        {{ selectedOption.label }}
+      </li>
+      <li 
+        v-for="(option, index) in selectedOptions" 
+        :key="index" 
+        class="bg-gray-200 rounded-lg m-1 px-2 flex items-center text-gray-400"
+      >
+        <button
+          class="mr-2"
+          @click="updateSelected(option)"
+        >
+          x
+        </button>
+        <span class="text-xs text-default">{{ option.label }}</span>
+      </li>
+      <div
+        ref="root"
+        contenteditable="true"
+        class="min-w-min outline-none"
+        @input="inputRoot"
+      ></div>
+    </ul>
 
-                <button class="mr-2" @click="updateSelected(option)">x</button>
-                <span class="text-xs text-default">{{option.label}}</span>
-            </li>
-            <div contenteditable="true" class="min-w-min outline-none" ref="root" @input="inputRoot"></div>
-        </ul>
-
-        <div v-if="showOptions" class="relative bg-white w-full top-0 border-2 select__dropdown">
-            <ul class="text-sm text-default relative">
-                <!-- <input v-if="!multiple" type="text" class="form-control bg-white border border-blue-500 mb-2 fixed top-0"> -->
-                <li 
-                    v-for="(option, index) in optionsSearching" 
-                    @click="updateSelected(option)"
-                    :class="['hover:bg-gray-200 p-2', hasSelected(option) ? 'bg-gray-200' : '']" 
-                    :key="index">
-                    {{option.label}}    
-                </li>
-            </ul>
-        </div>
+    <div
+      v-if="showOptions"
+      class="relative bg-white w-full top-0 border-2 select__dropdown"
+    >
+      <ul class="text-sm text-default relative">
+        <!-- <input v-if="!multiple" type="text" class="form-control bg-white border border-blue-500 mb-2 fixed top-0"> -->
+        <li 
+          v-for="(option, index) in optionsSearching" 
+          :key="index"
+          :class="['hover:bg-gray-200 p-2', hasSelected(option) ? 'bg-gray-200' : '']" 
+          @click="updateSelected(option)"
+        >
+          {{ option.label }}    
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 

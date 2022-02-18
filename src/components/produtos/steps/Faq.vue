@@ -1,5 +1,5 @@
 <template>
-  <section class="links grid grid-cols-2 gap-6justify-between">
+  <section class="links lg:grid lg:grid-cols-2">
     <div>
       <button
         class="text-blue-600 flex items-center space-x-2 mb-10"
@@ -49,7 +49,7 @@
 
     <Modal
       v-model:open="modalAdd"
-      screen="w-2/4"
+      screen="w-full lg:w-2/4"
       title="Novo FAQ"
     >
       <template #body>

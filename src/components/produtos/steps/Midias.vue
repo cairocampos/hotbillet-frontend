@@ -43,6 +43,7 @@
               @clicked="removeImagem(index)"
             />
             <img
+              loading="lazy"
               :src="imagem.url"
               :alt="imagem.name"
               class="object-cover h-full rounded-md"
@@ -207,82 +208,100 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
-
+import useNotifications from '@/composables/useNotifications';
+import { IProduct } from '@/interfaces/IProduct';
+import { api } from '@/services';
+import {defineComponent, PropType, ref, toRefs} from 'vue';
 
 interface IVideo {
-    nome:string;
-    url:string;
+  nome:string;
+  url:string;
 }
 
 type Imagem = File & {url?:string};
 
 export default defineComponent({
-    emit: ['change-step'],
+    props: {
+      product: {
+        type: Object as PropType<IProduct>,
+        required:true
+      }
+    },
+    emits: ['change-step', 'update:loading'],
     setup(props, {emit}) {
-        const inputFile = ref<HTMLInputElement>()
-        const modalEscolherMidia = ref(false);
-        const modalAdicionarVideo = ref(false);
-        const videoForm = ref<IVideo>({nome:"", url:""});
-        const videos = ref<IVideo[]>([])
-        const imagens = ref<Imagem[]>([]);
-        
-        const handleInputFile = () => {
-            if(inputFile.value?.files?.length) {
-                Array.from(inputFile.value?.files).forEach((file: Imagem) => {
-                    const fileReader = new FileReader();
+      const { product } = toRefs(props);
+      const { notifications } = useNotifications();
+      const videos = ref<IVideo[]>([])
+      const imagens = ref<Imagem[]>([]);
 
-                    fileReader.readAsDataURL(file);
+      const inputFile = ref<HTMLInputElement>()
+      const modalEscolherMidia = ref(false);
+      const modalAdicionarVideo = ref(false);
+      const videoForm = ref<IVideo>({nome:"", url:""});
+      
+      const handleInputFile = () => {
+        if(inputFile.value?.files?.length) {
+          Array.from(inputFile.value?.files).forEach((file: Imagem) => {
+            const fileReader = new FileReader();
 
-                    fileReader.onload = (data) => {
-                        file.url = String(data.target?.result);
-                        imagens.value.unshift(file);
-                    }
-                })
+            fileReader.readAsDataURL(file);
 
-                modalEscolherMidia.value = false;
+            fileReader.onload = (data) => {
+              file.url = String(data.target?.result);
+              imagens.value.unshift(file);
             }
-        }
-        
-        const showFormVideo = () => {
-            modalEscolherMidia.value = false;
-            modalAdicionarVideo.value = true;
-        }
+          })
 
-        const adicionaVideo = () => {
-            videos.value.unshift(videoForm.value);
-            videoForm.value = {nome:"", url:""};
-            modalAdicionarVideo.value = false;
+          modalEscolherMidia.value = false;
         }
+      }
+      
+      const showFormVideo = () => {
+        modalEscolherMidia.value = false;
+        modalAdicionarVideo.value = true;
+      }
 
-        const removeVideo = (index:number) => {
-            videos.value.splice(index, 0)
-        }
+      const adicionaVideo = () => {
+        videos.value.unshift(videoForm.value);
+        videoForm.value = {nome:"", url:""};
+        modalAdicionarVideo.value = false;
+      }
 
-        const removeImagem = (index: number) => {
-            imagens.value.splice(index, 0)
-        }
+      const removeVideo = (index:number) => {
+        videos.value.splice(index, 1)
+      }
 
-        const submitForm = () => {
-            setTimeout(() => {
-                emit('change-step');
-            }, 500);
-        }
+      const removeImagem = (index: number) => {
+        imagens.value.splice(index, 1)
+      }
 
-        return {
-            inputFile,
-            modalEscolherMidia,
-            modalAdicionarVideo,
-            handleInputFile,
-            showFormVideo,
-            imagens,
-            videos,
-            videoForm,
-            submitForm,
-            adicionaVideo,
-            removeImagem,
-            removeVideo,
+      const submitForm = async () => {
+        try {
+          const {data} = await api.put<IProduct>(`/products/${product.value.id}/midias`, {
+            midias: videos.value
+          })
+          console.log(data);
+        } catch (error) {
+          notifications.error(error);
+        } finally {
+          emit('update:loading', false);
         }
+      }
+
+      return {
+        inputFile,
+        modalEscolherMidia,
+        modalAdicionarVideo,
+        handleInputFile,
+        showFormVideo,
+        imagens,
+        videos,
+        videoForm,
+        submitForm,
+        adicionaVideo,
+        removeImagem,
+        removeVideo,
+      }
     }
 })
 

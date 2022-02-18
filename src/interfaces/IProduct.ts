@@ -9,8 +9,8 @@ export interface IProductData {
   url: string;
   product_type: ProductType;
   status: ProductStatus;
-  support_email: string;
-  support_tel: string;
+  support_email?: string;
+  support_tel?: string;
   description: string;
 }
 
@@ -23,7 +23,6 @@ export interface IProductLink {
 
 export interface IProductEbook {
   id?: number;
-  link_type: string;
   description: string;
   url: string;
 }

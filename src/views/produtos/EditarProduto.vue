@@ -149,7 +149,7 @@ export default defineComponent({
     const sendingForm = ref(false);
 
     const setInitialStep = computed((): Step => {
-      return route.query.redirect ? steps.value[0] : steps.value[0];
+      return route.query.redirect ? steps.value[2] : steps.value[2];
     });
 
     const currentStep = ref<Step>(setInitialStep.value);

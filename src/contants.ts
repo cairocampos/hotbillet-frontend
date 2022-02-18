@@ -6,6 +6,14 @@ export const PROFILES = {
   VENDEDOR: 5,
 }
 
+export const PROFILES_NAME: {[key: number]:string} = {
+  1: 'Super Admin',
+  2: 'Admin',
+  3: 'Empresa',
+  4: 'Supervisor',
+  5: 'Vendedor',
+}
+
 export const PRODUCT_TYPE = {
   DIGITAL: 'DIGITAL',
   FISICO: 'FISICO',

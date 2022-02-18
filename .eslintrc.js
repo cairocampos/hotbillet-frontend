@@ -4,9 +4,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    // 'eslint:recommended',
-    "@vue/typescript/recommended",
-    "plugin:vue/vue3-recommended",
+    'plugin:vue/vue3-recommended',
+    'eslint:recommended',
+    '@vue/typescript/recommended'
   ],
   parserOptions: {
     ecmaVersion: 2020,

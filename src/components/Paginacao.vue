@@ -1,23 +1,35 @@
 <template>
-  <ul class="py-10 text-right" v-if="paginasTotal > 1">
+  <ul
+    v-if="paginasTotal > 1"
+    class="py-10 text-right"
+  >
     <li class="out">
-        <router-link
+      <router-link
         class="font-bold"
         :to="{ query: paginaAnterior() }"
-      >Anterior</router-link>
+      >
+        Anterior
+      </router-link>
     </li>
-    <li v-for="pagina in paginas" :key="pagina">
+    <li
+      v-for="pagina in paginas"
+      :key="pagina"
+    >
       <router-link
         :to="{ query: query(pagina) }"
         :class="[paginaAtual == pagina ? 'active': '']"
-      >{{ pagina }}</router-link>
+      >
+        {{ pagina }}
+      </router-link>
     </li>
 
     <li class="out">
-        <router-link
+      <router-link
         class="font-bold"
         :to="{ query: proximaPagina() }"
-      >Próximo</router-link>
+      >
+        Próximo
+      </router-link>
     </li>
   </ul>
 </template>
