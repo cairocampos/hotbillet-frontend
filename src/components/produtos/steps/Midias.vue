@@ -32,7 +32,7 @@
           class="flex flex-wrap"
         >
           <div
-            v-for="(imagem, index) in imagens "
+            v-for="(image, index) in images "
             :key="index"
             class="produto__img w-36 h-36 relative m-2"
           >
@@ -40,18 +40,17 @@
               class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50"
               :rounded="false"
               length="4"
-              @clicked="removeImagem(index)"
+              @clicked="removeImage(image)"
             />
             <img
               loading="lazy"
-              :src="imagem.url"
-              :alt="imagem.name"
+              :src="image.url"
               class="object-cover h-full rounded-md"
             >
           </div>
         </transition-group>
         <p
-          v-show="!imagens || !imagens.length"
+          v-show="!images || !images.length"
           class="text-default text-sm"
         >
           Nenhuma mídia adicionada.
@@ -81,14 +80,13 @@
               <ButtonClose
                 length="4"
                 class="p-2"
-                @clicked="removeVideo(index)"
+                @clicked="removeVideo(video)"
               />
             </template>
             <template #body>
-              <a
-                :href="video.url"
-                class="text-link"
-              >{{ video.url }}</a>
+              <YoutubeThumbnail 
+                :source="video.url"
+              />
             </template>
           </Card>
         </transition-group>
@@ -180,14 +178,14 @@
           class="form-sm space-y-12"
           @submit.prevent="adicionaVideo"
         >
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="label">Nome do vídeo</label>
             <input
               v-model="videoForm.nome"
               type="text"
               class="form-control form-control-line"
             />
-          </div>
+          </div> -->
           <div class="form-group">
             <label class="label">Link do vídeo</label>
             <input
@@ -209,100 +207,136 @@
 
 <script lang="ts">
 import useNotifications from '@/composables/useNotifications';
-import { IProduct } from '@/interfaces/IProduct';
+import { IProduct, IProductImage, IProductVideo } from '@/interfaces/IProduct';
 import { api } from '@/services';
-import {defineComponent, PropType, ref, toRefs} from 'vue';
+import {defineComponent, onMounted, PropType, ref, toRefs} from 'vue';
+import {IMidiaTypes} from '@/interfaces/IMidia'
 
-interface IVideo {
-  nome:string;
-  url:string;
+import useImage from '@/composables/midias/useImage'
+import useVideo from '@/composables/midias/useVideo'
+import YoutubeThumbnail from '../../youtube/YoutubeThumbnail.vue'
+
+interface IMidia {
+  file_name?: string;
+  type: IMidiaTypes,
+  url?:string;
+  description?:string;
 }
 
-type Imagem = File & {url?:string};
+type MidiaItem = {
+  id: number;
+  type: IMidiaTypes
+}
 
 export default defineComponent({
     props: {
-      product: {
-        type: Object as PropType<IProduct>,
-        required:true
-      }
+        product: {
+            type: Object as PropType<IProduct>,
+            required: true
+        }
     },
-    emits: ['change-step', 'update:loading'],
-    setup(props, {emit}) {
-      const { product } = toRefs(props);
-      const { notifications } = useNotifications();
-      const videos = ref<IVideo[]>([])
-      const imagens = ref<Imagem[]>([]);
-
-      const inputFile = ref<HTMLInputElement>()
-      const modalEscolherMidia = ref(false);
-      const modalAdicionarVideo = ref(false);
-      const videoForm = ref<IVideo>({nome:"", url:""});
-      
-      const handleInputFile = () => {
-        if(inputFile.value?.files?.length) {
-          Array.from(inputFile.value?.files).forEach((file: Imagem) => {
-            const fileReader = new FileReader();
-
-            fileReader.readAsDataURL(file);
-
-            fileReader.onload = (data) => {
-              file.url = String(data.target?.result);
-              imagens.value.unshift(file);
+    emits: ["change-step", "update:loading"],
+    setup(props, { emit }) {
+        const { product } = toRefs(props);
+        const { notifications } = useNotifications();
+        const files = ref<File[]>([]);
+        const midias = ref<IMidia[]>([]);
+        const midiasRemoved = ref<MidiaItem[]>([]);
+        const inputFile = ref<HTMLInputElement>();
+        const modalEscolherMidia = ref(false);
+        const modalAdicionarVideo = ref(false);
+        const videoForm = ref<IProductVideo>({ nome: "", url: "" });
+        const { images, removeImage } = useImage(midiasRemoved);
+        const { videos, removeVideo } = useVideo(midiasRemoved);
+        const handleInputFile = () => {
+            if (inputFile.value?.files?.length) {
+                Array.from(inputFile.value?.files).forEach((file: File) => {
+                    const fileReader = new FileReader();
+                    fileReader.readAsDataURL(file);
+                    fileReader.onloadend = (data) => {
+                        images.value.push({
+                            type: "IMAGE",
+                            description: file.name,
+                            url: String(data.target?.result)
+                        });
+                    };
+                    files.value.push(file);
+                    midias.value.push({
+                        file_name: file.name,
+                        type: "IMAGE"
+                    });
+                });
+                modalEscolherMidia.value = false;
             }
-          })
-
-          modalEscolherMidia.value = false;
-        }
-      }
-      
-      const showFormVideo = () => {
-        modalEscolherMidia.value = false;
-        modalAdicionarVideo.value = true;
-      }
-
-      const adicionaVideo = () => {
-        videos.value.unshift(videoForm.value);
-        videoForm.value = {nome:"", url:""};
-        modalAdicionarVideo.value = false;
-      }
-
-      const removeVideo = (index:number) => {
-        videos.value.splice(index, 1)
-      }
-
-      const removeImagem = (index: number) => {
-        imagens.value.splice(index, 1)
-      }
-
-      const submitForm = async () => {
-        try {
-          const {data} = await api.put<IProduct>(`/products/${product.value.id}/midias`, {
-            midias: videos.value
-          })
-          console.log(data);
-        } catch (error) {
-          notifications.error(error);
-        } finally {
-          emit('update:loading', false);
-        }
-      }
-
-      return {
-        inputFile,
-        modalEscolherMidia,
-        modalAdicionarVideo,
-        handleInputFile,
-        showFormVideo,
-        imagens,
-        videos,
-        videoForm,
-        submitForm,
-        adicionaVideo,
-        removeImagem,
-        removeVideo,
-      }
-    }
+        };
+        const showFormVideo = () => {
+            modalEscolherMidia.value = false;
+            modalAdicionarVideo.value = true;
+        };
+        const adicionaVideo = () => {
+            midias.value.push({
+                type: "VIDEO",
+                url: videoForm.value.url
+            });
+            videos.value.push(videoForm.value);
+            videoForm.value = { nome: "", url: "" };
+            modalAdicionarVideo.value = false;
+        };
+        const formDataFiles = () => {
+            const formData = new FormData();
+            files.value.forEach(item => {
+                formData.append("files", item);
+            });
+            const objData = {
+                midias: midias.value,
+                midias_removed: [] as MidiaItem[]
+            };
+            if (midiasRemoved.value.length) {
+                objData.midias_removed = midiasRemoved.value;
+            }
+            formData.append("data", JSON.stringify(objData));
+            return formData;
+        };
+        const submitForm = async () => {
+            try {
+                const formData = formDataFiles();
+                const { data } = await api.post<IProduct>(`/products/${product.value.id}/midias`, formData);
+                videos.value = data.videos ?? [];
+                images.value = data.images ?? [];
+                midiasRemoved.value = [];
+                notifications.success("Alterações efetuadas.");
+            }
+            catch (error) {
+                notifications.error(error);
+            }
+            finally {
+                emit("update:loading", false);
+            }
+        };
+        onMounted(() => {
+            if (product.value?.videos?.length) {
+                videos.value = product.value.videos;
+            }
+            if (product.value?.images?.length) {
+                images.value = product.value.images;
+            }
+        });
+        return {
+            inputFile,
+            modalEscolherMidia,
+            modalAdicionarVideo,
+            handleInputFile,
+            showFormVideo,
+            images,
+            videos,
+            videoForm,
+            submitForm,
+            adicionaVideo,
+            removeImage,
+            removeVideo,
+        };
+    },
+    components: { YoutubeThumbnail }
 })
 
 

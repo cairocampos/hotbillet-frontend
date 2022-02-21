@@ -148,7 +148,8 @@ export default defineComponent({
       showOptions,
       search,
       items,
-      customClass
+      customClass,
+      opa: () => alert('opa')
     };
   },
 });

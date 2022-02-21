@@ -183,6 +183,7 @@ export default defineComponent({
           if (inputFile.value?.files?.length) {
             const file = inputFile.value.files[0];
             ebook.value.file = file;
+            console.log(file)
           }
         };
         const appendEbook = () => {

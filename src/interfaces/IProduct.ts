@@ -29,15 +29,14 @@ export interface IProductEbook {
 
 export interface IProductImage {
   id?: number;
-  link_type: string;
+  type: 'IMAGE';
   description: string;
   url: string;
 }
 
 export interface IProductVideo {
   id?: number;
-  link_type: string;
-  description: string;
+  nome:string;
   url: string;
 }
 
@@ -62,3 +61,5 @@ export interface IProduct extends IProductData {
   faqs?: IProductFaq[];
   checkouts?: IProductCheckout[];
 }
+
+

@@ -42,7 +42,7 @@
 
           <div class="space-x-2">
             <router-link
-              :to="{name: 'EditarProduto', params: {id: 1}}"
+              :to="{name: 'EditarProduto', params: {id: product.id}}"
               class="btn btn-sm btn-outline-secondary rounded-full"
             >
               Editar Produto

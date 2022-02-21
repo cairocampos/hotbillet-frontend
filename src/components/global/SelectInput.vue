@@ -1,4 +1,4 @@
-<template>
+<template @click="opa">
   <div class="relative">
     <ul
       class="w-full border-b text-sm selected flex flex-wrap cursor-text"
