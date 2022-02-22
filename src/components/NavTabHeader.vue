@@ -1,16 +1,20 @@
 <template>
-    <div class="flex items-center justify-between border-b">
-        <ul class="flex items-center space-x-8">
-            <li 
-            v-for="tab in tabs"
-            :class="['text-default pb-4 px-4 cursor-pointer text-sm', tab.label == tabActive.label ? 'border-b-2 border-yellow-600 text-gray-700 font-semibold' : '']"
-            @click="handleTab(tab)"
-            :key="tab.label">{{tab.label}}</li>
-        </ul>
-        <div>
-            <slot name="acessorios" />
-        </div>
+  <div class="flex items-center justify-between border-b">
+    <ul class="flex items-center space-x-8">
+      <li 
+        v-for="tab in tabs"
+        :key="tab.label"
+        :class="['text-default pb-4 px-4 cursor-pointer text-sm',
+                 tab.label == tabActive?.label ? 'border-b-2 border-orange text-gray-700 font-semibold' : '']"
+        @click="handleTab(tab)"
+      >
+        {{ tab.label }}
+      </li>
+    </ul>
+    <div>
+      <slot name="acessorios" />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -38,3 +42,9 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+.border-orange {
+    border-color: #FF7800;
+}
+</style>

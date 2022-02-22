@@ -67,6 +67,9 @@
             :key="link.id"
           >
             <td>{{ link.description }}</td>
+            <td class="text-default font-light">
+              {{ link.url }}
+            </td>
             <td
               align="right"
               class="flex items-center justify-end space-x-2"
