@@ -60,7 +60,10 @@
             v-if="sendingForm"
             key="teste1"
           >
-            <button class="btn btn-sm btn-dark rounded-full flex space-x-2 items-center">
+            <button
+              disabled
+              class="cursor-not-allowed btn btn-sm btn-dark-secondary rounded-full flex space-x-2 items-center"
+            >
               <Loading class="h-5 w-5" />
               <span>Salvando...</span>
             </button>
@@ -74,7 +77,7 @@
               class="btn btn-sm btn-dark rounded-full"
               @click="validateStep"
             >
-              Salvar e Continuar
+              Confirmar Alterações
             </button>
             <button class="btn btn-sm btn-outline-secondary rounded-full">
               Cancelar

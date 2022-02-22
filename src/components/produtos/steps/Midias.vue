@@ -81,7 +81,9 @@
                 length="4"
                 class="p-2"
                 @clicked="removeVideo(video)"
-              />
+              >
+                <span class="text-xs">Remover</span>
+              </ButtonClose>
             </template>
             <template #body>
               <YoutubeThumbnail 

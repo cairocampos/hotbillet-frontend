@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['text-default hover:bg-gray-200 transition', rounded ? 'rounded-full' : '']"
+    :class="['text-default hover:bg-gray-200 transition flex items-center space-x-2', rounded ? 'rounded-full' : '']"
     @click="onClick"
   >
     <svg
@@ -17,6 +17,7 @@
         d="M6 18L18 6M6 6l12 12"
       />
     </svg>
+    <slot />
   </button>
 </template>
 

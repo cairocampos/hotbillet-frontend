@@ -39,6 +39,12 @@ body {
 	@apply text-white;
 }
 
+.btn-dark-secondary {
+	background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
+	font-weight: 600;
+	@apply text-gray-500;
+}
+
 .btn-primary {
 	background: linear-gradient(180deg, #FF7800 -65.37%, #E31E22 100%);
 	font-weight: 600;

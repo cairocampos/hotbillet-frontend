@@ -1,14 +1,21 @@
 <template>
-  <div class="w-full bg-red-500">
-    <img
-      :src="urlThumb"
-      class="w-full object-cover"
-    />
-  </div>
   <a
+    class="w-full bg-red-500"
     :href="source"
-    class="text-link"
-  >{{ source }}</a>
+    target="_blank"
+  >
+    <div>
+      <img
+        :src="urlThumb"
+        class="w-full object-cover"
+      />
+    </div>
+    <p
+      class="text-link mt-2"
+    >
+      {{ source }}
+    </p>
+  </a>
 </template>
 
 <script lang="ts">

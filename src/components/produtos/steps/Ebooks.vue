@@ -3,7 +3,7 @@
     <div>
       <button
         class="text-blue-600 flex items-center space-x-2 mb-10"
-        @click="modalAdd = true"
+        @click="modals.create = true"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,14 +31,14 @@
             <h3 class="text-sm font-medium">
               {{ item.description }}
             </h3>
-            <button class="text-red-500 text-xs font-medium">
+            <button
+              class="text-red-500 text-xs font-medium"
+              @click="removeEbook(item)"
+            >
               Remover
             </button>
           </template>
           <template #body>
-            <!-- <p class="text-default text-xs mb-2">
-              Descrição do Ebook
-            </p> -->
             <a
               :href="item.url"
               target="_blank"
@@ -48,14 +48,17 @@
         </Card>
 
         <Card
-          v-for="(item, index) in newEbooks"
+          v-for="(item, index) in midias"
           :key="index"
         >
           <template #header>
             <h3 class="text-sm font-medium">
               {{ item.description }}
             </h3>
-            <button class="text-red-500 text-xs font-medium">
+            <button
+              class="text-red-500 text-xs font-medium"
+              @click="removeRecentMedia(index)"
+            >
               Remover
             </button>
           </template>
@@ -70,7 +73,7 @@
     </div>
 
     <Modal
-      v-model:open="modalAdd"
+      v-model:open="modals.create"
       screen="w-1/4"
       title="Adicionar Link de Ebook"
     >
@@ -159,6 +162,8 @@ import useNotifications from '@/composables/useNotifications';
 import InputInfo from '@/components/global/InputInfo.vue';
 import Badge from '../../global/Badge.vue';
 import { api } from '@/services';
+import useMidias from '@/composables/midias/useMidias'
+
 export default defineComponent({
     props: {
         product: {
@@ -168,10 +173,11 @@ export default defineComponent({
     },
     emits: ["update:loading", "change-step"],
     setup(props, { emit }) {
+        const modals = ref({create:false})
         const { product } = toRefs(props);
-        const modalAdd = ref(false);
-        const ebooks = ref<IProductEbook[]>();
-        const newEbooks = ref<IEbook[]>([]);
+        const ebooks = ref<IProductEbook[]>([]);
+        const { midias, files } = useMidias();
+        const midiasRemoved = ref<{id:number, type: 'EBOOK'}[]>([]);
         const inputFile = ref<HTMLInputElement>();
         const { formHandler } = useFormHandler();
         const ebook = ref<IEbook>({
@@ -183,37 +189,43 @@ export default defineComponent({
           if (inputFile.value?.files?.length) {
             const file = inputFile.value.files[0];
             ebook.value.file = file;
-            console.log(file)
           }
         };
         const appendEbook = () => {
-          newEbooks.value.push({
-            description: ebook.value.description,
-            file: ebook.value.file
+          midias.value.push({
+            file_name: ebook.value.file.name,
+            type: "EBOOK",
+            description: ebook.value.description
           })
+          files.value.push(ebook.value.file);
 
           ebook.value = {
             description:"",
             file: new File([], "")
           }
 
-          modalAdd.value = false;
+          modals.value.create = false;
         };
+
         const checkForm = () => {
           if (!ebook.value.description)
             return formHandler.record({ "description": "Campo obrigatório" });
           if (!inputFile.value?.files?.length)
-            return notifications.info("Você precisa informar um arquivo para continuar");
+            return notifications.info("Você precisa adicionar um arquivo para continuar.");
           appendEbook();
         };
 
         const prepareForm = () => {
           const formData = new FormData();
 
-          newEbooks.value.forEach(item => {
-            formData.append(`midias[description][]`, item.description);
-            formData.append(`midias[file][]`, item.file);
+          files.value.forEach(item => {
+            formData.append('files', item);
           })
+
+          formData.append('data', JSON.stringify({
+            midias: midias.value,
+            midias_removed: midiasRemoved.value
+          }));
 
           return formData;
         }
@@ -221,16 +233,33 @@ export default defineComponent({
         const submitForm = async () => {
           try {
             const formData = prepareForm();
-            const {data} = await api.put<IProduct>(`/products/${product.value.id}/midias`, formData);
+            const {data} = await api.post<IProduct>(`/products/${product.value.id}/midias`, formData);
             emit('change-step');
             notifications.success('Alterações efetuadas.');
             ebooks.value = data.ebooks ?? []
-            newEbooks.value = [];
+            midias.value = [];
+            midiasRemoved.value = [];
           } catch (error) {
             notifications.error(error);
           } finally {
             emit('update:loading', false);
           }
+        }
+
+        const removeEbook = (ebook: IProductEbook) => {
+          const ebookIndex = ebooks.value?.findIndex(item => item.id === ebook.id)
+
+          if(ebookIndex !== -1 && ebook.id) {
+            ebooks.value.splice(ebookIndex, 1);
+            midiasRemoved.value.push({
+              id: ebook.id,
+              type: 'EBOOK',
+            })
+          }
+        }
+        
+        const removeRecentMedia = (index:number) => {
+          midias.value.splice(index, 1);
         }
 
         onMounted(() => {
@@ -239,15 +268,17 @@ export default defineComponent({
           }
         });
         return {
+          midias,
           ebook,
-          modalAdd,
+          modals,
           ebooks,
           inputFile,
           handleInputFile,
           checkForm,
           formHandler,
-          newEbooks,
-          submitForm
+          submitForm,
+          removeEbook,
+          removeRecentMedia
         };
     },
     components: { InputInfo, Badge }
