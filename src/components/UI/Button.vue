@@ -78,7 +78,7 @@ export default defineComponent({
   },
   setup(props) {
     const isDisabled = computed(() => {
-      return props.loading || props.loading
+      return props.disabled || props.loading
     })
     const getSize = computed(() => {
       const sizes = {
@@ -94,19 +94,20 @@ export default defineComponent({
     })
 
     const roundedClass = computed(() => {
-      return `${props.rounded ? 'rounded-circle' : 'rounded-sm'}`;
+      return `${props.rounded ? 'rounded-full' : 'rounded-sm'}`;
     })
-
-    // `${(!loading && !disabled) ? `transition-all bg-${variant}-dark
-    //   hover:bg-${variant}` : `bg-${variant}-dark opacity-50`}`,
 
     const customClass = computed(() => {
       const borderClass = `border border-${props.variant} bg-white text-${props.variant} hover:bg-${props.variant} hover:text-white`;
-      const bgClass = `bg-${props.variant} hover:bg-${props.variant}-dark`
+      const bgClass = `text-white bg-${props.variant} hover:bg-${props.variant}-dark`
       let styles = `${props.bordered ? borderClass : bgClass}`;
       if(!props.loading && !props.disabled) {
         styles += ` hover:bg-${props.variant}`;
       }
+
+      styles = styles += isDisabled.value ? `bg-${props.variant}-dark cursor-not-allowerd opacity-70` : '';
+
+
       console.log(styles);
       return styles;
     });

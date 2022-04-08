@@ -1,16 +1,19 @@
 <template>
-    <div :class="['flex items-center', {'border-b': !secondary}]">
-        <ul class="flex items-center justify-around w-full">
-            <li 
-            v-for="tab in tabs"
-            :class="['text-default pb-4 px-4 cursor-pointer', secondary ? 'text-xs' : 'text-sm', tab.label == tabActive.label ? tabActiveStyle : '']"
-            @click="handleTab(tab)"
-            :key="tab.label">{{tab.label}}</li>
-        </ul>
-        <div>
-            <slot name="acessorios" />
-        </div>
+  <div :class="['flex items-center', {'border-b': !secondary}]">
+    <ul class="flex items-center justify-around w-full">
+      <li 
+        v-for="tab in tabs"
+        :key="tab.label"
+        :class="['text-default pb-4 px-4 cursor-pointer', secondary ? 'text-xs' : 'text-sm', tab.label == tabActive.label ? tabActiveStyle : '']"
+        @click="handleTab(tab)"
+      >
+        {{ tab.label }}
+      </li>
+    </ul>
+    <div>
+      <slot name="acessorios" />
     </div>
+  </div>
 </template>
 
 <script lang="ts">
