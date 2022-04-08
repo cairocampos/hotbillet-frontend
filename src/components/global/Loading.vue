@@ -1,5 +1,5 @@
 <template>
-    <div class="loading animate-spin"></div>
+  <div class="loading mx-auto animate-spin"></div>
 </template>
 
 <style scoped>

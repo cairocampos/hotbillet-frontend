@@ -1,0 +1,51 @@
+<svg
+  class="h-6 w-6 mr-6"
+  viewBox="0 0 35 31"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M1.90088 3.30811C1.90088 2.27257 2.74035 1.43311 3.77588 1.43311H27.7759C28.8114 1.43311 29.6509 2.27257 29.6509 3.30811V22.3081C29.6509 23.3436 28.8114 24.1831 27.7759 24.1831H8.41681C7.76549 24.1831 7.13044 24.3866 6.60044 24.7652L1.90088 28.122V3.30811Z"
+    fill="#2F2D2C"
+    stroke="#D9D9D9"
+    stroke-width="2.25"
+  />
+  <path
+    d="M8.27588 7.90527H23.2759"
+    stroke="#D9D9D9"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  <path
+    d="M8.27588 12.2832H20.2759"
+    stroke="#D9D9D9"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  <path
+    d="M8.27588 16.6611H16.2759"
+    stroke="#D9D9D9"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+  <circle
+    cx="27.2902"
+    cy="22.642"
+    r="6.79119"
+    fill="#2F2D2C"
+    stroke="#D9D9D9"
+    stroke-width="1.75"
+  />
+  <path
+    d="M27.0176 23.021L27.0176 20.521"
+    stroke="#D9D9D9"
+    stroke-width="1.75"
+    stroke-linecap="round"
+  />
+  <path
+    d="M27.29 23.021L31.29 22.9953"
+    stroke="#D9D9D9"
+    stroke-width="1.75"
+    stroke-linecap="round"
+  />
+</svg>

@@ -27,7 +27,7 @@ export default defineComponent({
     font-size: 10px;
     border-radius: 10px;
     &__blue {
-        background-color: $blue;
+        background-color: $info;
         color:white;
     }
     &__purple {
@@ -35,14 +35,14 @@ export default defineComponent({
         color:white;
     }
     &__green {
-        background-color: $green;
+        background-color: $success;
         color:white;
     }
     &__yellow {
         background-color: $yellow;
     }
     &__red {
-        background-color: $red;
+        background-color: $danger;
         color:white;
     }
 }

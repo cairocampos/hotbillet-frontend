@@ -26,11 +26,17 @@
         </button>
       </div>
       <div class="flex">
-        <Menu class="flex-shrink-0" />
+        <Menu />
         <main id="main">
           <router-view v-slot="{ Component }">
-            <transition name="slide" mode="out-in">
-              <component :is="Component" :key="$route.path" />
+            <transition
+              name="slide"
+              mode="out-in"
+            >
+              <component
+                :is="Component"
+                :key="$route.path"
+              />
             </transition>
           </router-view>
         </main>
@@ -41,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import Menu from "@/components/Menu.vue";
+import Menu from "@/components/menu/Menu.vue";
 // import {api} from '@/services';
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";

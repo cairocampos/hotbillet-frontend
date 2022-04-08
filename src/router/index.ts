@@ -2,27 +2,30 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { auth } from "@/services";
 import { useDefaultStore } from "@/store";
 
-//rotas
-import authRoutes from "./auth";
-import dashboard from "./dashboard";
-import usuarios from "./usuarios";
-import produtos from "./produtos";
-import leads from "./leads";
-import agenda from "./agenda";
-import mensagens from "./mensagens";
-import perfil from "./perfil";
-import empresas from "./empresas";
+//routes
+import authRoutes from "@/modules/auth/router";
+import dashboard from "@/modules/dashboard/router";
+import users from "@/modules/users/router";
+import products from "@/modules/products/router";
+import leads from "@/modules/leads/router";
+import messages from "@/modules/messages/router";
+import profile from "@/modules/profile/router";
+
+import Teste from '@/views/Teste.vue'
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
   ...dashboard,
-  ...usuarios,
-  ...produtos,
+  ...users,
+  ...products,
   ...leads,
-  ...agenda,
-  ...mensagens,
-  ...perfil,
-  ...empresas,
+  ...messages,
+  ...profile,
+  {
+    name: "teste",
+    path: "/teste",
+    component: Teste,
+  },
 ];
 
 const router = createRouter({
@@ -30,21 +33,21 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  useDefaultStore.commit("TOGGLE_MENU");
+// router.beforeEach((to, from, next) => {
+//   useDefaultStore.commit("TOGGLE_MENU");
 
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!auth.token()) {
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (!auth.token()) {
+//       next({
+//         path: "/login",
+//         query: { redirect: to.fullPath },
+//       });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
