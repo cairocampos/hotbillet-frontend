@@ -46,7 +46,7 @@ export default defineComponent({
       default: "Dropdown"
     }
   },
-  setup(props) {
+  setup() {
     const element = ref<HTMLElement>();
     const isOpen = ref(false);
     const toggle = () => isOpen.value = !isOpen.value
