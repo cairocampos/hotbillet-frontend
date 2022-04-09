@@ -2,8 +2,7 @@
   <div>
     <div
       v-if="open"
-      class="fixed top-0 left-0 h-screen w-screen 
-        bg-black bg-opacity-50 z-10"
+      class="fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 z-10"
     ></div>
 
     <transition
@@ -12,7 +11,17 @@
     >
       <div
         v-if="open"
-        class="fixed h-screen w-screen top-0 left-0 flex items-center justify-center z-20"
+        class="
+          fixed
+          h-screen
+          w-screen
+          top-0
+          left-0
+          flex
+          items-center
+          justify-center
+          z-20
+        "
       >
         <div
           class="modal bg-white rounded-md shadow-sm py-8 px-5 space-y-5"
@@ -59,39 +68,41 @@
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
-    props: {
-        open: {
-            type: Boolean,
-            default:false
-        },
-        title: {
-            type:String,  
-        },
-        screen: {
-            type: String,
-            default: 'md'
-        }
+  props: {
+    open: {
+      type: Boolean,
+      default: false,
     },
-   emits: ['update:open'],
-   setup(props, {emit}) {
-        const closeModal = ()   => {
-            emit('update:open', false);       
-        }
+    title: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    screen: {
+      type: String,
+      default: "md",
+    },
+  },
+  emits: ["update:open"],
+  setup(props, { emit }) {
+    const closeModal = () => {
+      emit("update:open", false);
+    };
 
-        return {
-            closeModal
-        }
-   }
+    return {
+      closeModal,
+    };
+  },
 });
 </script>
 
 <style scoped>
 .slide-fade-enter-active {
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,

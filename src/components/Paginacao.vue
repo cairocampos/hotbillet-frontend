@@ -40,14 +40,14 @@ import { useRoute } from "vue-router";
 
 
 const props = defineProps({
-    porPagina: {
-        type: Number,
-        default: 1
-    },
-    total: {
-        type: Number,
-        required:true
-    }
+  porPagina: {
+    type: Number,
+    default: 1
+  },
+  total: {
+    type: Number,
+    required:true
+  }
 });
 
 const {total, porPagina} = toRefs(props);

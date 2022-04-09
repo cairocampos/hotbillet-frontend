@@ -88,7 +88,8 @@ import { defineComponent, PropType } from "@vue/runtime-core";
 export default defineComponent({
   props: {
     product: {
-      type: Object as PropType<IProduct>
+      type: Object as PropType<IProduct>,
+      required: true
     }
   },
   setup() {

@@ -24,23 +24,23 @@
 
       <div class="space-y-4">
         <Card
-          v-for="(faq, index) in faqs"
+          v-for="(faqItem, index) in faqs"
           :key="index"
         >
           <template #header>
             <h3 class="text-sm font-medium">
-              {{ faq.title }}
+              {{ faqItem.title }}
             </h3>
             <button
               class="text-red-500 text-xs font-medium"
-              @click="removeFaq(faq)"
+              @click="removeFaq(faqItem)"
             >
               Remover
             </button>
           </template>
           <template #body>
             <p class="text-default text-xs">
-              {{ faq.description }}
+              {{ faqItem.description }}
             </p>
           </template>
         </Card>

@@ -1,7 +1,13 @@
 <template>
   <div class="form-group">
-    <label v-if="label" :class="labelClass">{{label}}</label>
-    <div class="input-group-custom rounded-sm px-4 py-2" :class="classCustom">
+    <label
+      v-if="label"
+      :class="labelClass"
+    >{{ label }}</label>
+    <div
+      class="input-group-custom rounded-sm px-4 py-2"
+      :class="classCustom"
+    >
       <div class="input-prepend mr-2">
         <slot name="prepend" />
       </div>
@@ -20,15 +26,18 @@ export default defineComponent({
   props: {
     label: {
       type: String,
-      required:false
+      required:false,
+      default:""
     },
     classCustom: {
       type: String,
-      required:false
+      required:false,
+      default:""
     },
     labelClass: {
       type: String,
-      required:false
+      required:false,
+      default:""
     }
   },
   setup() {

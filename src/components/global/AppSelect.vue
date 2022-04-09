@@ -81,67 +81,67 @@ import { computed, defineComponent, PropType, ref, toRefs } from "vue";
 
 interface IOptions {
   label: string;
-  value:any;
+  value: string | number;
 }
 
 export default defineComponent({
-  props: {
-    title: {
-      type: String,
-      required:false,
-      default: ""
-    },
-    modelValue: {
-      type: [String, Number, Object],
-      required:true
-    },
-    options: {
-      type: Object as PropType<IOptions[]>,
-      required:true,
-      default: () => {
-        return {
-          label: "",
-          value: ""
-        }
-      }
-    },
-    type: {
-      type: String,
-      required:false,
-      default: () => 'default'
-    },
-  },
   directives: {
     focus: {
       mounted(el: HTMLInputElement) {
         el.focus();
-      }
-    }
+      },
+    },
+  },
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    modelValue: {
+      type: [String, Number, Object],
+      required: true,
+    },
+    options: {
+      type: Object as PropType<IOptions[]>,
+      required: true,
+      default: () => {
+        return {
+          label: "",
+          value: "",
+        };
+      },
+    },
+    type: {
+      type: String,
+      required: false,
+      default: () => "default",
+    },
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const {options, type} = toRefs(props);
+    const { options, type } = toRefs(props);
     const showOptions = ref(false);
-    const selected = (value: any) => {
+    const selected = (value: string|number) => {
       showOptions.value = false;
-      search.value = '';
+      search.value = "";
       emit("update:modelValue", value);
     };
 
-    const search = ref('');
+    const search = ref("");
 
     const items = computed(() => {
-      const regex = new RegExp(search.value, 'i')
-      return options.value.filter(option => regex.test(option.label));
-    })
+      const regex = new RegExp(search.value, "i");
+      return options.value.filter((option) => regex.test(option.label));
+    });
 
     const customClass = computed(() => {
-      if(type.value == 'line') {
-        return 'border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent';
+      if (type.value == "line") {
+        return "border-b border-gray-400 bg-transparent rounded-none focus:bg-transparent";
       }
 
-      return '';
-    })
+      return "";
+    });
 
     return {
       selected,
@@ -149,7 +149,7 @@ export default defineComponent({
       search,
       items,
       customClass,
-      opa: () => alert('opa')
+      opa: () => alert("opa"),
     };
   },
 });
@@ -166,6 +166,6 @@ export default defineComponent({
   position: absolute;
   width: 100%;
   z-index: 10;
-  background: #FFF !important;
+  background: #fff !important;
 }
 </style>

@@ -49,9 +49,10 @@ import { useRouter } from "vue-router"
 
 export default defineComponent({
     props: {
-        product: {
-            type: Object as PropType<IProductData>
-        }
+      product: {
+        type: Object as PropType<IProductData>,
+        required:true
+      }
     },
     setup() {
         const router = useRouter();

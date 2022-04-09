@@ -157,9 +157,9 @@ export default defineComponent({
 
     const currentStep = ref<Step>(setInitialStep.value);
 
-    const lastStep = computed(() => {
-      return steps.value[steps.value.length - 1].ordem;
-    });
+    // const lastStep = computed(() => {
+    //   return steps.value[steps.value.length - 1].ordem;
+    // });
 
     const validateStep = () => {
       sendingForm.value = true;

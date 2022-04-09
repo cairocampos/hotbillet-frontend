@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { notify } from "notiwind";
 export default function useNotifications() {
   function createNotify(

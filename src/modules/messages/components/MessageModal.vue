@@ -1,5 +1,9 @@
 <template>
-  <Modal v-model:open="modalAtivo" title="Adicionar Mensagem" screen="w-1/2">
+  <Modal
+    v-model:open="modalAtivo"
+    title="Adicionar Mensagem"
+    screen="w-1/2"
+  >
     <template #body>
       <div class="mb-4 flex items-center space-x-4 text-xs text-color-base">
         <p><span class="font-semibold">Status:</span> Mensagem Automática</p>
@@ -41,4 +45,4 @@ export default defineComponent({
 </script>
 
 <style lang='scss' scoped>
-</style>
+</style>  

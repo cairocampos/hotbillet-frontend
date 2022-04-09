@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { auth } from "@/services";
-import { useDefaultStore } from "@/store";
+// import { auth } from "@/services";
+// import { useDefaultStore } from "@/store";
 
 //routes
 import authRoutes from "@/modules/auth/router";

@@ -1,9 +1,15 @@
 <template>
   <div class="historico_lead">
-    <div v-for="item in 5" :key="item" class="historico_lead__item py-4">
+    <div
+      v-for="item in 5"
+      :key="item"
+      class="historico_lead__item py-4"
+    >
       <div class="historico_lead__item--border-left pl-4">
         <div class="flex items-start justify-between">
-          <p class="text-sm text-gray-800 font-medium">Comprometeu-se</p>
+          <p class="text-sm text-gray-800 font-medium">
+            Comprometeu-se
+          </p>
           <span class="text-xs text-default">Há 12 min</span>
         </div>
         <div class="py-2 text-xs text-default">

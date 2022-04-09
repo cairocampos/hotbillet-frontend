@@ -135,6 +135,7 @@ import { defineComponent, onMounted, PropType, ref, toRefs } from "@vue/runtime-
 import AppSelect from "@/components/global/AppSelect.vue";
 
 export default defineComponent({
+  components: { AppSelect },
     props: {
         product: {
             type: Object as PropType<IProduct>,
@@ -181,7 +182,6 @@ export default defineComponent({
             PRODUCT_TYPE
         };
     },
-    components: { AppSelect }
 });
 </script>
 

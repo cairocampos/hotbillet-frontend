@@ -1,7 +1,9 @@
 <template>
   <div class="dados">
     <div>
-      <h4 class="mb-4 text-md text-default font-semibold">Dados da Compra</h4>
+      <h4 class="mb-4 text-md text-default font-semibold">
+        Dados da Compra
+      </h4>
       <ul class="text-sm text-default font-light">
         <li>
           <span>Motivo:</span> Abandono de Carrinho
@@ -20,10 +22,23 @@
 
     <div class="border-t-2 border-b-2 border-gray-200">
       <div class="flex items-center justify-between mb-4">
-        <h4 class="text-md text-default font-semibold">Dados do Cliente</h4>
+        <h4 class="text-md text-default font-semibold">
+          Dados do Cliente
+        </h4>
         <button class="text-blue-500 text-xs flex items-center space-x-1 font-light">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 underline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 underline"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+            />
           </svg>
           <span>Editar Telefone</span>
         </button>
@@ -45,7 +60,9 @@
     </div>
 
     <div>
-      <h4 class="mb-4 text-md text-default font-semibold">Endereço do Cliente</h4>
+      <h4 class="mb-4 text-md text-default font-semibold">
+        Endereço do Cliente
+      </h4>
       <ul class="text-sm text-default font-light">
         <li>
           <span>logradouro:</span> Rua Sete de Setembro

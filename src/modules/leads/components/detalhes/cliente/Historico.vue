@@ -1,15 +1,21 @@
 <template>
   <div>
     <MenuTab 
-    :tabs="tabs"
-    v-model:tabActive="tabActive"
-    :secondary="true"
-     />
+      v-model:tabActive="tabActive"
+      :tabs="tabs"
+      :secondary="true"
+    />
 
 
     <section class="py-8 px-4">
-      <transition name="slide" mode="out-in">
-        <component :is="tabActive.component" :key="tabActive.label" />
+      <transition
+        name="slide"
+        mode="out-in"
+      >
+        <component
+          :is="tabActive.component"
+          :key="tabActive.label"
+        />
       </transition>
     </section>
   </div>
