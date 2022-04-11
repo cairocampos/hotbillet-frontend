@@ -1,14 +1,7 @@
 <template>
   <button
     :disabled="isDisabled"
-    :class="[
-      'flex items-center space-x-2 justify-center transition-all',
-      getSize,
-      blockedClass,
-      roundedClass,
-      customClass,
-      {'text-gray-700': variant == 'secondary'}
-    ]"
+    :class="baseClass"
   >
     <slot name="left" />
     <span
@@ -29,24 +22,18 @@
 <script lang='ts'>
 import { computed, defineComponent, PropType } from 'vue';
 import Spinner from './Spinner.vue';
-
-type Variant = 'primary' | 'tertiary' | 'secondary' | 'info' | 'success'
-| 'danger' | 'dark';
-
-type Size = 'sm' | 'md' | 'lg'
-
-import { BUTTON_SIZE } from './layout'
+import { Sizes, Variants } from './layout'
 
 export default defineComponent({
   components: { Spinner },
     props: {
       size: {
-        type: String as PropType<Size>,
+        type: String as PropType<Sizes>,
         required: false,
         default: "md"
       },
       variant: {
-        type: String as PropType<Variant>,
+        type: String as PropType<Variants>,
         required: false,
         default: "primary"
       },
@@ -55,7 +42,7 @@ export default defineComponent({
         required: false,
         default: false
       },
-      full: {
+      blocked: {
         type: Boolean,
         required: false,
         default: false
@@ -83,17 +70,6 @@ export default defineComponent({
     const isDisabled = computed(() => {
       return props.disabled || props.loading
     })
-    const getSize = computed(() => {
-      return BUTTON_SIZE[props.size];
-    });
-
-    const blockedClass = computed(() => {
-      return {'w-full': props.full}
-    })
-
-    const roundedClass = computed(() => {
-      return `${props.rounded ? 'rounded-full' : 'rounded-sm'}`;
-    })
 
     const customClass = computed(() => {
       const borderClass = `border border-${props.variant} bg-white text-${props.variant} hover:bg-${props.variant} hover:text-white`;
@@ -106,12 +82,20 @@ export default defineComponent({
       return styles;
     });
 
+    const baseClass = computed(() => {
+      return [
+        'btn',
+        `btn-${props.size}`,
+        props.bordered ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
+        props.rounded ? 'btn-rounded' : '',
+        props.blocked ? 'btn-blocked' : ''
+      ];
+    });
+
     return {
+      baseClass,
       isDisabled,
-      getSize,
-      customClass,
-      blockedClass,
-      roundedClass
+      customClass
     };
   },
 })

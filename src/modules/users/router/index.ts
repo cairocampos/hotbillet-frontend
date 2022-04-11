@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: "/usuarios/adicionar",
-    name: "CreateUSer",
+    name: "CreateUser",
     component: CreateUSer,
     meta: {
       requiresAuth: true,

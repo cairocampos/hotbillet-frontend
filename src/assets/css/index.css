@@ -12,59 +12,86 @@ body {
 }
 
 .btn {
-	@apply text-center py-2 px-8;
+	@apply items-center space-x-2 justify-center transition-all text-white rounded-sm inline-block;
+}
+
+.btn-sm {
+	@apply text-xs px-4 py-1;
 }
 
 .btn-md {
 	@apply text-base px-6 py-2;
 }
 
-.btn-sm {
-	@apply text-xs px-6 py-2;
-}
-
-.btn-circle {
-	@apply rounded-full;
-}
-
-.btn-blue {
-	@apply text-white hover:bg-blue-600;
-	background-color: #006FD6;
-	transition: all .3s;
-}
-
-.btn-dark {
-	background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
-	font-weight: 600;
-	@apply text-white;
-}
-
-.btn-dark-secondary {
-	background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
-	font-weight: 600;
-	@apply text-gray-500;
+.btn-lg {
+	@apply text-lg px-8 py-2;
 }
 
 .btn-primary {
-	background: linear-gradient(180deg, #FF7800 -65.37%, #E31E22 100%);
-	font-weight: 600;
-	@apply text-white;
+	@apply bg-primary hover:bg-primary-dark;
+}
+
+.btn-outline-primary {
+	@apply border border-primary hover:bg-primary text-primary hover:text-white;
 }
 
 .btn-secondary {
-	@apply bg-gray-200;
+	@apply bg-secondary hover:bg-secondary-dark;
 }
 
 .btn-outline-secondary {
-	@apply border border-gray-800 text-gray-600;
+	@apply border border-secondary hover:bg-secondary text-secondary hover:text-base;
+}
+
+.btn-success {
+	@apply bg-success hover:bg-success-dark;
+}
+
+.btn-outline-success {
+	@apply border border-success hover:bg-success text-success hover:text-white;
+}
+
+.btn-info {
+	@apply bg-info hover:bg-info-dark;
+}
+
+.btn-outline-info {
+	@apply border border-info hover:bg-info hover:text-info;
 }
 
 .btn-danger {
-	@apply bg-red-500;
+	@apply bg-danger hover:bg-danger-dark;
 }
 
-.btn-blue {
-	@apply bg-blue-500 text-white;
+.btn-outline-danger {
+	@apply border border-danger hover:bg-danger text-danger hover:text-white;
+}
+
+.btn-dark {
+	background: linear-gradient(180deg, #494545 -43.08%, #2F2D2C 100%);
+	@apply text-white hover:bg-dark;
+}
+
+.btn-outline-dark {
+	@apply border border-dark hover:bg-dark hover:text-white;
+}
+
+.btn-special {
+	@apply text-white;
+	background: linear-gradient(229.04deg, #E31E22 12.95%, #FF7800 123.59%);
+}
+
+.btn-special:hover{
+	@apply text-white;
+	background: linear-gradient(229.04deg, #FF7800 12.95%, #E31E22 123.59%);
+}
+
+.btn-rounded {
+	@apply rounded-full;
+}
+
+.btn-blocked {
+	@apply w-full;
 }
 
 .title-page {

@@ -2,7 +2,7 @@
   <!-- <li> -->
   <router-link
     :to="route.path"
-    :class="['flex text-gray-200 px-6 py-2 items-center space-x-2 space-y-0', {active: activeRoute == route.name}]"
+    :class="['flex text-gray-200 px-6 py-2 items-center space-x-4 space-y-0', {active: activeRoute == route.name}]"
   >
     <img
       :src="route.meta.icon"

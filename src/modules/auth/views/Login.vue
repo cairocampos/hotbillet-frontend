@@ -103,7 +103,7 @@
                   :loading="btnLoading"
                   variant="secondary"
                   loading-type="border"
-                  :full="true"
+                  :blocked="true"
                 >
                   Entrar
                 </Button>

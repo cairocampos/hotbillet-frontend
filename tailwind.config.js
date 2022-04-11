@@ -9,6 +9,7 @@ module.exports = {
         'body': ['Poppins']
       },
       colors: {
+        base: '#2F2D2C',
         primary: '#FE7700',
         'primary-dark': '#E06B10',
         secondary: '#FBFBFB',

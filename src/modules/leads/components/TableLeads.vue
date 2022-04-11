@@ -32,7 +32,7 @@
         :key="item"
       >
         <td>
-          <div class="flex space-x-2">
+          <div class="flex space-x-2 items-center">
             <img
               src="@/assets/icons/boleto.svg"
               class="h-5 w-5"
@@ -96,7 +96,7 @@
   </table>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 

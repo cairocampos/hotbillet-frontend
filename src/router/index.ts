@@ -12,6 +12,7 @@ import messages from "@/modules/messages/router";
 import profile from "@/modules/profile/router";
 
 import Teste from '@/views/Teste.vue'
+import NotFoundComponent from '@/views/404.vue'
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
@@ -26,6 +27,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/teste",
     component: Teste,
   },
+  {
+    path: "/:patchMatch(.*)*",
+    component: NotFoundComponent
+  }
 ];
 
 const router = createRouter({

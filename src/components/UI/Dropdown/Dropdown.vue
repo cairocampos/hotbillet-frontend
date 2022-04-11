@@ -38,7 +38,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onMounted, provide, ref } from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 export default defineComponent({
   props: {
     label: {
@@ -68,6 +68,10 @@ export default defineComponent({
 
     onMounted(() => {
       document.addEventListener('click', clickOutsideElement);
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('click', clickOutsideElement);
     })
 
     return {

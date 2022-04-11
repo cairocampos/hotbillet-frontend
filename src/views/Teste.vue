@@ -1,35 +1,34 @@
 <template>
-  <Container class="flex items-center justify-center h-full">
-    <Tabs
-      v-model="tabActive"
-      :tabs="tabs"
-    />
-    <TabContent>
-      <component
-        :is="tabActive.component"
-        :key="tabActive.label"
-      />
-    </TabContent>
+  <Container>
+    <Dropdown>
+      <DropdownItem href="teste">
+        Item 01
+      </DropdownItem>
+      <DropdownItem href="teste2">
+        Item 02
+      </DropdownItem>
+    </Dropdown>
+
+    <Dropdown>
+      <DropdownItem href="teste">
+        Item 01
+      </DropdownItem>
+      <DropdownItem href="teste2">
+        Item 02
+      </DropdownItem>
+    </Dropdown>
   </Container>
 </template>
 
 <script lang='ts'>
 import { defineComponent, ref } from 'vue';
 import Container from '@/components/UI/Container.vue';
-import Tabs from '@/components/UI/Tabs/Tabs.vue';
-import TabContent from '@/components/UI/Tabs/TabContent.vue';
-import Messages from '@/modules/messages/views/Messages.vue';
+import DropdownItem from '@/components/UI/Dropdown/DropdownItem.vue';
+import Dropdown from '@/components/UI/Dropdown/Dropdown.vue';
 export default defineComponent({
-  components: { Container, Tabs, TabContent, Messages },
+  components: { Container, DropdownItem, Dropdown },
   setup() {
-    const tabs = [
-      {label: 'Dados', component: 'Messages'},
-      {label: 'Histórico', component: 'Messages'}
-    ]
-
-    const tabActive = ref(tabs[0]);
-
-    return {tabs, tabActive}
+    //
   }
 })
 </script>

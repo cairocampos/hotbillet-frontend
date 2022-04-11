@@ -1,33 +1,10 @@
-<template>
-  <div :class="['flex items-center', {'border-b': !secondary}]">
-    <ul class="flex items-center justify-around w-full">
-      <li 
-        v-for="tab in tabs"
-        :key="tab.label"
-        :class="['text-default pb-4 px-4 cursor-pointer', secondary ? 'text-xs' : 'text-sm', tab.label == modelValue.label ? modelValueStyle : '']"
-        @click="handleTab(tab)"
-      >
-        {{ tab.label }}
-      </li>
-    </ul>
-    <div>
-      <slot name="acessorios" />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
-import { ITab } from '@/interfaces/ITab';
+import {computed, defineComponent, h, Transition, TransitionGroup} from 'vue';
 
 export default defineComponent({
   props: {
-    tabs: {
-      type: Array as PropType<ITab[]>,
-      required:true
-    },
     modelValue: {
-      type: Object as PropType<ITab>,
+      type: Number,
       required:true
     },
     secondary: {
@@ -38,22 +15,96 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  data() {
-    return {
-      propTabs: this.tabs
-    }
-  },
-  computed: {
-    modelValueStyle() {
-      const border = this.secondary ? 'border-gray-500' : 'border-yellow-500'
+  setup(props, {slots, emit}) {
+
+    const tabActiveStyle = computed(() => {
+      const border = props.secondary ? 'border-gray-500' : 'border-yellow-500'
       return `border-b-2 ${border} text-gray-700 font-medium`;
+    });
+
+    const render = () => {
+      // @ts-ignore
+      const items = slots.default().map((item, key) => {
+        const isActive = props.modelValue == key
+        return h('li',
+          {
+            class: [
+              'text-default pb-4 px-4 cursor-pointer text-sm"',
+              {active: isActive},
+              isActive ? tabActiveStyle.value : ''
+            ],
+            key,
+            onClick: () => {
+              // @ts-ignore
+              return emit('update:modelValue', key)
+            }},
+          // @ts-ignore
+          item.props?.title ?? item.children.title())
+      });
+
+      const list = h('ul',
+        {
+          class:"flex space-x-4 w-full border-b"
+        },
+        items
+      )
+
+        // @ts-ignore
+      const tabContent = slots.default().map((item, key) => {
+        const lazy = typeof item.props?.lazy === 'string';
+        const isActive = props.modelValue == key;
+          // @ts-ignore
+        const child = item.children.default();
+        // @ts-ignore
+        return h('div', {
+            class: ['tab__content', {active: isActive}]
+          },
+          lazy ? (isActive ? child : "") : child)
+      })
+
+      return h('div', [
+        list,
+        ...tabContent
+      ])
     }
-  },
-  methods: {
-    handleTab(tab: ITab){
-      console.log('opa')
-      this.$emit('update:modelValue', tab);
-    }
+
+    return () => render();
   }
 })
 </script>
+
+<style lang="scss">
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.slide-leave-to {
+  transform: translateX(20px);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s;
+}
+
+.tab {
+  &__content {
+    transition: all .3s;
+    display:none;
+    margin-top: 16px;
+    animation: teste .5s;
+    &.active {
+      display:flex;
+    }
+  }
+}
+
+@keyframes teste {
+  from {
+    opacity: 0;
+    transform: translateX(-15px)
+  }
+}
+</style>

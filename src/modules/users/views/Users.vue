@@ -29,7 +29,7 @@
     <div class="my-10 text-right">
       <router-link
         :to="{name: 'CreateUser'}"
-        class="btn btn-sm btn-dark rounded-full py-2"
+        class="btn btn-sm btn-dark btn-rounded py-2"
       >
         Cadastrar Usuário
       </router-link>
