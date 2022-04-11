@@ -6,7 +6,8 @@
       getSize,
       blockedClass,
       roundedClass,
-      customClass
+      customClass,
+      {'text-gray-700': variant == 'secondary'}
     ]"
   >
     <slot name="left" />
@@ -33,6 +34,8 @@ type Variant = 'primary' | 'tertiary' | 'secondary' | 'info' | 'success'
 | 'danger' | 'dark';
 
 type Size = 'sm' | 'md' | 'lg'
+
+import { BUTTON_SIZE } from './layout'
 
 export default defineComponent({
   components: { Spinner },
@@ -81,12 +84,7 @@ export default defineComponent({
       return props.disabled || props.loading
     })
     const getSize = computed(() => {
-      const sizes = {
-        sm: `text-sm px-4 py-1`,
-        md: `text-md px-6 py-2`,
-        lg: `text-lg px-8 py-2`
-      };
-      return sizes[props.size];
+      return BUTTON_SIZE[props.size];
     });
 
     const blockedClass = computed(() => {
@@ -104,11 +102,7 @@ export default defineComponent({
       if(!props.loading && !props.disabled) {
         styles += ` hover:bg-${props.variant}`;
       }
-
       styles = styles += isDisabled.value ? `bg-${props.variant}-dark cursor-not-allowerd opacity-70` : '';
-
-
-      console.log(styles);
       return styles;
     });
 

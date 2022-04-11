@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
       requiresAuth: true,
       label: "Leads",
       showOnMenu: true,
-      icon: "headset",
+      icon: require("@/assets/icons/menu/leads.svg"),
     },
   },
   {

@@ -9,8 +9,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       requiresAuth: true,
       label: "Mensagens",
-      icon: "comments",
-      showOnMenu:true
+      icon: require("@/assets/icons/menu/messages.svg"),
+      showOnMenu: true,
     },
   },
 ];

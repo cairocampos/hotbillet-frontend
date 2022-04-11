@@ -129,21 +129,21 @@
 import { useRouter } from "vue-router";
 import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
-// import { api } from "@/services";
-// import { useStore } from "vuex";
+import { api } from "@/services";
+import { useStore } from "vuex";
 import Button from "@/components/UI/Button.vue";
 
-// interface ILogin {
-//   jwt_access: string;
-//   jwt_refresh: string;
-// }
+interface ILogin {
+  jwt_access: string;
+  jwt_refresh: string;
+}
 
 export default defineComponent({
   name: "Login",
   components: { Button },
   setup() {
     const router = useRouter();
-    // const store = useStore();
+    const store = useStore();
     const email = ref("company1@hotbillet.com.br");
     const password = ref("123456");
     const btnLoading = ref(false);
@@ -151,11 +151,11 @@ export default defineComponent({
     const login = async () => {
       try {
         btnLoading.value = true;
-        // const response = await api.post<ILogin>("/login", {
-        //   email: email.value,
-        //   password: password.value,
-        // });
-        // store.dispatch("usuario/defineUsuario", response.data);
+        const response = await api.post<ILogin>("/login", {
+          email: email.value,
+          password: password.value,
+        });
+        store.dispatch("usuario/defineUsuario", response.data);
         router.push({ name: "Dashboard" });
       } catch (error) {
         console.log(error);

@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
       requiresAuth: true,
       label: "Produtos",
       showOnMenu: true,
-      icon: "box"
+      icon: require("@/assets/icons/menu/products.svg"),
     },
   },
   {
@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
     props: true,
     meta: {
       requiresAuth: true,
-      showOnMenu:false
+      showOnMenu: false,
     },
   },
   {
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
     component: CreateProduct,
     meta: {
       requiresAuth: true,
-      showOnMenu:false
+      showOnMenu: false,
     },
   },
   {
@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
     component: UpdateProduct,
     meta: {
       requiresAuth: true,
-      showOnMenu:false
+      showOnMenu: false,
     },
   },
 ];

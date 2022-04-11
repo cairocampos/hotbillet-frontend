@@ -43,7 +43,7 @@
     
     <div class="my-10 text-right">
       <router-link
-        :to="{name: 'AdicionarProduto'}"
+        :to="{name: 'CreateProduct'}"
         class="btn btn-sm btn-dark rounded-full py-2"
       >
         Adicionar Produto

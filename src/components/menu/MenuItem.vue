@@ -4,10 +4,10 @@
     :to="route.path"
     :class="['flex text-gray-200 px-6 py-2 items-center space-x-2 space-y-0', {active: activeRoute == route.name}]"
   >
-    <Icon
-      :icon="route.meta.icon"
-      class="text-lg"
-    />
+    <img
+      :src="route.meta.icon"
+      class="h-6"
+    >
     <Text>{{ route.meta.label }}</Text>
   </router-link>
   <!-- </li> -->

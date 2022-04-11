@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
     component: Dashboard,
     meta: {
       requiresAuth: true,
-      icon: 'chart-pie',
+      icon: require('@/assets/icons/menu/dashboard.svg'),
       showOnMenu: true,
       label: 'Painel'
     },

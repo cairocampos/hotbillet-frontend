@@ -10,9 +10,9 @@ const routes: RouteRecordRaw[] = [
     component: Users,
     meta: {
       requiresAuth: true,
-      icon: "users",
+      icon: require("@/assets/icons/menu/users.svg"),
       label: "Usuários",
-      showOnMenu:true
+      showOnMenu: true,
     },
   },
 
@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
     component: CreateUSer,
     meta: {
       requiresAuth: true,
-      showOnMenu:false
+      showOnMenu: false,
     },
   },
   {
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
     component: UserDetails,
     meta: {
       requiresAuth: true,
-      showOnMenu:false
+      showOnMenu: false,
     },
   },
 ];
