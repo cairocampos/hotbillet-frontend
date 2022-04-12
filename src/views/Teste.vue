@@ -1,20 +1,34 @@
 <template>
   <Container>
-    <Avatar
-      size="md"
-      variant="dark"
+    {{ model }}
+    <CheckTab
+      v-model="model"
+      label="Teste"
+      true-value="teste"
+      value="teste"
+    />
+
+    <CheckTab
+      v-model="model"
+      label="Teste2"
+      value="ok"
+      true-value="ok"
     />
   </Container>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Container from '@/components/UI/Container.vue';
-import Avatar from '@/components/UI/Avatar/Avatar.vue';
+import CheckTab from '@/components/UI/Form/Elements/InputRadio/CheckTab.vue';
 export default defineComponent({
-  components: { Container, Avatar },
+  components: { Container, CheckTab },
   setup() {
-    //
+    const model = ref('')
+
+    return {
+      model
+    }
   }
 })
 </script>

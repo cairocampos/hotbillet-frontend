@@ -5,11 +5,13 @@
   >
     <button
       type="button"
-      class="flex items-center justify-center leading-5 border rounded-md shadow-sm p-2 space-x-2 focus:outline-none"
+      class="flex items-center justify-center leading-5 p-2 space-x-2 focus:outline-none"
+      :class="[rounded ? `shadow-sm border rounded-${rounded}` : '']"
       @click.stop.prevent="toggle()"
     >
-      <span>{{ label }}</span>
-      <span>
+      <span v-if="title">{{ title }}</span>
+      <slot name="title" />
+      <span v-if="!$slots.default">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-4 w-4"
@@ -28,7 +30,7 @@
     </button>
     <div
       v-show="isOpen"
-      class="origin-top-right absolute right-0 mt-2 w-56 rounded-sm"
+      class="origin-top-right absolute z-50 right-0 mt-2 w-56 rounded-sm border"
     >
       <div class="py-1 rounded-md bg-white shadow-xs">
         <slot />
@@ -38,14 +40,19 @@
 </template>
 
 <script lang='ts'>
-import { ComponentInternalInstance, defineComponent, getCurrentInstance, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import { defineComponent, getCurrentInstance, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 import mitt from 'mitt'
 const emitter = mitt()
 export default defineComponent({
   props: {
-    label: {
+    title: {
       type: String,
-      default: "Dropdown"
+      default: ""
+    },
+    rounded: {
+      type: String,
+      required:false,
+      default: ""
     }
   },
   setup() {

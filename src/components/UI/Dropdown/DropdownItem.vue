@@ -3,7 +3,7 @@
     :is="is"
     :href="href"
     :to="to"
-    class="block px-4 py-2 text-sm leading-5 hover:bg-gray-100 cursor-pointer"
+    class="block px-4 py-2 text-sm leading-5 hover:bg-gray-100 cursor-pointer w-full"
     @click="onClick"
   >
     <slot />

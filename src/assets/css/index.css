@@ -12,7 +12,7 @@ body {
 }
 
 .btn {
-	@apply items-center space-x-2 justify-center transition-all text-white rounded-sm inline-block;
+	@apply items-center space-x-2 justify-center transition-all text-white rounded-md inline-block hover:shadow-lg;
 }
 
 .btn-sm {
@@ -52,7 +52,7 @@ body {
 }
 
 .btn-info {
-	@apply bg-info hover:bg-info-dark;
+	@apply bg-info hover:bg-info-dark text-white;
 }
 
 .btn-outline-info {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2
-      :class="[`text-${size}`, bold ? 'font-semibold' : '']"
+      :class="[`text-${size} text-default`, bold ? 'font-semibold' : '']"
     >
       <slot />
     </h2>

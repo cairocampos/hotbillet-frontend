@@ -10,6 +10,7 @@ import products from "@/modules/products/router";
 import leads from "@/modules/leads/router";
 import messages from "@/modules/messages/router";
 import profile from "@/modules/profile/router";
+import notifications from "@/modules/notifications/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
@@ -22,6 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   ...leads,
   ...messages,
   ...profile,
+  ...notifications,
   {
     name: "teste",
     path: "/teste",

@@ -1,8 +1,8 @@
 <template>
   <div
-    :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-70', `bg-${variant}`]"
+    :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-30', `bg-${variant}`]"
   >
-    <div class="text-xs uppercase">
+    <div :class="['text-xs uppercase font-semibold', opacity ? `text-${variant}` : '']">
       <slot />
     </div>
     <div
@@ -28,6 +28,11 @@ export default defineComponent({
       type: String as PropType<Variants>,
       required:false,
       default: 'primary'
+    },
+    opacity: {
+      type: String,
+      required:false,
+      default: '0'
     },
     close: {
       type: Boolean,

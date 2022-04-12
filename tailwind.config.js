@@ -9,7 +9,9 @@ module.exports = {
         'body': ['Poppins']
       },
       colors: {
-        base: '#2F2D2C',
+        'base-dark': '#494545',
+        'base': '#2F2D2C',
+        'base-light': '#787676',
         primary: '#FE7700',
         'primary-dark': '#E06B10',
         secondary: '#FBFBFB',
@@ -21,6 +23,11 @@ module.exports = {
         'info-dark': '#2992C4',
         danger: '#E21E22',
         'danger-dark': '#D1503A',
+        light: '#F1F1F1',
+        'light-dark': '#D9D9D9',
+        'light-light': '#FBFBFB',
+        'warning': '#FE7700',
+        'warning-dark': '#E21E22'
       }
     },
   },

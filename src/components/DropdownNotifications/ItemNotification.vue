@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-2 border-t border-b cursor-pointer hover:bg-gray-100">
+  <div class="px-4 py-2 border-b cursor-pointer hover:bg-gray-100">
     <div class="flex space-x-2 items-center">
       <Avatar
         variant="info"

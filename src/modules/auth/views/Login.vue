@@ -131,7 +131,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
 import { api } from "@/services";
 import { useStore } from "vuex";
-import Button from "@/components/UI/Button.vue";
+import Button from "@/components/UI/Button/Button.vue";
 
 interface ILogin {
   jwt_access: string;

@@ -31,21 +31,34 @@
         class="hot__notifications-content origin-top-right absolute right-0 mt-2 rounded-md shadow-md border"
       >
         <div class="py-1 rounded-md bg-white shadow-xs">
-          <div class="flex items-center justify-between p-4">
-            <Heading class="font-normal">
+          <div class="flex items-center justify-between p-4 border-b">
+            <Heading
+              class="font-normal"
+              size="sm"
+            >
               Notificações
             </Heading>
             <Badge
-              variant="info"
+              variant="success"
+              opacity="50"
             >
               6 new
             </Badge>
           </div>
-          <div class="h-64 overflow-hidden overflow-y-auto">
+          <div class="h-80 overflow-hidden overflow-y-auto">
             <ItemNotification
               v-for="i in 15"
               :key="i"
             />
+          </div>
+          <div class="p-4">
+            <ButtonRouter
+              :blocked="true"
+              variant="info"
+              to="/notificacoes"
+            >
+              Visualizar todas notificações
+            </ButtonRouter>
           </div>
         </div>
       </div>
@@ -58,8 +71,9 @@ import { defineComponent, onBeforeUnmount, onMounted, provide, ref } from "vue";
 import ItemNotification from "./ItemNotification.vue";
 import Heading from "../UI/Heading.vue";
 import Badge from "../UI/Badge.vue";
+import ButtonRouter from "../UI/Button/ButtonRouter.vue";
 export default defineComponent({
-  components: { ItemNotification, Heading, Badge },
+  components: { ItemNotification, Heading, Badge, ButtonRouter },
   props: {
     label: {
       type: String,

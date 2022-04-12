@@ -1,31 +1,24 @@
 <template>
-  <button
+  <router-link
+    :to="to"
     :disabled="isDisabled"
     :class="baseClass"
   >
     <slot name="left" />
     <span
-      v-if="!loading"
       class="mx-auto"
     >
       <slot />
     </span>
-    <Spinner v-else-if="loadingType == 'grow'" />
-    <Loading
-      v-else
-      class="h-6 w-6"
-    />
     <slot name="right" />
-  </button>
+  </router-link>
 </template>
 
 <script lang='ts'>
 import { computed, defineComponent, PropType } from 'vue';
-import Spinner from './Spinner.vue';
-import { Sizes, Variants } from './layout'
+import { Sizes, Variants } from '../layout'
 
 export default defineComponent({
-  components: { Spinner },
     props: {
       size: {
         type: String as PropType<Sizes>,
@@ -47,16 +40,6 @@ export default defineComponent({
         required: false,
         default: false
       },
-      loading: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      loadingType: {
-        type: String as PropType<'grow' | 'border'>,
-        required:false,
-        default:'grow'
-      },
       bordered: {
         type: Boolean,
         default:false
@@ -64,18 +47,22 @@ export default defineComponent({
       rounded: {
         type: Boolean,
         default:false
+      },
+      to: {
+        type: [Object, String],
+        required:true
       }
   },
   setup(props) {
     const isDisabled = computed(() => {
-      return props.disabled || props.loading
+      return props.disabled
     })
 
     const customClass = computed(() => {
       const borderClass = `border border-${props.variant} bg-white text-${props.variant} hover:bg-${props.variant} hover:text-white`;
       const bgClass = `text-white bg-${props.variant} hover:bg-${props.variant}-dark`
       let styles = `${props.bordered ? borderClass : bgClass}`;
-      if(!props.loading && !props.disabled) {
+      if(!isDisabled.value) {
         styles += ` hover:bg-${props.variant}`;
       }
       styles = styles += isDisabled.value ? `bg-${props.variant}-dark cursor-not-allowerd opacity-70` : '';
@@ -84,6 +71,7 @@ export default defineComponent({
 
     const baseClass = computed(() => {
       return [
+        'text-center',
         'btn',
         `btn-${props.size}`,
         props.bordered ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
@@ -91,7 +79,6 @@ export default defineComponent({
         props.blocked ? 'btn-blocked' : ''
       ];
     });
-
     return {
       baseClass,
       isDisabled,
