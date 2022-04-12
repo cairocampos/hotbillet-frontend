@@ -38,7 +38,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { ComponentInternalInstance, defineComponent, getCurrentInstance, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import mitt from 'mitt'
+const emitter = mitt()
 export default defineComponent({
   props: {
     label: {
@@ -47,6 +49,7 @@ export default defineComponent({
     }
   },
   setup() {
+    const instance = getCurrentInstance()
     const element = ref<HTMLElement>();
     const isOpen = ref(false);
     const toggle = () => isOpen.value = !isOpen.value
@@ -60,14 +63,23 @@ export default defineComponent({
       }
     }
 
-    // watch(isOpen, (value) => {
-    //   if(value) {
+    watch(isOpen, (value) => {
+      if(value) {
+        emitter.emit('dropdown::open', instance);
+      }
+    })
 
-    //   }
-    // })
+    const rootCloseListener = (event: unknown) => {
+      // @ts-ignore
+      if(event.uid !== instance.uid) {
+        close();
+      }
+    }
 
     onMounted(() => {
       document.addEventListener('click', clickOutsideElement);
+
+      emitter.on('dropdown::open', rootCloseListener)
     })
 
     onBeforeUnmount(() => {

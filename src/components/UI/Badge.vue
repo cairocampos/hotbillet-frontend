@@ -1,9 +1,9 @@
 <template>
   <div
-    class="bg-gray-400 rounded-full px-2 text-white flex items-center space-x-2"
+    :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-70', `bg-${variant}`]"
   >
     <div class="text-xs uppercase">
-      {{ label }}
+      <slot />
     </div>
     <div
       v-if="close"
@@ -20,12 +20,14 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { Variants } from './layout';
 export default defineComponent({
   props: {
-    label: {
-      type: String,
-      required:true
+    variant: {
+      type: String as PropType<Variants>,
+      required:false,
+      default: 'primary'
     },
     close: {
       type: Boolean,

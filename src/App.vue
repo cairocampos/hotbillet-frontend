@@ -124,12 +124,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
+  /* background-color: darkgrey;
+  outline: 1px solid slategrey; */
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 999px;
 }
 
 .slide-enter-from,

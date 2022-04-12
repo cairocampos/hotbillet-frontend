@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p :class="`text-${size}`">
+    <p :class="[`text-${size}`, bold ? 'font-semibold' : '']">
       <slot />
     </p>
   </div>
@@ -15,6 +15,11 @@ export default defineComponent({
       type: String as PropType<ISize>,
       required:false,
       default: 'md'
+    },
+    bold: {
+      type: Boolean,
+      required:false,
+      default: false
     }
   },
   setup() {
