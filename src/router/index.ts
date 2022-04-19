@@ -11,6 +11,7 @@ import leads from "@/modules/leads/router";
 import messages from "@/modules/messages/router";
 import profile from "@/modules/profile/router";
 import notifications from "@/modules/notifications/router";
+import companies from "@/modules/companies/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
@@ -20,6 +21,7 @@ const routes: Array<RouteRecordRaw> = [
   ...dashboard,
   ...users,
   ...products,
+  ...companies,
   ...leads,
   ...messages,
   ...profile,

@@ -16,7 +16,14 @@
           size="xs"
           class="text-default"
         >
-          Nova compra
+          Novo lead cartão cancelado
+        </Text>
+        <Text
+          :bold="true"
+          size="xs"
+          variant="info"
+        >
+          hà 2 horas
         </Text>
       </div>
     </div>
@@ -25,8 +32,8 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue';
-import Heading from '../UI/Heading.vue';
-import Text from '../UI/Text.vue';
+import Heading from '../UI/Layout/Heading.vue';
+import Text from '../UI/Layout/Text.vue';
 import Avatar from '../UI/Avatar/Avatar.vue';
 export default defineComponent({
     components: { Heading, Text, Avatar },

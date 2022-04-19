@@ -1,35 +1,48 @@
 <template>
   <Container>
-    {{ model }}
-    <CheckTab
-      v-model="model"
-      label="Teste"
-      true-value="teste"
-      value="teste"
-    />
-
-    <CheckTab
-      v-model="model"
-      label="Teste2"
-      value="ok"
-      true-value="ok"
+    <Datatable
+      :headers="headers"
+      :items="items"
+      :searchable="true"
     />
   </Container>
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue';
-import Container from '@/components/UI/Container.vue';
-import CheckTab from '@/components/UI/Form/Elements/InputRadio/CheckTab.vue';
+import { defineComponent } from 'vue';
+import Container from '@/components/UI/Layout/Container.vue';
+import { IHeader } from '@/interfaces/IDatatable';
+import Datatable from '@/components/UI/Datatable/Datatable.vue';
 export default defineComponent({
-  components: { Container, CheckTab },
-  setup() {
-    const model = ref('')
+  components: { Container, Datatable },
+    setup() {
+      const headers: IHeader[] = [
+        {
+          text: "Nome",
+          value: "name",
+          format: (value: string) => value.toUpperCase()
+        },
+        {
+          text: "Idade",
+          value: "age"
+        },
+        {
+          text: "Perfil",
+          value: "profile.name"
+        }
+      ];
 
-    return {
-      model
-    }
-  }
+      const items = [
+        {id: 1, name: "Cairo", age: 23, profile: {id: 1, name: "Admin"}},
+        {id: 2, name: "Leticia", age: 22, profile: {id: 1, name: "Admin"}},
+        {id: 2, name: "Juan", age: 26, profile: {id: 1, name: "Admin"}},
+      ];
+
+      return {
+        headers,
+        items
+      }
+    },
 })
 </script>
 

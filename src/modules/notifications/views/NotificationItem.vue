@@ -16,7 +16,14 @@
           size="xs"
           class="text-default"
         >
-          Nova compra
+          Novo lead cartão cancelado
+        </Text>
+        <Text
+          :bold="true"
+          size="xs"
+          variant="info"
+        >
+          hà 2 horas
         </Text>
       </div>
     </div>
@@ -43,8 +50,8 @@
 
 <script lang="ts">
 import Avatar from '@/components/UI/Avatar/Avatar.vue'
-import Heading from '@/components/UI/Heading.vue'
-import Text from '@/components/UI/Text.vue'
+import Heading from '@/components/UI/Layout/Heading.vue'
+import Text from '@/components/UI/Layout/Text.vue'
 import Dropdown from '@/components/UI/Dropdown/Dropdown.vue'
 import DropdownItem from '@/components/UI/Dropdown/DropdownItem.vue'
 import { defineComponent } from 'vue'

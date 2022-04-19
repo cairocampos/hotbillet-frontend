@@ -24,7 +24,7 @@ export default defineComponent({
 
     const render = () => {
       // @ts-ignore
-      const items = slots.default().map((item, key) => {
+      const items = slots?.default().map((item, key) => {
         const isActive = props.modelValue == key
         return h('li',
           {
@@ -41,20 +41,19 @@ export default defineComponent({
           // @ts-ignore
           item.props?.title ?? item.children.title())
       });
-
       const list = h('ul',
         {
-          class:"flex space-x-4 w-full border-b"
+          class: "flex space-x-4 w-full"
         },
-        items
+        items,
       )
 
         // @ts-ignore
-      const tabContent = slots.default().map((item, key) => {
+      const tabContent = slots?.default()?.map((item, key) => {
         const lazy = typeof item.props?.lazy === 'string';
         const isActive = props.modelValue == key;
           // @ts-ignore
-        const child = item.children.default();
+        const child = item.children?.default();
         // @ts-ignore
         return h('div', {
             class: ['tab__content', {active: isActive}]
@@ -62,10 +61,27 @@ export default defineComponent({
           lazy ? (isActive ? child : "") : child)
       })
 
-      return h('div', [
-        list,
+      const divContent = h('div', {
+        class: ['flex justify-between items-center border-b']
+      });
+
+      const elements = [];
+      if(slots.actions && slots.actions()) {
+        elements.push([
+        // @ts-ignore
+        h(divContent, [list, h('div', {class: ['flex items-center']}, slots.actions())]),
         ...tabContent
-      ])
+        ])
+      } else {
+        elements.push([
+        // @ts-ignore
+        h(divContent, [list, h('div')]),
+        ...tabContent
+        ])
+      }
+
+      return h('div', elements);
+
     }
 
     return () => render();

@@ -3,6 +3,7 @@ import router from './router'
 import {useDefaultStore} from './store'
 import Maska from 'maska';
 import Notifications from 'notiwind'
+import { VMoney } from "v-money";
 import '@/assets/css/index.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -18,4 +19,5 @@ app.use(useDefaultStore)
 app.use(router)
 app.use(Maska)
 app.use(Notifications)
+app.directive("money", VMoney);
 app.mount('#app')

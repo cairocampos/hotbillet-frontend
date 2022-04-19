@@ -69,8 +69,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, onMounted, provide, ref } from "vue";
 import ItemNotification from "./ItemNotification.vue";
-import Heading from "../UI/Heading.vue";
-import Badge from "../UI/Badge.vue";
+import Heading from "../UI/Layout/Heading.vue";
+import Badge from "../UI/Badge/Badge.vue";
 import ButtonRouter from "../UI/Button/ButtonRouter.vue";
 export default defineComponent({
   components: { ItemNotification, Heading, Badge, ButtonRouter },

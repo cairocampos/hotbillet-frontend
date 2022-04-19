@@ -3,6 +3,7 @@
     :to="to"
     :disabled="isDisabled"
     :class="baseClass"
+    class="w-max"
   >
     <slot name="left" />
     <span
@@ -40,7 +41,7 @@ export default defineComponent({
         required: false,
         default: false
       },
-      bordered: {
+      outline: {
         type: Boolean,
         default:false
       },
@@ -61,7 +62,7 @@ export default defineComponent({
     const customClass = computed(() => {
       const borderClass = `border border-${props.variant} bg-white text-${props.variant} hover:bg-${props.variant} hover:text-white`;
       const bgClass = `text-white bg-${props.variant} hover:bg-${props.variant}-dark`
-      let styles = `${props.bordered ? borderClass : bgClass}`;
+      let styles = `${props.outline ? borderClass : bgClass}`;
       if(!isDisabled.value) {
         styles += ` hover:bg-${props.variant}`;
       }
@@ -74,7 +75,7 @@ export default defineComponent({
         'text-center',
         'btn',
         `btn-${props.size}`,
-        props.bordered ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
+        props.outline ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
         props.rounded ? 'btn-rounded' : '',
         props.blocked ? 'btn-blocked' : ''
       ];

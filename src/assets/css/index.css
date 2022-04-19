@@ -12,7 +12,11 @@ body {
 }
 
 .btn {
-	@apply items-center space-x-2 justify-center transition-all text-white rounded-md inline-block hover:shadow-lg;
+	@apply flex items-center space-x-2 justify-center transition-all text-white rounded-md inline-block hover:shadow-lg;
+}
+
+.btn-reset {
+	@apply bg-transparent hover:shadow-none text-base;
 }
 
 .btn-sm {
@@ -20,7 +24,9 @@ body {
 }
 
 .btn-md {
-	@apply text-base px-6 py-2;
+	--tw-text-opacity: 1;
+  color: rgba(47, 45, 44, var(--tw-text-opacity));
+	@apply text-sm px-6 py-2;
 }
 
 .btn-lg {
@@ -277,7 +283,7 @@ body {
 	}
 
 	table tbody td {
-		@apply p-4;
+		@apply p-6;
 	}
 
 	table thead th {

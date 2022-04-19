@@ -8,4 +8,8 @@ export type Variants =
   | "success"
   | "danger"
   | "dark"
-  | "special";
+  | "special"
+  | "light"
+  | "default"
+  | "base"
+  | "reset";

@@ -169,7 +169,7 @@
 import { defineComponent, ref } from "vue";
 import ShowDetailsModal from "../components/ShowDetailsModal.vue";
 import MessageModal from "../components/MessageModal.vue";
-import TitlePage from "@/components/UI/TitlePage.vue";
+import TitlePage from "@/components/UI/Layout/TitlePage.vue";
 
 export default defineComponent({
   components: { ShowDetailsModal, MessageModal, TitlePage },

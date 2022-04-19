@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeadPage>
-      <RouteBack :route="{name:'Usuarios'}">
+      <RouteBack :route="{name:'Users'}">
         <h1 class="text-xl text-dark">
           {{ usuario.name }}
         </h1>
@@ -94,7 +94,7 @@ export default defineComponent({
   components: { RouteBack, PageLoading },
   props: {
     id: {
-      type: Number,
+      type: [Number, String],
       required:true
     }
   },

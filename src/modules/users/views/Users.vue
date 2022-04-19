@@ -36,84 +36,36 @@
     </div>
 
     <PageLoading v-if="loading" />
-
-    <table
+    <Datatable
       v-else-if="users && users.length"
-      class="table table-white w-full text-sm mb-10"
+      :headers="headers"
+      :items="users"
     >
-      <thead>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Cadastrado em:</th>
-        <th>Status</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(user, index) in users"
-          :key="index"
+      <template #status="{ item }">
+        <span v-if="item.status == STATUS.INATIVO">Ativo</span>
+        <span
+          v-else
+          class="text-red-500 flex items-center space-x-2"
         >
-          <td class="flex items-center space-x-2">
-            <img
-              src="@/assets/fake/perfil.jpeg"
-              alt=""
-              class="object-cover h-10 w-10 rounded-full"
-            />
-            <span>{{ user.name }} {{ user.last_name }}</span>
-          </td>
-          <td>{{ user.email }}</td>
-          <td>{{ formatDateIsoToBRL(user.created_at) }}</td>
-          <td class="font-normal">
-            <span v-if="user.status == 'ATIVO'">Ativo</span>
-            <span
-              v-else
-              class="text-red-500 flex items-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-              Desativado
-            </span>
-          </td>
-          <td align="right">
-            <router-link
-              :to="{name: 'Usuario',
-                    params:
-                      {id:user.id}}"
-              class="flex items-center text-xs border-l-2 border-gray-300"
-            >
-              <span class="mx-2 pl-4 font-medium">Ver</span> 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
+          <Icon icon="fingerprint" />
+          <span>Desativado</span>
+        </span>
+      </template>
+      <template #actions="{ item }">
+        <router-link
+          :to="{name: 'UserDetails',
+                params:
+                  {id:item.id}}"
+          class="flex items-center text-xs border-l-2 border-gray-300"
+        >
+          <span class="mx-2 pl-4 font-medium">Ver</span> 
+          <Icon
+            icon="arrow-right"
+            class="text-lg"
+          />
+        </router-link>
+      </template>
+    </Datatable>
     <p v-else>
       Nenhum registro encontrado.
     </p>
@@ -124,20 +76,55 @@
 import TitlePage from '@/components/TitlePage.vue';
 import HeadContent from '@/components/HeadContent.vue';
 
-import {defineComponent, onMounted, ref} from 'vue';
+import {computed, defineComponent, onMounted, ref} from 'vue';
 import { IUserData } from '@/interfaces/IUser';
 import { api } from '@/services';
 import { useDateTime } from '@/composables/useDateTime';
+import { IHeader } from '@/interfaces/IDatatable';
+import Datatable from '@/components/UI/Datatable/Datatable.vue';
+import useHelpers from '@/composables/useHelpers'
+import useConstants from '@/composables/useConstants';
 
 export default defineComponent({
   components: {
     TitlePage,
-    HeadContent
-  },
+    HeadContent,
+    Datatable
+},
   setup() {
     const loading = ref(false);
     const { formatDateIsoToBRL } = useDateTime();
     const users = ref<IUserData[]>()
+    const { ucword } = useHelpers()
+    const { STATUS } = useConstants()
+    const headers = computed<IHeader[]>(() => {
+      return [
+        {
+          text: "Nome",
+          value: "name",
+          colspan:2
+        },
+        {
+          text: "Email",
+          value: "email"
+        },
+        {
+          text: "Data do cadastro",
+          value: "created_at",
+          format: (value:string) => formatDateIsoToBRL(value)
+        },
+        {
+          text: "Status",
+          value: "status"
+        },
+        {
+          text: "Actions",
+          value: "actions",
+          align: "right",
+          show: false
+        }
+      ];
+    })
 
     const fetchUsers = async () => {
       try {
@@ -158,7 +145,10 @@ export default defineComponent({
     return {
       formatDateIsoToBRL,
       users,
-      loading
+      loading,
+      headers,
+      ucword,
+      STATUS
     }
   }
 })

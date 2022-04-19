@@ -40,14 +40,16 @@
     >
       <Filtros v-if="habilitarFiltro" />
     </transition>
-    
-    <div class="my-10 text-right">
-      <router-link
+
+    <div class="my-10 flex justify-end">
+      <ButtonRouter
         :to="{name: 'CreateProduct'}"
-        class="btn btn-sm btn-dark rounded-full py-2"
+        variant="dark"
+        size="sm"
+        :rounded="true"
       >
         Adicionar Produto
-      </router-link>
+      </ButtonRouter>
     </div>
 
     <PageLoading v-if="loading" />
@@ -81,14 +83,16 @@ import { api } from '@/services';
 import { IProductData } from '@/interfaces/IProduct';
 import usePagination from '@/composables/usePagination';
 import { IPagination } from '@/interfaces/IPagination';
+import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
 
 export default defineComponent({
   components: {
     CardProduto,
     Paginacao,
     NavTabHeader,
-    Filtros
-  },
+    Filtros,
+    ButtonRouter
+},
   setup() {
     const { pagination } = usePagination();
     const loading = ref(false);

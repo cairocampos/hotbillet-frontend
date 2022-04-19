@@ -31,12 +31,12 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
-import Container from '@/components/UI/Container.vue'
-import Heading from "@/components/UI/Heading.vue";
+import Container from '@/components/UI/Layout/Container.vue'
+import Heading from "@/components/UI/Layout/Heading.vue";
 import Card from "@/components/UI/Card/Card.vue";
 import CardHeader from "@/components/UI/Card/CardHeader.vue";
 import CardContent from "@/components/UI/Card/CardContent.vue";
-import Text from "@/components/UI/Text.vue";
+import Text from "@/components/UI/Layout/Text.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import NotificationItem from './NotificationItem.vue'
 

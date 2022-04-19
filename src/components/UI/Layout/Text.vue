@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p :class="[`text-${size}`, bold ? 'font-semibold' : '']">
+    <p :class="[`text-${size}`, bold ? 'font-semibold' : '', variant ? `text-${variant}` : '']">
       <slot />
     </p>
   </div>
@@ -9,6 +9,7 @@
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue';
 import { ISize } from '@/interfaces/ISize';
+import { Variants } from '../layout';
 export default defineComponent({
   props: {
     size: {
@@ -20,6 +21,10 @@ export default defineComponent({
       type: Boolean,
       required:false,
       default: false
+    },
+    variant: {
+      type: String as PropType<Variants>,
+      default: ""
     }
   },
   setup() {

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-30', `bg-${variant}`]"
+    :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-30 notificacoes', `bg-${variant}`]"
   >
     <div :class="['text-xs uppercase font-semibold', opacity ? `text-${variant}` : '']">
       <slot />
@@ -21,7 +21,7 @@
 
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue';
-import { Variants } from './layout';
+import { Variants } from '../layout';
 export default defineComponent({
   props: {
     variant: {

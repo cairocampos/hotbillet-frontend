@@ -1,19 +1,20 @@
 <template>
-  <div
-    class="space-y-2"
-  >
+  <div>
     <label
       v-if="label"
       class="text-gray-600 font-normal text-sm"
-    >Seu Email {{ modelValue }}</label>  
+    >{{ label }}</label>  
     <div
-      class="input-field rounded-md text-gray-400 flex items-center space-x-4"
-      :class="{'is-invalid': Boolean(error)}"
+      :class="[
+        computedClass,
+        'input-field text-gray-400 flex items-center space-x-4',
+        {'is-invalid': Boolean(error)}]"
     >
       <slot
         name="left"
       />
       <input
+        v-maska="mask"
         type="text"
         :placeholder="placeholder"
         :class="`text-${size} flex-1`"
@@ -30,7 +31,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 export default defineComponent({
   props: {
     modelValue: {
@@ -56,20 +57,52 @@ export default defineComponent({
       type: String,
       required:false,
       default: ''
+    },
+    variant: {
+      type: String as PropType<'primary' | 'secondary'>,
+      default: 'primary'
+    },
+    mask: {
+      type: [Array, Object, String],
+      required:false,
+      default: ""
     }
   },
   emits: ['update:modelValue'],
-  setup() {
-    //
+  setup(props) {
+    const computedClass = computed(() => {
+      const variants = {
+        primary: "bg-white border rounded-md",
+        secondary: "border-b bg-transparent"
+      }
+
+      return variants[props.variant];
+    })
+
+    return {
+      computedClass
+    }
   }
 })
 </script>
 
 <style lang='scss' scoped>
+@import '@/assets/scss/variables';
 .input-field {
-  background-color: #FFF;
   padding: 8px 14px;
-  border: 1px solid #FFF;
+  &.border {
+    border: 1px solid #DDD;
+    &:focus-within {
+      border: 1px solid #787876;
+      color: #787876;
+    }
+    &-b {
+      &:focus-within {
+        border-bottom: 1px solid $base;
+        color: #787876;
+      }
+    }
+  }
   input {
     color: #222;
     background: transparent;
@@ -78,10 +111,7 @@ export default defineComponent({
       outline: none;
     }
   }
-  &:focus-within {
-    border: 1px solid #787876;
-    color: #787876;
-  }
+  
   &.is-invalid {
     border-color: red;
     color:red;

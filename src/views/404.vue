@@ -173,7 +173,7 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue';
-import Heading from '@/components/UI/Heading.vue';
+import Heading from '@/components/UI/Layout/Heading.vue';
 export default defineComponent({
   components: {
     Heading

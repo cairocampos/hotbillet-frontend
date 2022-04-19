@@ -47,14 +47,14 @@ input {
 
 label {
   position: relative;
-  background: $light;
+  background-color: rgba(255,255,255,.5);
+  font-size: .9rem;
 }
 
 input:checked {
   + label {
-    --tw-bg-opacity: 0.4;
-    background-color: rgba(79,70,229,var(--tw-bg-opacity));
-    color: $info;
+    background-color: lighten($primary, 30);
+    color: darken($primary, 0);
     box-shadow: 0 0px 1px rgba(0,0,0,0.5);
   }
 }

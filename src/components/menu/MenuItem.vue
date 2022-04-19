@@ -17,7 +17,7 @@
 import { computed, defineComponent } from "@vue/runtime-core";
 import { RouteRecordNormalized, useRoute } from "vue-router";
 import {PropType} from 'vue'
-import Text from "../UI/Text.vue";
+import Text from "../UI/Layout/Text.vue";
 
 export default defineComponent({
   components: { Text },

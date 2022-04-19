@@ -2,7 +2,14 @@
   <button
     :disabled="isDisabled"
     :class="baseClass"
+    class="relative"
   >
+    <Badge
+      v-if="badge"
+      class="absolute right-0 top-0"
+    >
+      {{ badge }}
+    </Badge>
     <slot name="left" />
     <span
       v-if="!loading"
@@ -10,22 +17,30 @@
     >
       <slot />
     </span>
-    <Spinner v-else-if="loadingType == 'grow'" />
-    <Loading
+    <div
       v-else
-      class="h-6 w-6"
-    />
+      class="flex items-center space-x-2"
+    >
+      <Spinner v-if="loadingType == 'grow'" />
+      <Loading
+        v-else
+        class="h-4 w-4"
+      />
+
+      <span class="text-gray-400">{{ textLoading }}</span>
+    </div>
     <slot name="right" />
   </button>
 </template>
 
 <script lang='ts'>
 import { computed, defineComponent, PropType } from 'vue';
-import Spinner from '../Spinner.vue';
+import Spinner from '../Spinner/Spinner.vue';
 import { Sizes, Variants } from '../layout'
+import Badge from '@/components/UI/Badge/Badge.vue';
 
 export default defineComponent({
-  components: { Spinner },
+  components: { Spinner, Badge },
     props: {
       size: {
         type: String as PropType<Sizes>,
@@ -57,13 +72,21 @@ export default defineComponent({
         required:false,
         default:'grow'
       },
-      bordered: {
+      textLoading: {
+        type: String,
+        default: ""
+      },
+      outline: {
         type: Boolean,
         default:false
       },
       rounded: {
         type: Boolean,
         default:false
+      },
+      badge: {
+        type: [String, Number],
+        default: ""
       }
   },
   setup(props) {
@@ -74,7 +97,7 @@ export default defineComponent({
     const customClass = computed(() => {
       const borderClass = `border border-${props.variant} bg-white text-${props.variant} hover:bg-${props.variant} hover:text-white`;
       const bgClass = `text-white bg-${props.variant} hover:bg-${props.variant}-dark`
-      let styles = `${props.bordered ? borderClass : bgClass}`;
+      let styles = `${props.outline ? borderClass : bgClass}`;
       if(!props.loading && !props.disabled) {
         styles += ` hover:bg-${props.variant}`;
       }
@@ -86,7 +109,7 @@ export default defineComponent({
       return [
         'btn',
         `btn-${props.size}`,
-        props.bordered ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
+        props.outline ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
         props.rounded ? 'btn-rounded' : '',
         props.blocked ? 'btn-blocked' : ''
       ];
