@@ -45,7 +45,6 @@
       <ButtonRouter
         :to="{name: 'CreateProduct'}"
         variant="dark"
-        size="sm"
         :rounded="true"
       >
         Adicionar Produto

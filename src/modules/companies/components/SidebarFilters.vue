@@ -32,7 +32,6 @@
 <script lang='ts'>
 import Sidebar from '@/components/UI/Sidebar/Sidebar.vue';
 import { defineComponent, reactive } from 'vue';
-import TextField from '@/components/UI/Form/Input/TextField.vue';
 import InputMoney from '@/components/UI/Form/Input/InputMoney.vue';
 import FormInline from '@/components/UI/Form/FormInline.vue';
 import Form from '@/components/UI/Form/Form.vue';

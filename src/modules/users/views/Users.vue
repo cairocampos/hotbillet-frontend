@@ -27,12 +27,15 @@
     </HeadContent>
     
     <div class="my-10 text-right">
-      <router-link
-        :to="{name: 'CreateUser'}"
-        class="btn btn-sm btn-dark btn-rounded py-2"
-      >
-        Cadastrar Usuário
-      </router-link>
+      <div class="flex justify-end">
+        <ButtonRouter
+          variant="dark"
+          :to="{name:'CreateUser'}"
+          :rounded="true"
+        >
+          Cadastrar Usuário
+        </ButtonRouter>
+      </div>
     </div>
 
     <PageLoading v-if="loading" />
@@ -66,9 +69,7 @@
         </router-link>
       </template>
     </Datatable>
-    <p v-else>
-      Nenhum registro encontrado.
-    </p>
+    <NoRecords v-else />
   </div>
 </template>
 
@@ -84,12 +85,16 @@ import { IHeader } from '@/interfaces/IDatatable';
 import Datatable from '@/components/UI/Datatable/Datatable.vue';
 import useHelpers from '@/composables/useHelpers'
 import useConstants from '@/composables/useConstants';
+import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+import NoRecords from '@/components/NoRecords.vue';
 
 export default defineComponent({
   components: {
     TitlePage,
     HeadContent,
-    Datatable
+    Datatable,
+    ButtonRouter,
+    NoRecords
 },
   setup() {
     const loading = ref(false);

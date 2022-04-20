@@ -5,7 +5,7 @@
     </HeadPage>
 
     <Form class="md:flex justify-between px-10">
-      <div class="space-y-12">
+      <div class="space-y-8">
         <TextField
           v-model="user.name"
           variant="secondary"
@@ -28,6 +28,11 @@
           label="CPF/CNPJ"
           :mask="['###.###.###-##', '##.###.###/####-##']"
         />
+        <div>
+          <Text>
+            Dados de Contato
+          </Text>
+        </div>
         <TextField
           v-model="user.email"
           variant="secondary"
@@ -54,6 +59,45 @@
             <span>E-mail:</span>
           </template>
         </TextField>
+        <TextField
+          v-model="user.email"
+          variant="secondary"
+        >
+          <template #left>
+            <span>Telefone:</span>
+          </template>
+        </TextField>
+
+        <div>
+          <Text>Informações Endereço</Text>
+        </div>
+
+        <TextField
+          v-model="user.email"
+          variant="secondary"
+          label="CEP"
+        />
+
+        <TextField
+          v-model="user.email"
+          variant="secondary"
+          label="CEP"
+        />
+
+        <FormInline>
+          <TextField
+            v-model="user.email"
+            variant="secondary"
+            label="Número"
+          />
+
+          <TextField
+            v-model="user.email"
+            variant="secondary"
+            label="Complemento"
+            placeholder="Ex: Apto 84B"
+          />
+        </FormInline>
       </div>
       
       <div class="hidden lg:block separate bg-gray-200"></div>
@@ -101,6 +145,7 @@ import TextField from '@/components/UI/Form/Input/TextField.vue';
 import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
 import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import Container from '@/components/UI/Layout/Container.vue';
+import FormInline from '@/components/UI/Form/FormInline.vue';
 
 export default defineComponent({
   components: {
@@ -110,7 +155,8 @@ export default defineComponent({
     TextField,
     ButtonRouter,
     Autocomplete,
-    Container
+    Container,
+    FormInline
 },
   setup() {
     const { notifications } = useNotifications();
