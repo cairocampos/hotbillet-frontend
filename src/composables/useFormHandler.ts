@@ -15,9 +15,11 @@ interface IFormHandler {
   clear(field?: string): void;
 }
 
+type Message = { [key: string]: string | number | {[key:string]: string}}
 interface IComposition {
   formHandler: IFormHandler;
   removeError: (field?: string) => void;
+  getInputError: (key: string, result: Message) => string
 }
 
 export function useFormHandler(): IComposition {
@@ -62,8 +64,16 @@ export function useFormHandler(): IComposition {
 
   const removeError = (field?: string) => handleErrors.value.clear(field);
 
+  
+  
+  const getInputError = (key: string, result: Message): string => {
+    // @ts-ignore
+    return result[key].$invalid ? result[key].$messages[0] : '';
+  }
+
   return {
     formHandler: handleErrors.value,
     removeError,
+    getInputError
   };
 }

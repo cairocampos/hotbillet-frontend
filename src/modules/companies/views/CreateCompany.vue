@@ -4,121 +4,128 @@
       <TitlePage>Cadastrar Empresa</TitlePage>
     </HeadPage>
 
-    <Form class="md:flex justify-between px-10">
-      <div class="space-y-8">
+    <Form class="md:grid md:grid-cols-2 md:gap-10 md:divide-x-2 lg:grid-cols-3">
+      <div class="space-y-8 lg:col-span-2">
         <TextField
-          v-model="user.name"
+          v-model="company.company_name"
           variant="secondary"
           label="Nome da Empresa"
           placeholder="Ex: Hotbillet"
-        />
-
-        <Autocomplete
-          v-model="user.user_profile_id"
-          :options="store.state.spec.profiles"
-          label-key="description"
-          label-value="id"
-          :bordered="false"
-          label="Produtor"
+          :error="getInputError('company_name', result)"
+          @input="result.$test"
         />
 
         <TextField
-          v-model="user.last_name"
+          v-model="company.cpf_cnpj"
           variant="secondary"
           label="CPF/CNPJ"
           :mask="['###.###.###-##', '##.###.###/####-##']"
         />
-        <div>
-          <Text>
-            Dados de Contato
-          </Text>
-        </div>
+        <Box>
+          <Text> Dados de Contato </Text>
+        </Box>
         <TextField
-          v-model="user.email"
+          v-model="company.tel1"
           variant="secondary"
           mask="(##) #####-####"
-        >
-          <template #left>
-            <span>Telefone:</span>
-          </template>
-        </TextField>
+          label="Telefone"
+        />
         <TextField
-          v-model="user.email"
+          v-model="company.tel2"
           variant="secondary"
           mask="(##) #####-####"
-        >
-          <template #left>
-            <span>Telefone 2:</span>
-          </template>
-        </TextField>
+          label="Telefone Secundário"
+        />
         <TextField
-          v-model="user.email"
+          v-model="company.email"
           variant="secondary"
-        >
-          <template #left>
-            <span>E-mail:</span>
-          </template>
-        </TextField>
-        <TextField
-          v-model="user.email"
-          variant="secondary"
-        >
-          <template #left>
-            <span>Telefone:</span>
-          </template>
-        </TextField>
+          label="E-mail"
+        />
 
-        <div>
+        <Box>
           <Text>Informações Endereço</Text>
-        </div>
-
-        <TextField
-          v-model="user.email"
-          variant="secondary"
-          label="CEP"
+        </Box>
+        
+        <InputCep
+          v-model="company.cep"
+          @zipcode-found="setAddress"
         />
 
-        <TextField
-          v-model="user.email"
-          variant="secondary"
-          label="CEP"
-        />
-
-        <FormInline>
+        <Grid
+          :cols="1"
+          :md="{ cols: 3, gap: 4 }"
+        >
           <TextField
-            v-model="user.email"
+            v-model="company.address"
             variant="secondary"
-            label="Número"
+            label="Logradouro"
+            class="col-span-2"
           />
 
           <TextField
-            v-model="user.email"
+            ref="inputAddressNumber"
+            v-model="company.address_number"
+            variant="secondary"
+            label="Número"
+          />
+        </Grid>
+        <Grid
+          :cols="1"
+          :md="{ cols: 3, gap: 4 }"
+        >
+          <TextField
+            v-model="company.district"
+            variant="secondary"
+            label="Bairro"
+            class="col-span-2"
+          />
+
+          <TextField
+            v-model="company.complement"
             variant="secondary"
             label="Complemento"
             placeholder="Ex: Apto 84B"
           />
-        </FormInline>
-      </div>
-      
-      <div class="hidden lg:block separate bg-gray-200"></div>
+        </Grid>
+        <Grid
+          :cols="1"
+          :md="{ cols: 3, gap: 4 }"
+        >
+          <TextField
+            v-model="company.city"
+            variant="secondary"
+            label="Cidade"
+            class="col-span-2"
+          />
 
-      <div class="my-10 md:my-0">
-        <div class="space-x-4 flex items-center">
+          <TextField
+            v-model="company.state"
+            variant="secondary"
+            label="Estado"
+            mask="AA"
+          />
+        </Grid>
+      </div>
+
+      <!-- <div class="hidden lg:block separate bg-gray-200 mx-4"></div> -->
+
+      <div class="md:my-0">
+        <div class="my-16 md:my-0 space-x-4 flex items-center justify-end">
           <Button
-            :loading="loading"
+            :loading="loading.primary"
             loading-type="border"
-            :disabled="loading"
+            :disabled="loading.primary"
             :rounded="true"
             variant="info"
             text-loading="Salvando..."
-            @click="save"
-            @click.prevent="save"
+            @click="createCompany"
+            @click.prevent="createCompany"
           >
             Cadastrar
           </Button>
           <ButtonRouter
             :rounded="true"
-            :to="{name:'Companies'}"
+            :to="{ name: 'Companies' }"
             variant="danger"
             :outline="true"
           >
@@ -131,22 +138,28 @@
 </template>
 
 <script lang="ts">
-import TitlePage from '@/components/TitlePage.vue'
-import { useRouter } from 'vue-router'
-import { defineComponent, ref } from '@vue/runtime-core';
-import { IUser } from '@/interfaces/IUser';
-import useNotifications from '@/composables/useNotifications';
-import { api } from '@/services';
-import {useDefaultStore} from '@/store';
-import useContants from '@/composables/useConstants';
-import Button from '@/components/UI/Button/Button.vue';
-import Form from '@/components/UI/Form/Form.vue';
-import TextField from '@/components/UI/Form/Input/TextField.vue';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
-import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
-import Container from '@/components/UI/Layout/Container.vue';
-import FormInline from '@/components/UI/Form/FormInline.vue';
-
+import TitlePage from "@/components/TitlePage.vue";
+import { defineComponent, reactive, ref } from "@vue/runtime-core";
+import useNotifications from "@/composables/useNotifications";
+import { api } from "@/services";
+import { useDefaultStore } from "@/store";
+import Button from "@/components/UI/Button/Button.vue";
+import Form from "@/components/UI/Form/Form.vue";
+import TextField from "@/components/UI/Form/Input/TextField.vue";
+import Text from "@/components/UI/Layout/Text.vue";
+import ButtonRouter from "@/components/UI/Button/ButtonRouter.vue";
+import Container from "@/components/UI/Layout/Container.vue";
+import Grid from "@/components/UI/Form/Grid.vue";
+import Box from "@/components/UI/Box/Box.vue";
+import { ICompany } from "../interfaces/ICompany";
+import useLoading from "@/composables/useLoading";
+import InputCep from "../components/InputCep.vue";
+import { IViacep } from "@/interfaces/IViacep";
+import { useRouter } from "vue-router";
+import { onlyNumbers } from '@/helpers'
+import useValidate from 'vue-tiny-validate'
+import { MESSAGE_VALIDATE } from "@/contants";
+import { useFormHandler } from "@/composables/useFormHandler";
 export default defineComponent({
   components: {
     TitlePage,
@@ -154,56 +167,86 @@ export default defineComponent({
     Form,
     TextField,
     ButtonRouter,
-    Autocomplete,
     Container,
-    FormInline
+    Grid,
+    Box,
+    InputCep,
+    Text
 },
   setup() {
     const { notifications } = useNotifications();
     const store = useDefaultStore;
-    const router = useRouter();
-    const {PROFILES} = useContants();
-    
-    const loading = ref(false);
-    const user = ref<IUser>({
-      name: '',
-      last_name:'',
-      password:'',
-      email:'',
-      user_profile_id: 1
+    const router = useRouter()
+    const { loading } = useLoading();
+    const inputAddressNumber = ref<typeof TextField>()
+    const { getInputError } = useFormHandler()
+    const company = ref<Omit<ICompany, "id">>({
+      company_name: "",
+      cpf_cnpj: "",
+      email: "",
+      tel1: "",
+      tel2: "",
+      cep: "",
+      address: "",
+      address_number: "",
+      complement: "",
+      district: "",
+      city: "",
+      state: "",
     });
 
-    const showPassword = ref(false);
-    const generatePassword = () => {
-      const senha01 = Date.now().toString(36).slice(-6);
-      const senha = senha01 + btoa(senha01);
-      user.value.password = senha;
-    }
+    const rules = reactive({
+      company_name: {
+        name: "required",
+        test: (value:string) => Boolean(value),
+        message: MESSAGE_VALIDATE.REQUIRED
+      }
+    })
+    const {result} = useValidate(company, rules)
 
-    const save = async () => {
+    const createCompany = async () => {
       try {
-        loading.value = true;
-        await api.post('/users', user.value)
-        router.push({name: "Usuarios"})
-        notifications.success('Usuário cadastrado.')
+        loading.value.primary = true;
+        await api.post<{company: ICompany}>('/companies', {
+          ...company.value,
+          cep: onlyNumbers(company.value.cep),
+          tel1: onlyNumbers(company.value.tel1),
+          tel2: onlyNumbers(company.value.tel2),
+          cpf_cnpj: onlyNumbers(company.value.cpf_cnpj),
+        });
+        notifications.success('Empresa criada!');
+        router.go(-1);
       } catch (error) {
         notifications.error(error);
       } finally {
-        loading.value = false;
+        loading.value.primary = false;
       }
+    };
+
+    const setAddress = (dataCep: IViacep) => {
+      company.value = {
+        ...company.value,
+        district: dataCep.bairro,
+        address: dataCep.logradouro,
+        city: dataCep.localidade,
+        state: dataCep.uf
+      }
+
+      inputAddressNumber.value?.setFocus()
     }
 
     return {
       store,
-      save,
-      user,
+      createCompany,
+      company,
       loading,
-      showPassword,
-      generatePassword,
-      PROFILES
-    }
-  }
-})
+      inputAddressNumber,
+      setAddress,
+      result,
+      getInputError
+    };
+  },
+});
 </script>
 
 <style scoped>

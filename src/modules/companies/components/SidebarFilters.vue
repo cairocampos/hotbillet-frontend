@@ -6,7 +6,7 @@
     <template #body>
       <Form>
         <Text>Filtros</Text>
-        <FormInline>
+        <Grid cols="2">
           <InputMoney
             v-model="form.price"
             mask="##"
@@ -17,7 +17,7 @@
             mask="##"
             label="Até"
           />
-        </FormInline>
+        </Grid>
         <Button
           variant="secondary"
           :blocked="true"
@@ -33,12 +33,12 @@
 import Sidebar from '@/components/UI/Sidebar/Sidebar.vue';
 import { defineComponent, reactive } from 'vue';
 import InputMoney from '@/components/UI/Form/Input/InputMoney.vue';
-import FormInline from '@/components/UI/Form/FormInline.vue';
+import Grid from '@/components/UI/Form/Grid.vue';
 import Form from '@/components/UI/Form/Form.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import Text from '@/components/UI/Layout/Text.vue';
 export default defineComponent({
-  components: { Sidebar, InputMoney, FormInline, Form, Button, Text },
+  components: { Sidebar, InputMoney, Grid, Form, Button, Text },
   props: {
     modelValue: {
       type: Boolean,

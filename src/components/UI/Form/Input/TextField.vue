@@ -14,12 +14,13 @@
         name="left"
       />
       <input
+        ref="inputElement"
         v-maska="mask"
         type="text"
         :placeholder="placeholder"
-        :class="`text-${size} flex-1`"
+        :class="`text-${size} flex-1 w-full`"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="onInput"
       />
       <slot name="right" />
     </div>
@@ -31,7 +32,7 @@
 </template>
 
 <script lang='ts'>
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   props: {
     modelValue: {
@@ -68,8 +69,8 @@ export default defineComponent({
       default: ""
     }
   },
-  emits: ['update:modelValue'],
-  setup(props) {
+  emits: ['update:modelValue', 'input'],
+  setup(props, {emit}) {
     const computedClass = computed(() => {
       const variants = {
         primary: "bg-white border rounded-md",
@@ -79,8 +80,21 @@ export default defineComponent({
       return variants[props.variant];
     })
 
+    const inputElement = ref<HTMLInputElement>()
+
+    const setFocus = () => inputElement.value?.focus();
+
+    const onInput = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      emit('update:modelValue', target.value);
+      emit('input', target.value);
+    } 
+
     return {
-      computedClass
+      computedClass,
+      inputElement,
+      setFocus,
+      onInput
     }
   }
 })

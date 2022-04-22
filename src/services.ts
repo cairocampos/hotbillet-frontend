@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IViacep } from "./interfaces/IViacep";
 const auth = {
   token(): string | null {
     return localStorage.getItem("hot_token");
@@ -28,4 +29,11 @@ api.interceptors.request.use(
 // }, function (error) {
 //     return Promise.reject(error)
 // });
-export { api, auth };
+
+const fetchCep = async (cep: string) => {
+  const { data } = await axios.get<IViacep>(`https://viacep.com.br/ws/${cep}/json/`);
+  return data;
+}
+
+
+export { api, auth, fetchCep };
