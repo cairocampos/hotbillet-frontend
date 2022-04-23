@@ -1,5 +1,8 @@
 export interface ICompanySimple {
   id: number;
+  name: string;
+  products_total: number;
+  sales_month: number;
 }
 
 export interface ICompany {

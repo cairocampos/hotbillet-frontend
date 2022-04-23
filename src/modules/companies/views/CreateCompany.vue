@@ -12,7 +12,7 @@
           label="Nome da Empresa"
           placeholder="Ex: Hotbillet"
           :error="getInputError('company_name', result)"
-          @input="result.$test"
+          @input="testInput('company_name', result)"
         />
 
         <TextField
@@ -20,6 +20,8 @@
           variant="secondary"
           label="CPF/CNPJ"
           :mask="['###.###.###-##', '##.###.###/####-##']"
+          :error="getInputError('cpf_cnpj', result)"
+          @input="testInput('cpf_cnpj', result)"
         />
         <Box>
           <Text> Dados de Contato </Text>
@@ -29,6 +31,8 @@
           variant="secondary"
           mask="(##) #####-####"
           label="Telefone"
+          :error="getInputError('tel1', result)"
+          @input="testInput('tel1', result)"
         />
         <TextField
           v-model="company.tel2"
@@ -40,6 +44,8 @@
           v-model="company.email"
           variant="secondary"
           label="E-mail"
+          :error="getInputError('email', result)"
+          @input="testInput('email', result)"
         />
 
         <Box>
@@ -48,7 +54,9 @@
         
         <InputCep
           v-model="company.cep"
+          :error="getInputError('cep', result)"
           @zipcode-found="setAddress"
+          @input="testInput('cep', result)"
         />
 
         <Grid
@@ -60,6 +68,8 @@
             variant="secondary"
             label="Logradouro"
             class="col-span-2"
+            :error="getInputError('address', result)"
+            @input="testInput('address', result)"
           />
 
           <TextField
@@ -78,6 +88,8 @@
             variant="secondary"
             label="Bairro"
             class="col-span-2"
+            :error="getInputError('district', result)"
+            @input="testInput('district', result)"
           />
 
           <TextField
@@ -96,13 +108,18 @@
             variant="secondary"
             label="Cidade"
             class="col-span-2"
+            :error="getInputError('city', result)"
+            @input="testInput('city', result)"
           />
 
-          <TextField
+          <Autocomplete
             v-model="company.state"
-            variant="secondary"
+            :options="brazilianStates.map(item => ({id: item, label: item}))"
             label="Estado"
-            mask="AA"
+            :selected="{id: company.state, label:company.state}"
+            :bordered="false"
+            :error="getInputError('state', result)"
+            @selected="testInput('state', result)"
           />
         </Grid>
       </div>
@@ -118,8 +135,7 @@
             :rounded="true"
             variant="info"
             text-loading="Salvando..."
-            @click="createCompany"
-            @click.prevent="createCompany"
+            @click.prevent="validateForm"
           >
             Cadastrar
           </Button>
@@ -156,10 +172,12 @@ import useLoading from "@/composables/useLoading";
 import InputCep from "../components/InputCep.vue";
 import { IViacep } from "@/interfaces/IViacep";
 import { useRouter } from "vue-router";
-import { onlyNumbers } from '@/helpers'
+import useHelpers from '@/composables/useHelpers'
 import useValidate from 'vue-tiny-validate'
-import { MESSAGE_VALIDATE } from "@/contants";
+import { FORM } from "@/constants/messages";
 import { useFormHandler } from "@/composables/useFormHandler";
+import Autocomplete from "@/components/UI/Autocomplete/Autocomplete.vue";
+import {createCompanyRules} from '../validate'
 export default defineComponent({
   components: {
     TitlePage,
@@ -171,7 +189,8 @@ export default defineComponent({
     Grid,
     Box,
     InputCep,
-    Text
+    Text,
+    Autocomplete
 },
   setup() {
     const { notifications } = useNotifications();
@@ -179,7 +198,8 @@ export default defineComponent({
     const router = useRouter()
     const { loading } = useLoading();
     const inputAddressNumber = ref<typeof TextField>()
-    const { getInputError } = useFormHandler()
+    const { onlyNumbers, brazilianStates } = useHelpers()
+    const { getInputError, testInput } = useFormHandler()
     const company = ref<Omit<ICompany, "id">>({
       company_name: "",
       cpf_cnpj: "",
@@ -195,14 +215,15 @@ export default defineComponent({
       state: "",
     });
 
-    const rules = reactive({
-      company_name: {
-        name: "required",
-        test: (value:string) => Boolean(value),
-        message: MESSAGE_VALIDATE.REQUIRED
-      }
-    })
+    const rules = reactive(createCompanyRules)
     const {result} = useValidate(company, rules)
+
+    const validateForm = () => {
+      result.value.$test();
+      if(!result.value.$invalid) createCompany();
+
+      notifications.info('Favor verificar os campos e tentar novamente')
+    }
 
     const createCompany = async () => {
       try {
@@ -237,13 +258,15 @@ export default defineComponent({
 
     return {
       store,
-      createCompany,
+      validateForm,
       company,
       loading,
       inputAddressNumber,
       setAddress,
       result,
-      getInputError
+      getInputError,
+      testInput,
+      brazilianStates
     };
   },
 });

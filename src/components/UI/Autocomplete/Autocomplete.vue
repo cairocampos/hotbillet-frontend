@@ -3,7 +3,7 @@
     <label class="text-gray-600 font-normal text-sm">{{ label }}</label>
     <div
       class="custom-select-input flex items-center justify-between cursor-pointer transition-all border-gray-300 bg-white bg-opacity-10 hover:border-gray-400"
-      :class="[bordered ? 'border' : 'border-b', { 'cursor-not-allowed': disabled }]"
+      :class="[bordered ? 'border' : 'border-b', { 'cursor-not-allowed': disabled }, {'is-invalid' : Boolean(error)}]"
       @click="showOptions = !showOptions"
     >
       <div>
@@ -15,6 +15,10 @@
         <Icon :icon="`angle-${showOptions ? 'up' : 'down'}`" />
       </div>
     </div>
+    <span
+      v-if="error"
+      class="text-danger text-xs"
+    >{{ error }}</span>
 
     <AutocompleteOptions
       v-if="showOptions && !disabled"
@@ -149,9 +153,14 @@ export default defineComponent({
     bordered: {
       type: Boolean,
       default: true
+    },
+    error: {
+      type: String,
+      required:false,
+      default: ''
     }
   },
-  emits: ["update:modelValue", "scrollend", "search", "open"],
+  emits: ["update:modelValue", "scrollend", "search", "open", "selected"],
   setup(props, { emit }) {
     const { options, selected } = toRefs(props);
     const showOptions = ref(false);
@@ -165,7 +174,8 @@ export default defineComponent({
       showOptions.value = false;
       search.value = "";
       selectedOption.value = option;
-      emit("update:modelValue", option[props.labelValue]);
+      emit("update:modelValue", option[props.labelKey]);
+      emit("selected", option[props.labelKey])
     };
     const search = ref("");
     let interval = setTimeout(() => null);
@@ -243,10 +253,15 @@ export default defineComponent({
 .custom-select-input {
   width: 100%;
   padding: 0 16px;
-   height: 50px;
+  height: 37px;
    &.border {
-    border-radius: 6px;
+     border-radius: 6px;
+     height: 50px;
    }
+   &.is-invalid {
+    border-color: red;
+    color:red;
+  }
 }
 
 .options {

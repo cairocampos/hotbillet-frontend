@@ -35,7 +35,3 @@ export const MIDIAS_TYPES = {
   VIDEO: 'VIDEO',
   EBOOK: 'EBOOK',
 }
-
-export const MESSAGE_VALIDATE = {
-  REQUIRED: "Campo obrigatório"
-}

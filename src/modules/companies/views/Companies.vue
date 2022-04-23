@@ -70,11 +70,11 @@ export default defineComponent({
       },
       {
         text: "Nº de Produtos",
-        value: "teste"
+        value: "products_total"
       },
       {
         text: "Conversão Mensal",
-        value: "teste"
+        value: "sales_month"
       },
       {
         text: "Ações",

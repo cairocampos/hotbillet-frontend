@@ -15,6 +15,8 @@ import companies from "@/modules/companies/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
+import { useDefaultStore } from "@/store";
+import { auth } from "@/services";
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
@@ -42,21 +44,21 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   useDefaultStore.commit("TOGGLE_MENU");
+router.beforeEach((to, from, next) => {
+  useDefaultStore.commit("TOGGLE_MENU");
 
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!auth.token()) {
-//       next({
-//         path: "/login",
-//         query: { redirect: to.fullPath },
-//       });
-//     } else {
-//       next();
-//     }
-//   } else {
-//     next();
-//   }
-// });
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!auth.token()) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;
