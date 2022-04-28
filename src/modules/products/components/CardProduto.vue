@@ -35,9 +35,7 @@
           >Link</a>
         </div>
       </div>
-      <!-- <div class="text-center">
-            <button class="btn border-2 border-blue-500 text-blue-500 rounded-full">Ativar Produto</button>
-        </div> -->
+      <slot />
     </div>
   </div>
 </template>

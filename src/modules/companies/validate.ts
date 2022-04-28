@@ -62,4 +62,4 @@ export const createCompanyRules = {
     test: (value: string) => Boolean(value),
     message: FORM.REQUIRED,
   },
-}
+};

@@ -1,4 +1,6 @@
+import { IObjectUnknown } from "@/interfaces/IObjectUnknown";
 import { ref } from "vue";
+import { Result } from "vue-tiny-validate";
 
 type Teste = Record<string, string>;
 
@@ -14,13 +16,11 @@ interface IFormHandler {
   record(errors: Dic): void;
   clear(field?: string): void;
 }
-
-type Message = { [key: string]: string | number | {[key:string]: string}}
 interface IComposition {
   formHandler: IFormHandler;
   removeError: (field?: string) => void;
-  getInputError: (key: string, result: Message) => string;
-  testInput: (key: string, result: Message) => void;
+  getInputError: (key: string, result: Result) => string;
+  testInput: (key: string, result: Result) => void;
 }
 
 export function useFormHandler(): IComposition {
@@ -67,7 +67,7 @@ export function useFormHandler(): IComposition {
 
   
   
-  const getInputError = (key: string, result: Message): string => {
+  const getInputError = (key: string, result: Result): string => {
     if (result[key]) {
       // @ts-ignore
       return result[key].$invalid ? result[key].$messages[0] : '';
@@ -76,7 +76,7 @@ export function useFormHandler(): IComposition {
     return ''
   }
 
-  const testInput = (key: string, result: Message): void => {
+  const testInput = (key: string, result: Result): void => {
     if (result[key]) { 
       // @ts-ignore
       result[key].$test()

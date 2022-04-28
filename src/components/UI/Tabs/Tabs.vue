@@ -29,7 +29,7 @@ export default defineComponent({
           "li",
           {
             class: [
-              'text-default pb-4 px-4 cursor-pointer text-sm"',
+              'text-default pb-4 px-4 cursor-pointer text-sm',
               { active: isActive },
               isActive ? tabActiveStyle.value : "",
             ],
@@ -46,7 +46,7 @@ export default defineComponent({
       const list = h(
         "ul",
         {
-          class: "flex space-x-4 w-full",
+          class: "flex space-x-4 grow",
         },
         items
       );

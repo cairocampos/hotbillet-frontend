@@ -18,7 +18,7 @@
       v-else
       class="space-y-4"
     >
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-4 mb-8">
         <ButtonRouter
           variant="dark"
           to="/empresas/adicionar"
@@ -30,69 +30,96 @@
       <Datatable
         :headers="headers"
         :items="companies"
-        :searchable="true"
-      />
+      >
+        <template #actions="{ item }">
+          <router-link
+            :to="{ name: 'CompanyDetails', params: { id: item.id } }"
+            class="flex items-center text-xs border-l-2 border-gray-300"
+          >
+            <span class="mx-2 pl-4 font-medium">Ver</span>
+            <Icon
+              icon="arrow-right"
+              class="text-lg"
+            />
+          </router-link>
+        </template>
+      </Datatable>
     </div>
-    
+
     <SidebarFilters v-model="showFilters" />
   </div>
 </template>
 
-<script lang='ts'>
-import TitlePage from '@/components/UI/Layout/TitlePage.vue';
-import { computed, defineComponent, onMounted, ref } from 'vue';
-import Datatable from '@/components/UI/Datatable/Datatable.vue';
-import useLoading from '@/composables/useLoading';
-import useNotifications from '@/composables/useNotifications';
-import { api } from '@/services';
-import { IHeader } from '@/interfaces/IDatatable';
-import Tabs from '@/components/UI/Tabs/Tabs.vue';
-import Tab from '@/components/UI/Tabs/Tab.vue';
-import ButtonActions from '../components/ButtonActions.vue';
-import SidebarFilters from '../components/SidebarFilters.vue';
-import { ICompanySimple } from '../interfaces/ICompany';
-import PageLoading from '@/components/global/PageLoading.vue';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+<script lang="ts">
+import TitlePage from "@/components/UI/Layout/TitlePage.vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import Datatable from "@/components/UI/Datatable/Datatable.vue";
+import useLoading from "@/composables/useLoading";
+import useNotifications from "@/composables/useNotifications";
+import { api } from "@/services";
+import { IHeader } from "@/interfaces/IDatatable";
+import Tabs from "@/components/UI/Tabs/Tabs.vue";
+import Tab from "@/components/UI/Tabs/Tab.vue";
+import ButtonActions from "../components/ButtonActions.vue";
+import SidebarFilters from "../components/SidebarFilters.vue";
+import { ICompanySimple } from "../interfaces/ICompany";
+import PageLoading from "@/components/global/PageLoading.vue";
+import ButtonRouter from "@/components/UI/Button/ButtonRouter.vue";
 export default defineComponent({
-  components: { TitlePage, Datatable, Tabs, Tab, ButtonActions, SidebarFilters, PageLoading, ButtonRouter },
+  components: {
+    TitlePage,
+    Datatable,
+    Tabs,
+    Tab,
+    ButtonActions,
+    SidebarFilters,
+    PageLoading,
+    ButtonRouter,
+  },
   setup() {
     const { loading } = useLoading();
     const { notifications } = useNotifications();
-    const tabs = {ACTIVE: 0, INACTIVE:1};
+    const tabs = { ACTIVE: 0, INACTIVE: 1 };
     const activeTab = ref(tabs.ACTIVE);
     const companies = ref<ICompanySimple[]>([]);
-    const showFilters = ref(false)
+    const showFilters = ref(false);
 
     const headers = computed<IHeader[]>(() => [
       {
         text: "Empresa",
-        value: "name"
+        value: "name",
       },
       {
         text: "Nº de Produtos",
-        value: "products_total"
+        value: "products_total",
       },
       {
         text: "Conversão Mensal",
-        value: "sales_month"
+        value: "sales_month",
       },
       {
         text: "Ações",
-        value: ""
-      }
-    ])
+        value: "actions",
+        align: "right",
+        show: false,
+      },
+    ]);
 
     const fetchCompanies = async () => {
       try {
         loading.value.primary = true;
-        const {data} = await api.get<{companies: ICompanySimple[]}>(`/companies/simple`)
+        const { data } = await api.get<{ companies: ICompanySimple[] }>(
+          `/companies/simple`
+        );
         companies.value = data.companies;
       } catch (error) {
         notifications.error(error);
       } finally {
-        loading.value.primary = false
+        loading.value.primary = false;
       }
-    }
+    };
+
+    watch(activeTab, () => fetchCompanies());
 
     onMounted(() => fetchCompanies());
 
@@ -101,11 +128,10 @@ export default defineComponent({
       companies,
       activeTab,
       showFilters,
-      loading
-    }
-  }
-})
+      loading,
+    };
+  },
+});
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>

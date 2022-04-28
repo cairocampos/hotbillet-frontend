@@ -1,6 +1,8 @@
 import { RouteRecordRaw } from "vue-router";
 import Companies from "../views/Companies.vue";
 import CreateCompany from "../views/CreateCompany.vue";
+import CompanyDetails from "../views/CompanyDetails.vue";
+import UpdateCompany from "../views/CompanyDetails.vue";
 const routes: RouteRecordRaw[] = [
   {
     path: "/empresas",
@@ -18,7 +20,24 @@ const routes: RouteRecordRaw[] = [
     name: "CreateCompany",
     component: CreateCompany,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/empresas/:id/editar",
+    name: "UpdateCompany",
+    component: UpdateCompany,
+    meta: {
+      requiresAuth:true
+    }
+  },
+  {
+    path: "/empresas/:id/detalhes",
+    name: "CompanyDetails",
+    component: CompanyDetails,
+    props: true,
+    meta: {
+      requiresAuth: true,
     },
   },
 ];
