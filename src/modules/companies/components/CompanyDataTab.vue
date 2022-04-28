@@ -1,10 +1,12 @@
 <template>
   <Box class="space-y-16 w-full">
     <Box class="flex items-center justify-between">
-      <Heading>Hotbillet</Heading>
+      <Heading>
+        {{ company.company_name }}
+      </Heading>
       <div class="flex items-center space-x-4">
         <ButtonRouter
-          to="/companies"
+          :to="{name: 'UpdateCompany', props: {id: company.id}}"
           variant="dark"
           :outline="true"
           :rounded="true"
@@ -30,13 +32,13 @@
           Vendido por
         </Text>
         <Text size="sm">
-          Afiliado tal da Costa
+          {{ company.company_name }}
         </Text>
-        <a
+        <!-- <a
           href="#"
           target="_blank"
           class="text-xs text-blue-500"
-        >Acessar o site</a>
+        >Acessar o site</a> -->
       </Box>
       <Box class="flex flex-col">
         <Text
@@ -46,10 +48,10 @@
           Suporte do Fornecedor
         </Text>
         <Text size="sm">
-          Email: suporte@suporte.com
+          Email: {{ company.email }}
         </Text>
         <Text size="sm">
-          Telefone: 33 9999-5487
+          Telefone: {{ maskPhone(company.tel1) }}
         </Text>
       </Box>
     </Box>
@@ -63,7 +65,7 @@
           Produzido por
         </Text>
         <Text size="sm">
-          Hotbillet
+          {{ company.company_name }}
         </Text>
       </Box>
       <Box class="flex flex-col">
@@ -106,21 +108,30 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Box from '@/components/UI/Box/Box.vue';
 import Heading from '@/components/UI/Layout/Heading.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
 import Text from '@/components/UI/Layout/Text.vue';
+import { ICompany } from '../interfaces/ICompany';
+import { maskPhone } from '@/helpers'
 export default defineComponent({
   components: { Box, Heading, Button, ButtonRouter, Text },
+  props: {
+    company: {
+      type: Object as PropType<ICompany>,
+      required:true
+    }
+  },
   setup() {
     const inactivateCompany = () => {
       //
-    }
+    }  
 
     return {
-      inactivateCompany
+      inactivateCompany,
+      maskPhone
     }
   }
 })

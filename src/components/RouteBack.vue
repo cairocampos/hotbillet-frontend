@@ -1,8 +1,8 @@
 <template>
   <div class="flex items-center">
-    <router-link
-      :to="route"
+    <button
       class="flex items-center space-x-2"
+      @click="onClick"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,18 +19,36 @@
         />
       </svg>
       <slot />
-    </router-link>
+    </button>
     <slot name="extras" />
   </div>
 </template>
 
 <script lang="ts">
-export default {
-    props: {
-      route: {
-        type: Object,
-        required:true
-      }
+import { defineComponent } from 'vue-demi';
+import { useRouter } from 'vue-router';
+export default defineComponent({
+  props: {
+    route: {
+      type: Object,
+      required:false,
+      default: () => ({})
     }
-}
+  },
+  setup(props) {
+    const router = useRouter();
+    const onClick = () => {
+      if(Object.values(props.route).length) {
+        router.push(props.route)
+        return
+      }
+
+      router.go(-1)
+    }
+
+    return {
+      onClick
+    }
+  }
+})
 </script>

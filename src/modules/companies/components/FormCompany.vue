@@ -33,7 +33,7 @@
         v-model="company.tel2"
         variant="secondary"
         mask="(##) #####-####"
-        label="Telefone Secundário"
+        label="Telefone Secundário (opcional)"
       />
       <TextField
         v-model="company.email"
@@ -46,7 +46,7 @@
       <Box>
         <Text>Informações Endereço</Text>
       </Box>
-        
+
       <InputCep
         v-model="company.cep"
         :error="getInputError('cep', result)"
@@ -124,15 +124,15 @@
     <div class="md:my-0">
       <div class="my-16 md:my-0 space-x-4 flex items-center justify-end">
         <Button
-          :loading="loading.primary"
+          :loading="loading"
           loading-type="border"
-          :disabled="loading.primary"
+          :disabled="loading"
           :rounded="true"
           variant="info"
           text-loading="Salvando..."
           @click.prevent="submitForm"
         >
-          Cadastrar
+          Salvar
         </Button>
         <ButtonRouter
           :rounded="true"
@@ -152,14 +152,12 @@ import TextField from "@/components/UI/Form/Input/TextField.vue";
 import Text from '@/components/UI/Layout/Text.vue'
 import { useFormHandler } from "@/composables/useFormHandler";
 import useHelpers from "@/composables/useHelpers";
-import useLoading from "@/composables/useLoading";
 import { IViacep } from "@/interfaces/IViacep";
-import { defineComponent, PropType, reactive, ref, watch } from "vue";
+import { defineComponent, PropType, reactive, ref, toRefs, watch } from "vue";
 import { ICompany } from "../interfaces/ICompany";
 import Form from "@/components/UI/Form/Form.vue";
 import ButtonRouter from "@/components/UI/Button/ButtonRouter.vue";
 import Button from "@/components/UI/Button/Button.vue";
-import { IObjectUnknown } from "@/interfaces/IObjectUnknown";
 import Grid from "@/components/UI/Form/Grid.vue";
 import InputCep from "./InputCep.vue";
 import Box from "@/components/UI/Box/Box.vue";
@@ -175,11 +173,15 @@ export default defineComponent({
     result: {
       type: Object as PropType<Result>,
       required:true
+    },
+    loading: {
+      type: Boolean,
+      default:false
     }
   },
   emits: ["update:modelValue", "submit"],
   setup(props, { emit }) {
-    const { loading } = useLoading();
+    const { modelValue } = toRefs(props)
     const inputAddressNumber = ref<typeof TextField>();
     const { onlyNumbers, brazilianStates } = useHelpers();
     const { getInputError, testInput } = useFormHandler();
@@ -196,10 +198,12 @@ export default defineComponent({
         city: dataCep.localidade,
         state: dataCep.uf,
       });
+
       inputAddressNumber.value?.setFocus();
     };
     
     const submitForm = () => {
+      props.result.$test();
       const dataSanitize: Omit<ICompany, 'id'> = {
         ...props.modelValue,
         tel1: onlyNumbers(props.modelValue.tel1),
@@ -208,10 +212,12 @@ export default defineComponent({
         cpf_cnpj: onlyNumbers(props.modelValue.cpf_cnpj),
       }
       emit('update:modelValue', dataSanitize)
+      emit('submit');
     }
 
+    watch(modelValue, val => Object.assign(company, val));
+
     return {
-      loading,
       company,
       inputAddressNumber,
       setAddress,

@@ -53,7 +53,7 @@ export default defineComponent({
 
       // @ts-ignore
       const tabContent = slots?.default()?.map((item, key) => {
-        const lazy = typeof item.props?.lazy === "string";
+        const lazy = typeof item.props?.lazy;
         const isActive = props.modelValue == key;
         // @ts-ignore
         const child = item.children?.default();

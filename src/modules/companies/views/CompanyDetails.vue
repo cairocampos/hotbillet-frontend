@@ -3,17 +3,32 @@
     <HeadPage class="mb-10">
       <RouteBack :route="{name:'Companies'}">
         <h1 class="text-xl text-dark">
-          Teste
+          {{ company?.company_name ?? 'Carregando...' }}
         </h1>
       </RouteBack>
     </HeadPage>
     
     <Tabs v-model="activeTab">
-      <Tab title="Dados">
-        <CompanyDataTab />
+      <Tab>
+        <template #title>
+          <div class="flex items-center space-x-4">
+            <Loading
+              v-if="loading"
+              class="h-4 w-4"
+            />
+            <span>Dados</span>
+          </div>
+        </template>
+        <CompanyDataTab
+          v-if="company?.id"
+          :company="company"
+        />
       </Tab>
-      <Tab title="Produtos">
-        <CompanyProductsTab />
+      <Tab
+        title="Produtos"
+        :lazy="true"
+      >
+        <CompanyProductsTab :id="id" />
       </Tab>
 
       <template #actions>
@@ -43,8 +58,9 @@ import Tab from '@/components/UI/Tabs/Tab.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import CompanyDataTab from '../components/CompanyDataTab.vue';
 import CompanyProductsTab from '../components/CompanyProductsTab.vue';
+import Loading from '@/components/global/Loading.vue';
 export default defineComponent({
-  components: { Container, RouteBack, Tabs, Tab, Button, CompanyDataTab, CompanyProductsTab },
+  components: { Container, RouteBack, Tabs, Tab, Button, CompanyDataTab, CompanyProductsTab, Loading },
   props: {
     id: {
       type: [String,Number],
@@ -59,7 +75,8 @@ export default defineComponent({
     const fetchCompany = async () => {
       try {
         loading.value = true;
-        await api.get(`/companies/${props.id}`)
+        const {data} = await api.get<ICompany>(`/companies/${props.id}`)
+        company.value = data;
       } catch (error) {
         notifications.error(error);
       } finally {
@@ -68,10 +85,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // fetchCompany()
+      fetchCompany()
     })
 
     return {
+      loading,
       company,
       activeTab
     }

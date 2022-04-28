@@ -13,6 +13,18 @@ export default function useHelpers() {
     return cpf.test(value) || cnpj.test(value);
   };
 
+  const maskCpfOrCnpj = (value: string) => {
+    if (value.length == 11) {
+      return value.replace(/([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})/, '$1.$2.$3-$4');
+    }
+
+    return value.replace(
+      /([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})/,
+      "$1.$2.$3/$4-$5"
+    );
+  }
+  
+
   const brazilianStates = [
     "AC",
     "AL",
@@ -43,5 +55,11 @@ export default function useHelpers() {
     "TO",
   ];
 
-  return { ucword, onlyNumbers, isCpfOrCnpj, brazilianStates};
+  return {
+    ucword,
+    onlyNumbers,
+    isCpfOrCnpj,
+    brazilianStates,
+    maskCpfOrCnpj
+  };
 }

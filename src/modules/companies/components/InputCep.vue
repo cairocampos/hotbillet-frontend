@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { fetchCep } from "@/services";
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, toRefs, watch } from "vue";
 import Loading from "@/components/global/Loading.vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";
 export default defineComponent({
@@ -30,7 +30,9 @@ export default defineComponent({
   },
   emits: ["zipcode-found", "update:modelValue"],
   setup(props, { emit }) {
+    const {modelValue} = toRefs(props)
     const cep = ref("");
+
     const loading = ref(false);
     const getCep = async () => {
       try {
@@ -46,6 +48,13 @@ export default defineComponent({
     watch(cep, (val) => {
       if (val.length == 9) getCep();
     });
+
+    watch(modelValue, val => {
+      cep.value = val
+    })
+
+    onMounted(() => cep.value = modelValue.value)
+
     return { cep, loading };
   },
 });

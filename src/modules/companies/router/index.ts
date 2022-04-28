@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 import Companies from "../views/Companies.vue";
 import CreateCompany from "../views/CreateCompany.vue";
 import CompanyDetails from "../views/CompanyDetails.vue";
-import UpdateCompany from "../views/CompanyDetails.vue";
+import UpdateCompany from "../views/UpdateCompany.vue";
 const routes: RouteRecordRaw[] = [
   {
     path: "/empresas",
@@ -27,6 +27,7 @@ const routes: RouteRecordRaw[] = [
     path: "/empresas/:id/editar",
     name: "UpdateCompany",
     component: UpdateCompany,
+    props:true,
     meta: {
       requiresAuth:true
     }

@@ -3,10 +3,11 @@
     <HeadPage class="mb-10">
       <TitlePage>Cadastrar Empresa</TitlePage>
     </HeadPage>
-    {{ company }}
     <FormCompany
       v-model="company"
       :result="result"
+      :loading="loading"
+      @submit="createCompany"
     />
   </Container>
 </template>
@@ -52,6 +53,8 @@ export default defineComponent({
     const { result } = useValidate(company, rules);
 
     const createCompany = async () => {
+      if(result.value.$invalid)
+        return notifications.info('Favor verificar os campos do formulário.');
       try {
         loading.value = true;
         await api.post<{company: ICompany}>('/companies', company.value);
@@ -65,6 +68,7 @@ export default defineComponent({
     }
 
     return {
+      loading,
       company,
       result,
       createCompany
