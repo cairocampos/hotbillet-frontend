@@ -3,7 +3,9 @@ import Companies from "../views/Companies.vue";
 import CreateCompany from "../views/CreateCompany.vue";
 import CompanyDetails from "../views/CompanyDetails.vue";
 import UpdateCompany from "../views/UpdateCompany.vue";
-const routes: RouteRecordRaw[] = [
+import CompaniesIcon from "@/assets/icons/menu/companies.svg"
+
+const companies: RouteRecordRaw[] = [
   {
     path: "/empresas",
     name: "Companies",
@@ -12,7 +14,7 @@ const routes: RouteRecordRaw[] = [
       requiresAuth: true,
       label: "Empresas",
       showOnMenu: true,
-      icon: require("@/assets/icons/menu/companies.svg"),
+      icon: CompaniesIcon,
     },
   },
   {
@@ -43,4 +45,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes
+export {companies}

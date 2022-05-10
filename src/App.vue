@@ -47,15 +47,13 @@
 </template>
 
 <script lang="ts">
-import Menu from "@/components/menu/Menu.vue";
-// import {api} from '@/services';
+import Menu from "./components/menu/Menu.vue";
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import Alert from "@/components/Alert.vue";
-// import LoadingPage from '@/components/LoadingPage.vue'
+import Alert from "./components/Alert.vue";
 
-import Notify from "@/components/Notify.vue";
+import Notify from "./components/Notify.vue";
 
 export default defineComponent({
   components: {

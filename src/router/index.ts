@@ -3,20 +3,20 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 // import { useDefaultStore } from "@/store";
 
 //routes
-import authRoutes from "@/modules/auth/router";
-import dashboard from "@/modules/dashboard/router";
-import users from "@/modules/users/router";
-import products from "@/modules/products/router";
-import leads from "@/modules/leads/router";
-import messages from "@/modules/messages/router";
-import profile from "@/modules/profile/router";
-import notifications from "@/modules/notifications/router";
-import companies from "@/modules/companies/router";
+import {authRoutes} from "../modules/auth/router";
+import {dashboard} from "../modules/dashboard/router";
+import {users} from "../modules/users/router";
+import {products} from "../modules/products/router";
+import {leads} from "../modules/leads/router";
+import {messages} from "../modules/messages/router";
+import {profile} from "../modules/profile/router";
+import {notifications} from "../modules/notifications/router";
+import {companies} from "../modules/companies/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
-import { useDefaultStore } from "@/store";
-import { auth } from "@/services";
+import { useDefaultStore } from "../store";
+import { auth } from "../services";
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

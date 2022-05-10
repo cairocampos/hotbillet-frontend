@@ -1,4 +1,4 @@
-import app from "@/index";
+import app from "../../index";
 
 import HeadPage from "./HeadPage.vue";
 import Modal from "./Modal.vue";

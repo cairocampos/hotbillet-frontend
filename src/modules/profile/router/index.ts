@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from "vue-router";
 import Profile from "../views/Profile.vue";
 
-const routes: RouteRecordRaw[] = [
+const profile: RouteRecordRaw[] = [
   {
     path: "/perfil",
     name: "Profile",
@@ -10,4 +10,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export {profile};

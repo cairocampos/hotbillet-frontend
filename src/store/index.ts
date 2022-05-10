@@ -5,7 +5,7 @@ import { api } from "@/services";
 import { IProfile } from "@/interfaces/IUser";
 
 export const useDefaultStore = createStore({
-  strict: process.env.NODE_ENV !== 'production',
+  strict: import.meta.env.NODE_ENV !== 'production',
   state: {
     menuAtivo: false,
     spec: {

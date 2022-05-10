@@ -2,7 +2,9 @@ import { RouteRecordRaw } from "vue-router";
 import Leads from "../views/Leads.vue";
 import Lead from "../views/Lead.vue";
 
-const routes: RouteRecordRaw[] = [
+import LeadsIcon from "@/assets/icons/menu/leads.svg"
+
+const leads: RouteRecordRaw[] = [
   {
     path: "/leads",
     name: "Leads",
@@ -11,7 +13,7 @@ const routes: RouteRecordRaw[] = [
       requiresAuth: true,
       label: "Leads",
       showOnMenu: true,
-      icon: require("@/assets/icons/menu/leads.svg"),
+      icon: LeadsIcon,
     },
   },
   {
@@ -22,4 +24,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export {leads};

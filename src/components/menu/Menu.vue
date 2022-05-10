@@ -15,7 +15,7 @@
 import MenuItem from './MenuItem.vue'
 import MenuLogo from './MenuLogo.vue';
 import MenuAccount from './MenuAccount.vue';
-import router from '@/router';
+import router from '../../router';
 import { computed } from 'vue';
 export default {
   components: {

@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from "vue-router";
 import Notifications from "../views/Notifications.vue";
-const routes: RouteRecordRaw[] = [
+const notifications: RouteRecordRaw[] = [
   {
     path: "/notificacoes",
     name: "Notifications",
@@ -8,4 +8,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes
+export {notifications}

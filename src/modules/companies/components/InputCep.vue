@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { fetchCep } from "@/services";
+import { fetchCep } from "../../../services";
 import { defineComponent, onMounted, ref, toRefs, watch } from "vue";
 import Loading from "@/components/global/Loading.vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";

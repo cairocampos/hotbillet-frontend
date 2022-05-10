@@ -4,7 +4,9 @@ import Product from "../views/Product.vue";
 import CreateProduct from "../views/CreateProduct.vue";
 import UpdateProduct from "../views/UpdateProduct.vue";
 
-const routes: RouteRecordRaw[] = [
+import ProductIcon from "@/assets/icons/menu/products.svg"
+
+const products: RouteRecordRaw[] = [
   {
     path: "/produtos",
     name: "Products",
@@ -13,7 +15,7 @@ const routes: RouteRecordRaw[] = [
       requiresAuth: true,
       label: "Produtos",
       showOnMenu: true,
-      icon: require("@/assets/icons/menu/products.svg"),
+      icon: ProductIcon,
     },
   },
   {
@@ -47,4 +49,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export {products};

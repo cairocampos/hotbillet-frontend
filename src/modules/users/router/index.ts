@@ -3,14 +3,16 @@ import Users from "../views/Users.vue";
 import CreateUSer from "../views/CreateUser.vue";
 import UserDetails from "../views/UserDetails.vue";
 
-const routes: RouteRecordRaw[] = [
+import UserIcon from "@/assets/icons/menu/users.svg"
+
+const users: RouteRecordRaw[] = [
   {
     path: "/usuarios",
     name: "Users",
     component: Users,
     meta: {
       requiresAuth: true,
-      icon: require("@/assets/icons/menu/users.svg"),
+      icon: UserIcon,
       label: "Usuários",
       showOnMenu: true,
     },
@@ -37,4 +39,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export {users};

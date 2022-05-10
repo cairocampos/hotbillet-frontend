@@ -1,7 +1,8 @@
 import { RouteRecordRaw } from "vue-router";
 import Messages from "../views/Messages.vue";
 
-const routes: RouteRecordRaw[] = [
+import MessagesIcon from "@/assets/icons/menu/messages.svg"
+const messages: RouteRecordRaw[] = [
   {
     path: "/mensagens",
     name: "Messages",
@@ -9,10 +10,10 @@ const routes: RouteRecordRaw[] = [
     meta: {
       requiresAuth: true,
       label: "Mensagens",
-      icon: require("@/assets/icons/menu/messages.svg"),
+      icon: MessagesIcon,
       showOnMenu: true,
     },
   },
 ];
 
-export default routes;
+export {messages};

@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ITab } from "@/interfaces/ITab";
+import { ITab } from "../interfaces/ITab";
 
 export default defineComponent({
   props: {
