@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeadPage class="mb-10">
-      <RouteBack :route="{name:'Produtos'}">
+      <RouteBack :route="{name:'Products'}">
         <h1 class="text-xl text-dark">
           {{ product?.name }}
         </h1>
@@ -42,7 +42,7 @@
 
           <div class="space-x-2">
             <router-link
-              :to="{name: 'EditarProduto', params: {id: product.id}}"
+              :to="{name: 'UpdateProduct', params: {id: product.id}}"
               class="btn btn-sm btn-outline-secondary rounded-full"
             >
               Editar Produto

@@ -1,7 +1,7 @@
 <template>
   <div
     class="rounded-md overflow-hidden bg-white cursor-pointer hover:shadow-lg card pb-4"
-    @click="router.push({name:'Produto', params: {id:product?.id}})"
+    @click="router.push({name:'Product', params: {id:product?.id}})"
   >
     <div class="w-full card__image">
       <img
