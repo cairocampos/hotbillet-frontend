@@ -110,8 +110,8 @@ export default defineComponent({
         'btn',
         `btn-${props.size}`,
         props.outline ? `btn-outline-${props.variant}` : `btn-${props.variant}`,
-        props.rounded ? 'btn-rounded' : '',
-        props.blocked ? 'btn-blocked' : ''
+        props.rounded ? 'btn-rounded' : null,
+        props.blocked ? 'btn-blocked' : null
       ];
     });
     return {

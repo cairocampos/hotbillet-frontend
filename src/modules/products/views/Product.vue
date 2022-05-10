@@ -40,8 +40,16 @@
           </div>
 
 
-          <div class="space-x-2">
-            <router-link
+          <div class="flex items-center gap-4">
+            <Button
+              variant="dark"
+            >
+              Editar Produto
+            </Button>
+            <Button variant="secondary">
+              Pausar Produto
+            </Button>
+            <!-- <router-link
               :to="{name: 'UpdateProduct', params: {id: product.id}}"
               class="btn btn-sm btn-outline-secondary rounded-full"
             >
@@ -49,7 +57,7 @@
             </router-link>
             <button class="btn btn-sm btn-primary rounded-full">
               Pausar Produto
-            </button>
+            </button> -->
           </div>
         </div>
         <transition
@@ -84,6 +92,7 @@ import { IProduct } from "@/interfaces/IProduct";
 import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services";
 import PageLoading from "@/components/global/PageLoading.vue";
+import Button from "@/components/UI/Button/Button.vue";
 
 export default defineComponent({
   components: {
@@ -95,8 +104,9 @@ export default defineComponent({
     Conversao,
     NavTabHeader,
     RouteBack,
-    PageLoading
-  },
+    PageLoading,
+    Button
+},
   props: {
     id: {
       type: Number,

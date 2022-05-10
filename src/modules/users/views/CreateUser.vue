@@ -10,18 +10,24 @@
           v-model="user.name"
           variant="secondary"
           label="Nome"
+          :error="getInputError('name', result)"
+          @input="testInput('name', result)"
         />
 
         <TextField
           v-model="user.last_name"
           variant="secondary"
           label="Sobrenome"
+          :error="getInputError('last_name', result)"
+          @input="testInput('last_name', result)"
         />
 
         <TextField
           v-model="user.email"
           variant="secondary"
           label="Email"
+          :error="getInputError('email', result)"
+          @input="testInput('email', result)"
         />
 
         <Autocomplete
@@ -113,7 +119,6 @@
             :rounded="true"
             variant="info"
             text-loading="Salvando..."
-            @click="save"
             @click.prevent="save"
           >
             Cadastrar
@@ -135,7 +140,7 @@
 <script lang="ts">
 import TitlePage from '@/components/TitlePage.vue'
 import { useRouter } from 'vue-router'
-import { defineComponent, ref } from '@vue/runtime-core';
+import { defineComponent, ref, reactive } from '@vue/runtime-core';
 import { IUser } from '@/interfaces/IUser';
 import useNotifications from '@/composables/useNotifications';
 import { api } from '@/services';
@@ -147,6 +152,9 @@ import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
 import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
+import { FORM } from '@/constants/messages';
+import useValidate from 'vue-tiny-validate';
+import { useFormHandler } from '@/composables/useFormHandler';
 
 export default defineComponent({
   components: {
@@ -159,6 +167,7 @@ export default defineComponent({
     Autocomplete
 },
   setup() {
+    const { getInputError, testInput } = useFormHandler();
     const { notifications } = useNotifications();
     const store = useDefaultStore;
     const router = useRouter();
@@ -180,7 +189,41 @@ export default defineComponent({
       user.value.password = senha;
     }
 
+    const rules = reactive({
+      email: [
+        {
+          name: "required",
+          test: (email:string) => Boolean(email),
+          message: FORM.REQUIRED
+        },
+        {
+          name: "valid",
+          test: (email:string) => /\@/.test(email),
+          message: FORM.EMAIL_INVALID
+        }
+      ],
+      name: {
+        name: "required",
+        test: (name:string) => Boolean(name),
+        message: FORM.REQUIRED
+      },
+      last_name: {
+        name: "required",
+        test: (last_name:string) => Boolean(last_name),
+        message: FORM.REQUIRED
+      },
+      password: {
+        name: "required",
+        test: (password:string) => Boolean(password),
+        message: FORM.REQUIRED
+      }
+    });
+    const { result } = useValidate(user, rules);
+
     const save = async () => {
+      result.value.$test();
+      if(result.value.$invalid) return;
+
       try {
         loading.value = true;
         await api.post('/users', user.value)
@@ -194,6 +237,9 @@ export default defineComponent({
     }
 
     return {
+      result,
+      getInputError,
+      testInput,
       store,
       save,
       user,

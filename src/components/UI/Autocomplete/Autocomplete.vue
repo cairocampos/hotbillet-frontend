@@ -174,8 +174,8 @@ export default defineComponent({
       showOptions.value = false;
       search.value = "";
       selectedOption.value = option;
-      emit("update:modelValue", option[props.labelKey]);
-      emit("selected", option[props.labelKey])
+      emit("update:modelValue", option[props.labelValue]);
+      emit("selected", option[props.labelValue])
     };
     const search = ref("");
     let interval = setTimeout(() => null);
