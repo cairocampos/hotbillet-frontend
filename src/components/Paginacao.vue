@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps,computed, toRefs } from "vue"
+import { computed, toRefs } from "vue"
 import { useRoute } from "vue-router";
 
 

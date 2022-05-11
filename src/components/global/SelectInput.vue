@@ -58,7 +58,7 @@ interface Option {
   selected?: boolean;
 }
 
-import { computed, ref, watch, defineProps } from "vue";
+import { computed, ref, watch } from "vue";
 const showOptions = ref(false);
 const props = defineProps({
   multiple: {
