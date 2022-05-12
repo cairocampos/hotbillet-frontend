@@ -1,9 +1,8 @@
 <template>
   <div class="custom-select-container w-full relative">
-    <label class="text-gray-600 font-normal text-sm">{{ label }}</label>
+    <label :class="['text-gray-600 font-normal', labelClass]">{{ label }}</label>
     <div
-      class="custom-select-input flex items-center justify-between cursor-pointer transition-all border-gray-300 bg-white bg-opacity-10 hover:border-gray-400"
-      :class="[bordered ? 'border' : 'border-b', { 'cursor-not-allowed': disabled }, {'is-invalid' : Boolean(error)}]"
+      :class="baseClass"
       @click="showOptions = !showOptions"
     >
       <div>
@@ -65,10 +64,7 @@
 </template>
 
 <script lang="ts">
-type IOption = {
-  [key: string]: string;
-};
-
+import { IOption } from "@/interfaces/IOption";
 import {
   computed,
   defineComponent,
@@ -97,8 +93,12 @@ export default defineComponent({
       required: false,
       default: "",
     },
+    labelClass: {
+      type: String,
+      default: ""
+    },
     modelValue: {
-      type: [String, Number, Object],
+      type: [String, Number, Object, undefined] as PropType<string|number|undefined>,
       required: true,
     },
     options: {
@@ -150,9 +150,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    bordered: {
-      type: Boolean,
-      default: true
+    variant: {
+      type: String,
+      default: ""
     },
     error: {
       type: String,
@@ -222,11 +222,21 @@ export default defineComponent({
       return false;
     };
 
-    onMounted(() => {
+    const baseClass = computed(() => {
+      return [
+        'custom-select-input flex items-center justify-between cursor-pointer',
+        'transition-all border-gray-300 bg-white bg-opacity-10 hover:border-gray-400',
+        props.variant == 'secondary' ? 'border' : 'border-b',
+        Boolean(props.error) && 'is-invalid'
+      ]
+    });
+
+    const checkModelValue = () => {
       if (!props.ajax && props.modelValue) {
-        const option = props.options.find(
+        const option = options.value.find(
           (item) => item[props.labelValue] == props.modelValue
         );
+
         if (option) {
           selectedOption.value = {
             [props.labelKey]: option[props.labelKey],
@@ -234,6 +244,12 @@ export default defineComponent({
           };
         }
       }
+    }
+
+    watch(options, () => checkModelValue());
+
+    onMounted(() => {
+      checkModelValue()
     });
 
     return {
@@ -244,6 +260,7 @@ export default defineComponent({
       selectedOption,
       isSelected,
       showMessage,
+      baseClass
     };
   },
 });
@@ -254,6 +271,9 @@ export default defineComponent({
   width: 100%;
   padding: 0 16px;
   height: 37px;
+  &:disabled {
+    cursor: not-allowed;
+  }
    &.border {
      border-radius: 6px;
      height: 50px;

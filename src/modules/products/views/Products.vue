@@ -1,10 +1,6 @@
 <template>
   <div>
-    <HeadPage class="mb-10">
-      <h1 class="text-md lg:text-2xl text-gray-600">
-        Produtos
-      </h1>
-    </HeadPage>
+    <HeadPage title="Produtos" />
 
     <NavTabHeader
       v-model:tabActive="tabActive"
@@ -42,13 +38,13 @@
     </transition>
 
     <div class="my-10 flex justify-end">
-      <ButtonRouter
-        :to="{name: 'CreateProduct'}"
+      <Button
+        :redirect="{name: 'CreateProduct'}"
         variant="dark"
-        :rounded="true"
+        radius="full"
       >
         Adicionar Produto
-      </ButtonRouter>
+      </Button>
     </div>
 
     <PageLoading v-if="loading" />
@@ -82,7 +78,8 @@ import { api } from '@/services';
 import { IProductData } from '@/interfaces/IProduct';
 import usePagination from '@/composables/usePagination';
 import { IPagination } from '@/interfaces/IPagination';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+import Button from '@/components/UI/Button/Button.vue';
+import HeadPage from '@/components/global/HeadPage.vue';
 
 export default defineComponent({
   components: {
@@ -90,7 +87,8 @@ export default defineComponent({
     Paginacao,
     NavTabHeader,
     Filtros,
-    ButtonRouter
+    Button,
+    HeadPage
 },
   setup() {
     const { pagination } = usePagination();

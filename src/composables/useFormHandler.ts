@@ -1,6 +1,7 @@
 import { IObjectUnknown } from "@/interfaces/IObjectUnknown";
 import { ref } from "vue";
 import { Result } from "vue-tiny-validate";
+import { FORM } from '../constants/messages'
 
 type Teste = Record<string, string>;
 
@@ -16,11 +17,19 @@ interface IFormHandler {
   record(errors: Dic): void;
   clear(field?: string): void;
 }
+
+type RequiredField = {
+  name: string;
+  test: (field: string) => boolean;
+  message: string;
+}
+
 interface IComposition {
   formHandler: IFormHandler;
   removeError: (field?: string) => void;
   getInputError: (key: string, result: Result) => string;
   testInput: (key: string, result: Result) => void;
+  requiredField: () => RequiredField
 }
 
 export function useFormHandler(): IComposition {
@@ -64,7 +73,6 @@ export function useFormHandler(): IComposition {
   });
 
   const removeError = (field?: string) => handleErrors.value.clear(field);
-
   
   
   const getInputError = (key: string, result: Result): string => {
@@ -83,10 +91,25 @@ export function useFormHandler(): IComposition {
     }
   };
 
+  const requiredField = () => {
+    return {
+      name: "required",
+      test: (field:string) => Boolean(field),
+      message: FORM.REQUIRED
+    }
+  }
+
+  const validateUrl = () => {
+    return {
+      name: ""
+    }
+  }
+
   return {
     formHandler: handleErrors.value,
     removeError,
     getInputError,
     testInput,
+    requiredField
   };
 }

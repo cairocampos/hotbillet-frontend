@@ -4,12 +4,20 @@
       <p class="text-dark font-medium text-sm mb-4">
         Perguntas Frequentes
       </p>
+
+      <Text
+        v-if="!product.faqs?.length"
+        size="xs"
+        variant="default"
+      >
+        Sem registro
+      </Text>
             
       <div class="lg:w-2/4 space-y-6">
         <div 
           v-for="faq in product.faqs"
           :key="faq.id" 
-          :class="['px-4 py-2 cursor-pointer', {'bg-white':faqAtivo == faq.id}]"
+          :class="['px-4 py-2 cursor-pointer', {'bg-white': faqAtivo == faq.id}]"
           @click="faqAtivo = faq.id ?? 0"
         >
           <div
@@ -64,21 +72,22 @@
 <script lang="ts">
 import { IProduct } from '@/interfaces/IProduct';
 import {defineComponent, PropType, ref} from 'vue';
+import Text from '@/components/UI/Layout/Text.vue';
 
 export default defineComponent({
     props: {
         product: {
             type: Object as PropType<IProduct>,
-            required:true
+            required: true
         }
     },
     setup() {
         const faqAtivo = ref(0);
-
         return {
             faqAtivo
-        }
-    } 
+        };
+    },
+    components: { Text }
 });
 
 </script>

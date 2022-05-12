@@ -19,8 +19,8 @@
           />
         </Grid>
         <Button
-          variant="secondary"
-          :blocked="true"
+          variant="light"
+          block
         >
           Limpar
         </Button>

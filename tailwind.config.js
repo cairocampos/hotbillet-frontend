@@ -15,22 +15,37 @@ module.exports = {
         'base-dark': '#494545',
         'base': '#2F2D2C',
         'base-light': '#787676',
-        primary: '#FE7700',
-        'primary-dark': '#E06B10',
-        secondary: '#FBFBFB',
-        'secondary-dark': '#FBFBFB',
-        dark: '#2F2D2C',
-        success: '#00D115',
-        'success-dark': '#1B873F',
-        info: '#0085FF',
-        'info-dark': '#2992C4',
-        danger: '#E21E22',
-        'danger-dark': '#D1503A',
-        light: '#F1F1F1',
-        'light-dark': '#D9D9D9',
-        'light-light': '#FBFBFB',
-        'warning': '#FE7700',
-        'warning-dark': '#E21E22'
+        primary: {
+          300: "#0085FF",
+          400: "#0085FF",
+          500: "#0085FF"
+        },
+        success: {
+          300: "#00D115",
+          400: "#00D115",
+          500: "#00D115"
+        },
+        danger: {
+          300: "#E21E22",
+          400: "#E21E22",
+          500: "#E21E22"
+        },
+        warning: {
+          300: "#FE7700",
+          400: "#FE7700",
+          500: "#FE7700"
+        },
+        dark: {
+          300: "#787676",
+          400: "#494545",
+          500: "#2F2D2C"
+        },
+        light: {
+          200: "#FFFFFF",
+          300: "#FBFBFB",
+          400: "#F1F1F1",
+          500: "#D9D9D9"
+        }
       }
     },
   },

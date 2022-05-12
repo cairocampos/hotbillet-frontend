@@ -1,10 +1,9 @@
 <template>
   <div>
-    <HeadPage class="mb-10">
-      <h1 class="text-2xl text-gray-600">
-        Novo Produto
-      </h1>
-    </HeadPage>
+    <HeadPage
+      class="mb-10"
+      title="Novo Produto"
+    />
 
     <div class="flex items-start justify-between">
       <ul class="steps hidden md:flex space-x-16 relative">
@@ -19,177 +18,59 @@
               step.ordem === 1 ? 'border-gray-800' : '',
             ]"
           >
-            <span
-              :class="[step.ordem === 1 ? 'text-black font-medium' : '']"
-            >{{ step.ordem }}º</span>
+            <span :class="[step.ordem === 1 ? 'text-black font-medium' : '']">{{ step.ordem }}º</span>
           </div>
           <span :class="[step.ordem === 1 ? 'text-black font-medium' : '']">{{
             step.label
           }}</span>
         </li>
       </ul>
-      <transition name="slide">
-        <div
-          v-if="loading"
-          key="teste1"
+      <div
+        key="teste2"
+        class="flex space-x-2"
+      >
+        <Button
+          variant="dark"
+          radius="full"
+          :loading="loading"
+          text-loading="Salvando..."
+          size="sm"
+          @click="submitForm"
         >
-          <button
-            class="btn btn-sm btn-dark rounded-full flex space-x-2 items-center"
-          >
-            <Loading class="h-5 w-5" />
-            <span>Salvando...</span>
-          </button>
-        </div>
-        <div
-          v-else
-          key="teste2"
-          class="space-x-2"
+          Salvar e continuar
+        </Button>
+        <Button
+          v-show="!loading"
+          variant="dark"
+          radius="full"
+          size="sm"
+          outline
         >
-          <Button
-            :loading="loading"
-            :disabled="loading"
-            title="Salvar e Continuar"
-            class="btn btn-sm btn-dark rounded-full"
-            @click="submitForm"
-          />
-          <button class="btn btn-sm btn-outline-secondary rounded-full">
-            Cancelar
-          </button>
-        </div>
-      </transition>
+          Cancelar
+        </Button>
+      </div>
     </div>
 
-    <section class="m-4 my-16">
-      <form class="lg:grid lg:grid-cols-2 lg:gap-32 form-sm">
-        <div class="space-y-12">
-          <div class="form-group">
-            <label
-              for=""
-              class="label"
-            >Nome do Produto</label>
-            <input
-              v-model="form.name"
-              type="text"
-              class="form-control form-control-line"
-              :class="{error: formHandler.has('name')}"
-              @input="formHandler.clear('name')"
-            />
-            <InputInfo
-              :handler="formHandler"
-              field="name"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              for=""
-              class="label"
-            >Subtitulo</label>
-            <input
-              v-model="form.abbreviation"
-              type="text"
-              class="form-control form-control-line"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              for=""
-              class="label"
-            >Link do Produto</label>
-            <input
-              v-model="form.url"
-              type="text"
-              class="form-control form-control-line"
-              placeholder="Cole aqui a URL da página do produto"
-            />
-          </div>
-          <div class="form-group">
-            <label
-              for=""
-              class="label"
-            >Tipo de Produto</label>
-            <select
-              v-model="form.product_type"
-              class="form-control form-control-line"
-            >
-              <option
-                v-for="product_type in PRODUCT_TYPE"
-                :key="product_type"
-                :value="product_type"
-              >
-                {{ product_type }}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="mt-10 md:mt-0 space-y-12">
-          <div class="form-group">
-            <label class="label">Contato do Suporte</label>
-            <div class="input-group input-group-line">
-              <div class="input-prepend mr-2">
-                <span class="text-default">
-                  Telefone:
-                </span>
-              </div>
-              <input
-                v-model="form.support_tel"
-                v-maska="'(##) #####-####'"
-                type="text"
-                placeholder="(xx) xxxxx-xxxx"
-                class="bg-transparent outline-none"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="label" />
-            <div class="input-group input-group-line">
-              <div class="input-prepend mr-2">
-                <span class="text-default">
-                  Email:
-                </span>
-              </div>
-              <input
-                v-model="form.support_email"
-                type="text"
-                placeholder="suporte@suporte.com"
-                class="bg-transparent outline-none"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label
-              for=""
-              class="label"
-            >Descrição do Produto</label>
-            <textarea
-              v-model="form.description"
-              class="form-control form-control-line border rounded-sm"
-              placeholder="Descreva o produto aqui"
-              rows="10"
-            />
-          </div>
-        </div>
-      </form>
-    </section>
+    <CreateProductForm
+      ref="child"
+      v-model:loading="loading"
+      class="m-4 my-16"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import useNotifications from "@/composables/useNotifications";
-import { IProduct, IProductData } from "@/interfaces/IProduct";
-import { useRouter } from "vue-router";
-import useConstants from "@/composables/useConstants";
-import { api } from "@/services";
-import { useFormHandler } from "@/composables/useFormHandler";
+import Button from "@/components/UI/Button/Button.vue";
+import HeadPage from "@/components/HeadPage.vue";
+import CreateProductForm from "../components/CreateProductForm.vue";
 interface Step {
   label: string;
   ordem: number;
 }
 export default defineComponent({
+  components: { Button, HeadPage, CreateProductForm },
   setup() {
-    const { PRODUCT_TYPE } = useConstants();
-    const router = useRouter();
     const steps = ref<Step[]>([
       { ordem: 1, label: "Dados" },
       { ordem: 2, label: "Links" },
@@ -198,59 +79,18 @@ export default defineComponent({
       { ordem: 5, label: "Faq" },
       { ordem: 6, label: "Conversão" },
     ]);
-    const form = ref<IProductData>({
-      name: "",
-      abbreviation: "",
-      company_id: 1,
-      url: "",
-      product_type: "FISICO",
-      status: "ATIVO",
-      support_email: "",
-      support_tel: "",
-      description: "",
-    });
     const loading = ref(false);
-
-    const { formHandler } = useFormHandler();
-    const checkForm = () => {
-      const {
-        name
-      } = form.value;
-      if (!name) {
-        formHandler.record({ name: "O campo nome é obrigatório." });
-      }
-    };
-
-    const { notifications } = useNotifications();
+    const child = ref<typeof CreateProductForm|null>(null)
     const submitForm = async () => {
-      checkForm();
-      if (formHandler.any()) return;
-
-      try {
-        loading.value = true;
-        const { data } = await api.post<IProduct>("/products", form.value);
-        notifications.success("Continue cadastrando os dados do seu produto.");
-        router.push({
-          name: "EditarProduto",
-          params: { id: data.id },
-          query: { redirect: 1 },
-        });
-      } catch (error) {
-        notifications.error(error);
-      } finally {
-        loading.value = false;
-      }
+      child.value?.submit();
     };
-
     return {
       steps,
       loading,
-      form,
+      child,
       submitForm,
-      PRODUCT_TYPE,
-      formHandler,
     };
-  },
+  }
 });
 </script>
 

@@ -2,7 +2,7 @@
   <div>
     <label
       v-if="label"
-      class="text-gray-600 font-normal text-sm"
+      :class="['text-gray-600 font-normal', labelClass]"
     >{{ label }}</label>  
     <div
       :class="[
@@ -36,7 +36,7 @@ import { computed, defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   props: {
     modelValue: {
-      type: String,
+      type: String as PropType<string|undefined>,
       required:true
     },
     size: {
@@ -67,6 +67,10 @@ export default defineComponent({
       type: [Array, Object, String],
       required:false,
       default: ""
+    },
+    labelClass: {
+      type: String,
+      default: ""
     }
   },
   emits: ['update:modelValue', 'input'],
@@ -74,7 +78,7 @@ export default defineComponent({
     const computedClass = computed(() => {
       const variants = {
         primary: "bg-white border rounded-md",
-        secondary: "border-b bg-transparent"
+        secondary: "border-b border-zinc-300 bg-transparent"
       }
 
       return variants[props.variant];

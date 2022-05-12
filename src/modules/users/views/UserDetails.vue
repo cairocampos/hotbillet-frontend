@@ -15,13 +15,10 @@
           <div class="p-4">
             <div class="flex justify-between">
               <div class="flex space-x-10">
-                <div class="w-56 h-56 bg-gradient-to-r from-yellow-500 to-red-700 p-1 rounded-full">
-                  <img
-                    src="@/assets/fake/perfil.jpeg"
-                    alt=""
-                    class="object-cover w-100 rounded-full"
-                  >
-                </div>
+                <AvatarAccount
+                  width="56"
+                  height="56"
+                />
 
                 <div class="space-y-4">
                   <h3 class="text-2xl text-dark font-medium">
@@ -36,13 +33,21 @@
                 </div>
               </div>
 
-              <div class="space-x-4">
-                <button class="btn btn-sm btn-outline-secondary rounded-full">
+              <div class="space-x-4 flex items-start">
+                <Button
+                  :redirect="{name: 'UpdateUser', params: {id}}"
+                  variant="dark"
+                  radius="full"
+                  outline
+                >
                   Editar Perfil
-                </button>
-                <button class="btn btn-sm btn-primary rounded-full">
+                </Button>
+                <Button
+                  variant="special"
+                  radius="full"
+                >
                   Desativar
-                </button>
+                </Button>
               </div>
             </div>
             <div class="text-right divide-x-2">
@@ -89,9 +94,11 @@ import { defineComponent, computed, onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
 import PageLoading from "@/components/global/PageLoading.vue";
 import useConstants from "@/composables/useConstants";
+import Button from "@/components/UI/Button/Button.vue";
+import AvatarAccount from "../../../components/AvatarAccount.vue";
 
 export default defineComponent({
-  components: { RouteBack, PageLoading },
+  components: { RouteBack, PageLoading, Button, AvatarAccount },
   props: {
     id: {
       type: [Number, String],

@@ -28,13 +28,13 @@
     
     <div class="my-10 text-right">
       <div class="flex justify-end">
-        <ButtonRouter
+        <Button
           variant="dark"
-          :to="{name:'CreateUser'}"
-          :rounded="true"
+          :redirect="{name:'CreateUser'}"
+          radius="full"
         >
           Cadastrar Usuário
-        </ButtonRouter>
+        </Button>
       </div>
     </div>
 
@@ -85,7 +85,7 @@ import { IHeader } from '@/interfaces/IDatatable';
 import Datatable from '@/components/UI/Datatable/Datatable.vue';
 import useHelpers from '@/composables/useHelpers'
 import useConstants from '@/composables/useConstants';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+import Button from '@/components/UI/Button/Button.vue';
 import NoRecords from '@/components/NoRecords.vue';
 
 export default defineComponent({
@@ -93,12 +93,12 @@ export default defineComponent({
     TitlePage,
     HeadContent,
     Datatable,
-    ButtonRouter,
+    Button,
     NoRecords
 },
   setup() {
     const loading = ref(false);
-    const { formatDateIsoToBRL } = useDateTime();
+    const { formatDateTimeISO } = useDateTime();
     const users = ref<IUserData[]>()
     const { ucword } = useHelpers()
     const { STATUS } = useConstants()
@@ -116,7 +116,7 @@ export default defineComponent({
         {
           text: "Data do cadastro",
           value: "created_at",
-          format: (value:string) => formatDateIsoToBRL(value)
+          format: (value:string) => formatDateTimeISO(value)
         },
         {
           text: "Status",
@@ -148,7 +148,7 @@ export default defineComponent({
     })
 
     return {
-      formatDateIsoToBRL,
+      formatDateTimeISO,
       users,
       loading,
       headers,

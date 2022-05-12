@@ -55,35 +55,27 @@
             </a>
           </li>
         </ul>
-        <transition name="slide">
-          <div
-            v-if="sendingForm"
-            key="teste1"
+
+        <div class="flex gap-4">
+          <Button
+            variant="dark"
+            radius="full"
+            size="sm"
+            :loading="sendingForm"
+            @click="validateStep"
           >
-            <button
-              disabled
-              class="cursor-not-allowed btn btn-sm btn-dark-secondary rounded-full flex space-x-2 items-center"
-            >
-              <Loading class="h-5 w-5" />
-              <span>Salvando...</span>
-            </button>
-          </div>
-          <div
-            v-else
-            key="teste2"
-            class="space-x-2"
+            Confirmar Alterações
+          </Button>
+          <Button
+            :redirect="{name: 'Product', params: {id}}"
+            variant="dark"
+            radius="full"
+            size="sm"
+            outline
           >
-            <button
-              class="btn btn-sm btn-dark rounded-full"
-              @click="validateStep"
-            >
-              Confirmar Alterações
-            </button>
-            <button class="btn btn-sm btn-outline-secondary rounded-full">
-              Cancelar
-            </button>
-          </div>
-        </transition>
+            Cancelar
+          </Button>
+        </div>
       </div>
 
       <section class="m-4 my-16">
@@ -113,6 +105,7 @@ import { useRoute } from 'vue-router';
 import { IProduct } from '@/interfaces/IProduct';
 import { api } from '@/services';
 import useNotifications from '@/composables/useNotifications';
+import Button from '@/components/UI/Button/Button.vue';
 
 interface Step {
     label:string;
@@ -127,7 +120,8 @@ export default defineComponent({
     Midias,
     Ebooks,
     Faq,
-  },
+    Button
+},
   props: {
     id: {
       type: Number,

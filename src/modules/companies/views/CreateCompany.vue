@@ -1,8 +1,6 @@
 <template>
   <Container>
-    <HeadPage class="mb-10">
-      <TitlePage>Cadastrar Empresa</TitlePage>
-    </HeadPage>
+    <HeadPage title="Cadastrar Empresa" />
     <FormCompany
       v-model="company"
       :result="result"
@@ -23,11 +21,13 @@ import { useRouter } from "vue-router";
 import useValidate from 'vue-tiny-validate'
 import {createCompanyRules} from '../validate'
 import FormCompany from "../components/FormCompany.vue";
+import HeadPage from "@/components/global/HeadPage.vue";
 export default defineComponent({
   components: {
     TitlePage,
     Container,
-    FormCompany
+    FormCompany,
+    HeadPage
 },
   setup() {
     const router = useRouter();

@@ -1,11 +1,9 @@
 <template>
   <div class="flex space-x-4 mx-4 border-b border-gray-400 pb-6">
-    <div class="h-16 w-16 rounded-full bg-gradient-to-r from-yellow-500 to-red-700 p-1">
-      <img
-        src="@/assets/fake/perfil.jpeg"
-        class="rounded-full"
-      >
-    </div>
+    <AvatarAccount
+      width="16"
+      height="16"
+    />
 
     <div class="flex flex-col">
       <p class="text-white text-xs text__username">
@@ -24,16 +22,20 @@
 
 <script lang='ts'>
 import { computed, defineComponent } from 'vue';
+import AvatarAccount from '../AvatarAccount.vue';
 export default defineComponent({
-  setup() {
-    const username = computed(() => 'Cairo')
-
-    return {
-      username
+    components: { AvatarAccount },
+    setup() {
+        const username = computed(() => "Cairo");
+        return {
+            username
+        };
     }
-  }
 })
 </script>
 
 <style lang='scss' scoped>
+.avatar {
+  background: linear-gradient(230.64deg, #E31E22 17.24%, #FF7800 82.83%);
+}
 </style>

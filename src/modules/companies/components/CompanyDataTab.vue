@@ -5,17 +5,17 @@
         {{ company.company_name }}
       </Heading>
       <div class="flex items-center space-x-4">
-        <ButtonRouter
-          :to="{name: 'UpdateCompany', props: {id: company.id}}"
+        <Button
+          :redirect="{name: 'UpdateCompany', props: {id: company.id}}"
           variant="dark"
-          :outline="true"
-          :rounded="true"
+          outline
+          radius="full"
         >
           Editar Empresa
-        </ButtonRouter>
+        </Button>
         <Button
           variant="special"
-          :rounded="true"
+          radius="full"
           @click="inactivateCompany"
         >
           Inativar
@@ -112,12 +112,11 @@ import { defineComponent, PropType } from 'vue';
 import Box from '@/components/UI/Box/Box.vue';
 import Heading from '@/components/UI/Layout/Heading.vue';
 import Button from '@/components/UI/Button/Button.vue';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
 import Text from '@/components/UI/Layout/Text.vue';
 import { ICompany } from '../interfaces/ICompany';
 import { maskPhone } from '@/helpers'
 export default defineComponent({
-  components: { Box, Heading, Button, ButtonRouter, Text },
+  components: { Box, Heading, Button, Text },
   props: {
     company: {
       type: Object as PropType<ICompany>,

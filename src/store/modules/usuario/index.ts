@@ -38,9 +38,9 @@ const usuarioModule: Module<UsuarioState, RootState> = {
       });
       router.push({path:"/login"})
     },
-    defineUsuario({dispatch}, data: {jwt_access:string;jwt_refresh:string;}) {
-      localStorage.setItem('hot_token', data.jwt_access);
-      localStorage.setItem('hot_refresh_token', data.jwt_refresh);
+    defineUsuario({dispatch}, data: {token_access:string;token_refresh:string;}) {
+      localStorage.setItem('hot_token', data.token_access);
+      localStorage.setItem('hot_refresh_token', data.token_refresh);
 
       dispatch('getJwtData');
     },

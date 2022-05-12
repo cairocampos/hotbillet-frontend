@@ -4,7 +4,7 @@ import { computed, defineComponent, h } from "vue";
 export default defineComponent({
   props: {
     modelValue: {
-      type: Number,
+      type: [Number, String],
       required: true,
     },
     secondary: {
@@ -17,7 +17,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { slots, emit }) {
     const tabActiveStyle = computed(() => {
-      const border = props.secondary ? "border-gray-500" : "border-yellow-500";
+      const border = props.secondary ? "border-gray-500" : "border-[#FE7700]";
       return `border-b-2 ${border} text-gray-700 font-medium`;
     });
 

@@ -57,6 +57,18 @@ export const maskCpfOrCnpj = (value: string) => {
 };
 
 export const maskPhone = (value: string) => {
-  // (33) 9 9140-9852
   return value.replace(/([0-9]{2})([0-9]{1})([0-9]{4})([0-9]{4})/, '($1) $2 $3-$4')
+}
+
+export const isValidURL = (url:string) => {
+  return /^(http|www)/.test(url);
+}
+
+export const isEmail = (email:string) => {
+  return /\@/.test(email);
+}
+
+export const generatePassword = (length: number) => {
+  const pass = Date.now().toString(36).slice(-6);
+  return (pass + btoa(pass)).slice(-`${length}`);
 }

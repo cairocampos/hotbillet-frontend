@@ -1,15 +1,20 @@
 <template>
-  <div>
-    <HeadPage class="mb-10">
-      <TitlePage>Usuários</TitlePage>
-    </HeadPage>
+  <div class="mb-10">
+    <HeadPage
+      class="mb-10"
+      title="Usuários"
+    />
 
-    <Form class="md:flex justify-between px-10">
+    <Form
+      class="md:flex justify-between px-10"
+      @submit.prevent="save"
+    >
       <div class="space-y-12">
         <TextField
           v-model="user.name"
           variant="secondary"
           label="Nome"
+          label-class="text-xs"
           :error="getInputError('name', result)"
           @input="testInput('name', result)"
         />
@@ -18,6 +23,7 @@
           v-model="user.last_name"
           variant="secondary"
           label="Sobrenome"
+          label-class="text-xs"
           :error="getInputError('last_name', result)"
           @input="testInput('last_name', result)"
         />
@@ -25,6 +31,7 @@
         <TextField
           v-model="user.email"
           variant="secondary"
+          label-class="text-xs"
           label="Email"
           :error="getInputError('email', result)"
           @input="testInput('email', result)"
@@ -35,8 +42,30 @@
           :options="store.state.spec.profiles"
           label-key="description"
           label-value="id"
-          :bordered="false"
           label="Perfil"
+          label-class="text-xs"
+          :error="getInputError('user_profile_id', result)"
+          @selected="testInput('user_profile_id', result)"
+        />
+
+        <div
+          v-if="loadingSupervisors"
+          class="flex items-center gap-2"
+        >
+          <Loading class="w-4 h-4" />
+          <Text variant="default">
+            Carregando...
+          </Text>
+        </div>
+        <Autocomplete
+          v-if="user.user_profile_id == Profile.VENDEDOR && supervisors?.length"
+          v-model="user.supervisor_id"
+          :options="supervisors"
+          label-key="name"
+          label-value="id"
+          label="Selecione um supervisor para vincular ao vendedor"
+          label-class="text-xs"
+          :searchable="true"
         />
 
         <InputGroup
@@ -116,21 +145,21 @@
             :loading="loading"
             loading-type="border"
             :disabled="loading"
-            :rounded="true"
-            variant="info"
+            radius="full"
+            variant="dark"
             text-loading="Salvando..."
-            @click.prevent="save"
+            type="submit"
           >
             Cadastrar
           </Button>
-          <ButtonRouter
-            :rounded="true"
-            :to="{name:'Users'}"
-            variant="danger"
-            :outline="true"
+          <Button
+            radius="full"
+            :redirect="{name:'Users'}"
+            variant="dark"
+            outline
           >
             Cancelar
-          </ButtonRouter>
+          </Button>
         </div>
       </div>
     </Form>
@@ -138,40 +167,42 @@
 </template>
 
 <script lang="ts">
-import TitlePage from '@/components/TitlePage.vue'
+import HeadPage from '@/components/HeadPage.vue'
 import { useRouter } from 'vue-router'
-import { defineComponent, ref, reactive } from '@vue/runtime-core';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import { IUser } from '@/interfaces/IUser';
 import useNotifications from '@/composables/useNotifications';
 import { api } from '@/services';
 import {useDefaultStore} from '@/store';
 import InputGroup from '@/components/InputGroup.vue';
-import useContants from '@/composables/useConstants';
-import Button from '@/components/UI/Button/Button.vue';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+import Button from '@/components/UI/Button/Button.vue';
 import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import { FORM } from '@/constants/messages';
 import useValidate from 'vue-tiny-validate';
 import { useFormHandler } from '@/composables/useFormHandler';
+import { Profile } from '@/enums/constants';
+import Loading from '@/components/UI/Loading/Loading.vue'
+import Text from '@/components/UI/Layout/Text.vue';
+import { createUserFormRequest } from '../helpers';
 
 export default defineComponent({
   components: {
-    TitlePage,
     InputGroup,
     Button,
     Form,
     TextField,
-    ButtonRouter,
-    Autocomplete
+    Autocomplete,
+    HeadPage,
+    Loading,
+    Text
 },
   setup() {
     const { getInputError, testInput } = useFormHandler();
     const { notifications } = useNotifications();
     const store = useDefaultStore;
     const router = useRouter();
-    const {PROFILES} = useContants();
     
     const loading = ref(false);
     const user = ref<IUser>({
@@ -179,8 +210,18 @@ export default defineComponent({
       last_name:'',
       password:'',
       email:'',
-      user_profile_id: 1
+      user_profile_id: Profile.SUPERVISOR
     });
+
+    const loadingSupervisors  = ref(false);
+    const supervisors = ref<IUser[]>()
+
+    const fetchSupervisors = async () => {
+      loadingSupervisors.value = true;
+      const { data } = await api.get<{users: IUser[]}>(`/users/supervisor`)
+      supervisors.value = data.users;
+      loadingSupervisors.value = false;
+    }
 
     const showPassword = ref(false);
     const generatePassword = () => {
@@ -189,35 +230,7 @@ export default defineComponent({
       user.value.password = senha;
     }
 
-    const rules = reactive({
-      email: [
-        {
-          name: "required",
-          test: (email:string) => Boolean(email),
-          message: FORM.REQUIRED
-        },
-        {
-          name: "valid",
-          test: (email:string) => /\@/.test(email),
-          message: FORM.EMAIL_INVALID
-        }
-      ],
-      name: {
-        name: "required",
-        test: (name:string) => Boolean(name),
-        message: FORM.REQUIRED
-      },
-      last_name: {
-        name: "required",
-        test: (last_name:string) => Boolean(last_name),
-        message: FORM.REQUIRED
-      },
-      password: {
-        name: "required",
-        test: (password:string) => Boolean(password),
-        message: FORM.REQUIRED
-      }
-    });
+    const rules = reactive(createUserFormRequest);
     const { result } = useValidate(user, rules);
 
     const save = async () => {
@@ -227,7 +240,7 @@ export default defineComponent({
       try {
         loading.value = true;
         await api.post('/users', user.value)
-        router.push({name: "Usuarios"})
+        router.push({name: "Users"})
         notifications.success('Usuário cadastrado.')
       } catch (error) {
         notifications.error(error);
@@ -235,6 +248,16 @@ export default defineComponent({
         loading.value = false;
       }
     }
+
+    watch(() => user.value.user_profile_id, profile_id => {
+      if(profile_id == Profile.VENDEDOR) {
+        user.value.supervisor_id = 1;
+        fetchSupervisors();
+        return
+      }
+
+      delete user.value.supervisor_id
+    });
 
     return {
       result,
@@ -246,7 +269,9 @@ export default defineComponent({
       loading,
       showPassword,
       generatePassword,
-      PROFILES
+      supervisors,
+      Profile,
+      loadingSupervisors
     }
   }
 })

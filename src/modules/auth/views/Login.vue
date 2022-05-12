@@ -101,9 +101,10 @@
                 <Button
                   size="md"
                   :loading="btnLoading"
-                  variant="secondary"
-                  loading-type="border"
-                  :blocked="true"
+                  variant="light"
+                  :block="true"
+                  radius="md"
+                  type="submit"
                 >
                   Entrar
                 </Button>
@@ -134,8 +135,8 @@ import { useStore } from "vuex";
 import Button from "@/components/UI/Button/Button.vue";
 
 interface ILogin {
-  jwt_access: string;
-  jwt_refresh: string;
+  token_access: string;
+  token_refresh: string;
 }
 
 export default defineComponent({

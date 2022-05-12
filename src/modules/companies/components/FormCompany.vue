@@ -1,5 +1,8 @@
 <template>
-  <Form class="md:grid md:grid-cols-2 md:gap-10 md:divide-x-2 lg:grid-cols-3">
+  <Form
+    class="md:grid md:grid-cols-2 md:gap-10 md:divide-x-2 lg:grid-cols-3"
+    @submit.prevent="submitForm"
+  >
     <div class="space-y-8 lg:col-span-2">
       <TextField
         v-model="company.company_name"
@@ -19,7 +22,7 @@
         @input="testInput('cpf_cnpj', result)"
       />
       <Box>
-        <Text> Dados de Contato </Text>
+        <Text>Dados de Contato</Text>
       </Box>
       <TextField
         v-model="company.tel1"
@@ -127,21 +130,21 @@
           :loading="loading"
           loading-type="border"
           :disabled="loading"
-          :rounded="true"
-          variant="info"
+          radius="full"
+          variant="dark"
           text-loading="Salvando..."
-          @click.prevent="submitForm"
+          type="submit"
         >
           Salvar
         </Button>
-        <ButtonRouter
-          :rounded="true"
-          :to="{ name: 'Companies' }"
-          variant="danger"
-          :outline="true"
+        <Button
+          radius="full"
+          :redirect="{ name: 'Companies' }"
+          variant="dark"
+          outline
         >
           Cancelar
-        </ButtonRouter>
+        </Button>
       </div>
     </div>
   </Form>

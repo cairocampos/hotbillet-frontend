@@ -1,8 +1,9 @@
 <template>
   <div>
-    <HeadPage class="mb-10">
-      <TitlePage>Empresas</TitlePage>
-    </HeadPage>
+    <HeadPage
+      class="mb-10"
+      title="Empresas"
+    />
 
     <Tabs v-model="activeTab">
       <Tab title="Ativas" />
@@ -19,13 +20,13 @@
       class="space-y-4"
     >
       <div class="flex justify-end mt-4 mb-8">
-        <ButtonRouter
+        <Button
           variant="dark"
-          to="/empresas/adicionar"
-          :rounded="true"
+          redirect="/empresas/adicionar"
+          radius="full"
         >
           Cadastrar Empresa
-        </ButtonRouter>
+        </Button>
       </div>
       <Datatable
         :headers="headers"
@@ -51,7 +52,6 @@
 </template>
 
 <script lang="ts">
-import TitlePage from "@/components/UI/Layout/TitlePage.vue";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import Datatable from "@/components/UI/Datatable/Datatable.vue";
 import useLoading from "@/composables/useLoading";
@@ -64,18 +64,19 @@ import ButtonActions from "../components/ButtonActions.vue";
 import SidebarFilters from "../components/SidebarFilters.vue";
 import { ICompanySimple } from "../interfaces/ICompany";
 import PageLoading from "@/components/global/PageLoading.vue";
-import ButtonRouter from "@/components/UI/Button/ButtonRouter.vue";
+import Button from "@/components/UI/Button/Button.vue";
+import HeadPage from "@/components/HeadPage.vue";
 export default defineComponent({
   components: {
-    TitlePage,
     Datatable,
     Tabs,
     Tab,
     ButtonActions,
     SidebarFilters,
     PageLoading,
-    ButtonRouter,
-  },
+    Button,
+    HeadPage
+},
   setup() {
     const { loading } = useLoading();
     const { notifications } = useNotifications();
@@ -109,7 +110,12 @@ export default defineComponent({
       try {
         loading.value.primary = true;
         const { data } = await api.get<{ companies: ICompanySimple[] }>(
-          `/companies/simple`
+          `/companies/simple`,
+          {
+            params: {
+              status: activeTab.value == 0 ? "ATIVO" : "INATIVO"
+            }
+          }
         );
         companies.value = data.companies;
       } catch (error) {

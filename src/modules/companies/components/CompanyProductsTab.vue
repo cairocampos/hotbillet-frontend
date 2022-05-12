@@ -3,13 +3,13 @@
     <Box class="flex items-center justify-between">
       <Heading></Heading>
       <div class="flex items-center space-x-4">
-        <ButtonRouter
-          to="/companies/adicionar"
+        <Button
+          redirect="/companies/adicionar"
           variant="dark"
-          :rounded="true"
+          radius="full"
         >
           Adicionar Produto
-        </ButtonRouter>
+        </Button>
       </div>
     </Box>
 
@@ -22,10 +22,10 @@
       >
         <div class="px-4">
           <Button
-            variant="danger"
+            variant="dark"
             :outline="true"
-            :blocked="true"
-            :rounded="true"
+            block
+            radius="full"
           >
             Pausar Produto
           </Button>
@@ -40,15 +40,15 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import Box from '@/components/UI/Box/Box.vue';
 import Heading from '@/components/UI/Layout/Heading.vue';
-import ButtonRouter from '@/components/UI/Button/ButtonRouter.vue';
+import Button from '@/components/UI/Button/Button.vue';
 import CardProduto from '@/modules/products/components/CardProduto.vue';
 import { IProductData } from '@/interfaces/IProduct';
-import Button from '@/components/UI/Button/Button.vue';
 import { api } from '@/services';
 import useNotifications from '@/composables/useNotifications';
 import NoRecords from '@/components/NoRecords.vue';
+import PageLoading from '@/components/global/PageLoading.vue';
 export default defineComponent({
-  components: { Box, Heading, ButtonRouter, CardProduto, Button, NoRecords },
+  components: { Box, Heading, Button, CardProduto, Button, NoRecords, PageLoading },
   props: {
     id: {
       type: [Number,String],

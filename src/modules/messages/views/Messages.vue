@@ -1,10 +1,6 @@
 <template>
   <div>
-    <HeadPage>
-      <TitlePage>
-        Mensagens
-      </TitlePage>
-    </HeadPage>
+    <HeadPage title="Mensagens" />
     <div class="container mx-auto">
       <button
         class="btn btn-sm btn-outline-secondary rounded-full py-1 px-4 flex items-center mb-10"
@@ -170,9 +166,10 @@ import { defineComponent, ref } from "vue";
 import ShowDetailsModal from "../components/ShowDetailsModal.vue";
 import MessageModal from "../components/MessageModal.vue";
 import TitlePage from "@/components/UI/Layout/TitlePage.vue";
+import HeadPage from "@/components/global/HeadPage.vue";
 
 export default defineComponent({
-  components: { ShowDetailsModal, MessageModal, TitlePage },
+  components: { ShowDetailsModal, MessageModal, TitlePage, HeadPage },
   setup() {
     const modal = ref<typeof ShowDetailsModal>();
     const messageModal = ref<typeof ShowDetailsModal>();

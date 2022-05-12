@@ -18,7 +18,11 @@
           d="M10 19l-7-7m0 0l7-7m-7 7h18"
         />
       </svg>
-      <slot />
+      <slot>
+        <h1 class="text-xl text-dark">
+          {{ title }}
+        </h1>
+      </slot>
     </button>
     <slot name="extras" />
   </div>
@@ -29,6 +33,10 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      default: ""
+    },
     route: {
       type: Object,
       required:false,

@@ -17,7 +17,7 @@
       <PageLoading v-if="loading" />
       <div v-else-if="product && product.id">
         <div class="grid grid-cols-3 mb-10">
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-4 col-span-2">
             <div class="w-16 h-16 bg-gray-200 rounded-full">
               <!-- <img src="@/assets/fake/produto.png" alt="" class="h-100 w-100 object-contain rounded-full"> -->
             </div>
@@ -29,7 +29,7 @@
             </div>
           </div>
 
-          <div>
+          <!-- <div>
             <div class="flex space-x-1">
               <span class="text-default font-extralight">R$</span>
               <h3 class="text-xl font-medium">
@@ -37,27 +37,24 @@
               </h3>
             </div>
             <span class="text-default font-medium text-xs">até 3x s/ juros</span>
-          </div>
+          </div> -->
 
 
           <div class="flex items-center gap-4">
             <Button
+              :redirect="{name: 'UpdateProduct', params: {id: product.id}}"
+              radius="full"
               variant="dark"
+              outline
             >
               Editar Produto
             </Button>
-            <Button variant="secondary">
+            <Button
+              radius="full"
+              variant="special"
+            >
               Pausar Produto
             </Button>
-            <!-- <router-link
-              :to="{name: 'UpdateProduct', params: {id: product.id}}"
-              class="btn btn-sm btn-outline-secondary rounded-full"
-            >
-              Editar Produto
-            </router-link>
-            <button class="btn btn-sm btn-primary rounded-full">
-              Pausar Produto
-            </button> -->
           </div>
         </div>
         <transition

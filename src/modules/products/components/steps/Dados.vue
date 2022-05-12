@@ -163,8 +163,8 @@ export default defineComponent({
         });
         const submitForm = async () => {
             try {
-                await api.put(`/products/${product.value.id}`, form.value);
-                emit("change-step");
+              await api.put(`/products/${product.value.id}`, form.value);
+              emit("change-step");
             }
             catch (error) {
                 notifications.error(error);

@@ -40,7 +40,7 @@
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import DropdownNotifications from "../DropdownNotifications/DropdownNotifications.vue";
+import DropdownNotifications from "./DropdownNotifications/DropdownNotifications.vue";
 
 export default defineComponent({
     components: { DropdownNotifications },

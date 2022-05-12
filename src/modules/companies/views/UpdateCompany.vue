@@ -1,9 +1,7 @@
 <template>
   <Container>
-    <HeadPage class="mb-10">
-      <RouteBack>
-        <TitlePage>Atualizar Empresa</TitlePage>
-      </RouteBack>
+    <HeadPage>
+      <RouteBack title="Atualizar Empresa" />
     </HeadPage>
     <PageLoading v-if="loading.primary" />
     <FormCompany
@@ -17,7 +15,6 @@
 </template>
 
 <script lang="ts">
-import TitlePage from "@/components/TitlePage.vue";
 import { defineComponent, onMounted, reactive, ref } from "@vue/runtime-core";
 import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services";
@@ -30,13 +27,14 @@ import FormCompany from "../components/FormCompany.vue";
 import PageLoading from "@/components/global/PageLoading.vue";
 import useLoading from "@/composables/useLoading";
 import RouteBack from "@/components/RouteBack.vue";
+import HeadPage from "@/components/global/HeadPage.vue";
 export default defineComponent({
   components: {
-    TitlePage,
     Container,
     FormCompany,
     PageLoading,
-    RouteBack
+    RouteBack,
+    HeadPage
 },
   props: {
     id: {

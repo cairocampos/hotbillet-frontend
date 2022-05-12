@@ -4,7 +4,17 @@
       <p class="text-default font-medium text-sm mb-4">
         Ebooks
       </p>
-      <div class="flex items-center space-x-6">
+      <Text
+        v-if="!product.ebooks?.length"
+        size="xs"
+        variant="default"
+      >
+        Sem registro
+      </Text>
+      <div
+        v-else
+        class="flex items-center space-x-6"
+      >
         <button class="space-x-2 flex items-center text-xs text-default">
           <img
             src="@/assets/icons/download.svg"
@@ -71,16 +81,18 @@
 <script lang="ts">
 import { IProduct } from "@/interfaces/IProduct"
 import { defineComponent, PropType } from "vue"
+import Text from "@/components/UI/Layout/Text.vue"
 export default defineComponent({
     props: {
         product: {
             type: Object as PropType<IProduct>,
-            required:true
+            required: true
         }
     },
     setup() {
         //
-    }
+    },
+    components: { Text }
 })
 </script>
 

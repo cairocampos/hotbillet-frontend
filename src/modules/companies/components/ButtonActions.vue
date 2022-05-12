@@ -1,7 +1,7 @@
 <template>
   <Button
     variant="reset"
-    size="sm"
+    size="xs"
     @click="$emit('export')"
   >
     <template #left>
@@ -11,7 +11,7 @@
   </Button>
   <Button
     variant="reset"
-    size="sm"
+    size="xs"
     @click="$emit('filter')"
   >
     <template #left>
