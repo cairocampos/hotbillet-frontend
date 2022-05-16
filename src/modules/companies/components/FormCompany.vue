@@ -115,7 +115,7 @@
           :options="brazilianStates.map(item => ({id: item, label: item}))"
           label="Estado"
           :selected="{id: company.state, label:company.state}"
-          :bordered="false"
+          variant="secondary"
           :error="getInputError('state', result)"
           @selected="testInput('state', result)"
         />

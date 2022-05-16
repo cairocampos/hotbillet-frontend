@@ -162,7 +162,7 @@ export default defineComponent({
   },
   emits: ["update:modelValue", "scrollend", "search", "open", "selected"],
   setup(props, { emit }) {
-    const { options, selected } = toRefs(props);
+    const { options, selected, modelValue } = toRefs(props);
     const showOptions = ref(false);
     const selectedOption = ref<IOption>(selected.value);
     const showMessage = ref(false);
@@ -226,7 +226,7 @@ export default defineComponent({
       return [
         'custom-select-input flex items-center justify-between cursor-pointer',
         'transition-all border-gray-300 bg-white bg-opacity-10 hover:border-gray-400',
-        props.variant == 'secondary' ? 'border' : 'border-b',
+        props.variant != 'secondary' ? 'border' : 'border-b',
         Boolean(props.error) && 'is-invalid'
       ]
     });
@@ -247,6 +247,7 @@ export default defineComponent({
     }
 
     watch(options, () => checkModelValue());
+    watch(modelValue, () => checkModelValue())
 
     onMounted(() => {
       checkModelValue()

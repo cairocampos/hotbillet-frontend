@@ -18,7 +18,7 @@ import { defineComponent, toRefs, PropType } from 'vue';
 export default defineComponent({
   props: {
     modelValue: {
-      type: [Array, String, Boolean] as PropType<string[] | string | boolean>,
+      type: [Array, String, Boolean, Number] as PropType<string[] | string | boolean | number | number[]>,
       required:true
     },
     label: {
@@ -27,7 +27,7 @@ export default defineComponent({
       default: ""
     },
     value: {
-      type: String,
+      type: [String,Number],
       required:true
     },
     trueValue: {

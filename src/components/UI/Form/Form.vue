@@ -1,5 +1,5 @@
 <template>
-  <form :class="['space-y-4', `text-${size}`]">
+  <form :class="[`space-y-${vertical}`, `text-${size}`]">
     <slot />
   </form>
 </template>
@@ -12,6 +12,10 @@ export default defineComponent({
     size: {
       type: String as PropType<ISize>,
       default: "sm"
+    },
+    vertical: {
+      type: [String,Number],
+      default: '4'
     }
   },
   setup() {

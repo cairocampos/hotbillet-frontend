@@ -44,6 +44,7 @@
           label-value="id"
           label="Perfil"
           label-class="text-xs"
+          variant="secondary"
           :error="getInputError('user_profile_id', result)"
           @selected="testInput('user_profile_id', result)"
         />

@@ -12,7 +12,7 @@
 import { computed, defineComponent, PropType } from 'vue';
 
 type Grid = {
-  gap: string|number;
+  gap?: string|number;
   cols: string|number;
 }
 

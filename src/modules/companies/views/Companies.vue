@@ -110,7 +110,7 @@ export default defineComponent({
       try {
         loading.value.primary = true;
         const { data } = await api.get<{ companies: ICompanySimple[] }>(
-          `/companies/simple`,
+          `/companies/list`,
           {
             params: {
               status: activeTab.value == 0 ? "ATIVO" : "INATIVO"

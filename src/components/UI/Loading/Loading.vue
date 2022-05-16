@@ -1,6 +1,19 @@
 <template>
-  <div class="loading animate-spin"></div>
+  <div :class="['loading animate-spin', `w-${width} h-${height}`]"></div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+  width: {
+    type: [String,Number],
+    default: 4
+  },
+  height: {
+    type: [String, Number],
+    default: 4
+  }
+})
+</script>
 
 <style scoped>
 .loading {

@@ -23,8 +23,8 @@
 import { computed, PropType } from 'vue';
 import Loading from '../Loading/Loading.vue';
 type ButtonSize = "xs"|"sm"|"md"|"lg"
-type ButtonVariants = "primary"|"secondary"|"info"|"dark"|"warning"|"brand"
-|"success"|"light"|"special"|"reset"
+type ButtonVariants = "primary"|"secondary"|"info"|"danger"|"dark"|"warning"|"brand"
+|"success"|"light"|"special"|"reset"|"link"
 
 const props = defineProps({
   variant: {
@@ -142,7 +142,6 @@ const onClick = () => emit('click')
 .btn-outline-dark { @apply border border-dark-500 hover:bg-dark-500 hover:text-white; }
 .btn-outline-dark:hover {
   background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
-  border-radius: 50px;
 }
 
 /*SIZES */
@@ -153,6 +152,7 @@ const onClick = () => emit('click')
 
 .btn-reset { @apply bg-transparent hover:shadow-none text-zinc-700; }
 
+.btn-link {@apply p-0 text-blue-500;}
 .btn-special {
 	@apply text-white;
   border-color: #FF7800;
