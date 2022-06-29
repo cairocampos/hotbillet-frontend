@@ -2,26 +2,12 @@
   <form class="lg:grid lg:grid-cols-2 lg:gap-32 form-sm">
     <div class="space-y-12">
       <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Nome do Produto</label>
-        <input
-          v-model="form.name"
-          type="text"
-          class="form-control form-control-line"
-        />
+        <label for="" class="label">Nome do Produto</label>
+        <input v-model="form.name" type="text" class="form-control form-control-line" />
       </div>
       <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Subtitulo</label>
-        <input
-          v-model="form.abbreviation"
-          type="text"
-          class="form-control form-control-line"
-        />
+        <label for="" class="label">Subtitulo</label>
+        <input v-model="form.name" type="text" class="form-control form-control-line" />
       </div>
       <!-- <div class="form-group">
         <label
@@ -38,39 +24,18 @@
         <label class="label">
           Empresa
         </label>
-        <AppSelect
-          v-model="form.company_id"
-          type="line"
-          :options="[{label: 'Hotbillet', value: 1}]"
-        />
+        <AppSelect v-model="form.company_id" type="line" :options="[{ label: 'Hotbillet', value: 1 }]" />
       </div>
       <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Link do Produto</label>
-        <input
-          v-model="form.url"
-          type="text"
-          class="form-control form-control-line"
-          placeholder="Cole aqui a URL da página do produto"
-        />
+        <label for="" class="label">Link do Produto</label>
+        <input v-model="form.url" type="text" class="form-control form-control-line"
+          placeholder="Cole aqui a URL da página do produto" />
       </div>
       <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Tipo de Produto</label>
-        <select
-          v-model="form.product_type"
-          class="form-control form-control-line"
-        >
-          <option
-            v-for="product_type in PRODUCT_TYPE"
-            :key="product_type"
-            :value="product_type"
-          >
-            {{ product_type }}
+        <label for="" class="label">Tipo de Produto</label>
+        <select v-model="form.type" class="form-control form-control-line">
+          <option v-for="[key, value] in Object.entries(PRODUCT_TYPE)" :key="key" :value="value">
+            {{ key }}
           </option>
         </select>
       </div>
@@ -85,13 +50,8 @@
               Telefone:
             </span>
           </div>
-          <input
-            v-model="form.support_tel"
-            v-maska="'(##) #####-####'"
-            type="text"
-            placeholder="(xx) xxxxx-xxxx"
-            class="bg-transparent outline-none"
-          >
+          <input v-model="form.support_phone" v-maska="'(##) #####-####'" type="text" placeholder="(xx) xxxxx-xxxx"
+            class="bg-transparent outline-none">
         </div>
       </div>
       <div class="form-group">
@@ -102,25 +62,14 @@
               Email:
             </span>
           </div>
-          <input
-            v-model="form.support_email"
-            type="text"
-            placeholder="suporte@suporte.com"
-            class="bg-transparent outline-none"
-          >
+          <input v-model="form.support_email" type="text" placeholder="suporte@suporte.com"
+            class="bg-transparent outline-none">
         </div>
       </div>
       <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Descrição do Produto</label>
-        <textarea
-          v-model="form.description"
-          class="form-control form-control-line border rounded-sm"
-          placeholder="Descreva o produto aqui"
-          rows="10"
-        ></textarea>
+        <label for="" class="label">Descrição do Produto</label>
+        <textarea v-model="form.description" class="form-control form-control-line border rounded-sm"
+          placeholder="Descreva o produto aqui" rows="10"></textarea>
       </div>
     </div>
   </form>
@@ -136,55 +85,53 @@ import AppSelect from "@/components/global/AppSelect.vue";
 
 export default defineComponent({
   components: { AppSelect },
-    props: {
-        product: {
-            type: Object as PropType<IProduct>,
-            required: true
-        },
-        loading: {
-            type: Boolean
-        }
+  props: {
+    product: {
+      type: Object as PropType<IProduct>,
+      required: true
     },
-    emits: ["change-step", "update:loading"],
-    setup(props, { emit }) {
-        const { notifications } = useNotifications();
-        const { product } = toRefs(props);
-        const { PRODUCT_TYPE } = useConstants();
-        const form = ref<IProductData>({
-            name: "",
-            abbreviation: "",
-            company_id: 1,
-            description: "",
-            status: "ATIVO",
-            product_type: "FISICO",
-            support_email: "",
-            support_tel: "",
-            url: ""
-        });
-        const submitForm = async () => {
-            try {
-              await api.put(`/products/${product.value.id}`, form.value);
-              emit("change-step");
-            }
-            catch (error) {
-                notifications.error(error);
-            }
-            finally {
-                emit("update:loading", false);
-            }
-        };
-        onMounted(() => {
-            form.value = product.value;
-        });
-        return {
-            form,
-            submitForm,
-            PRODUCT_TYPE
-        };
-    },
+    loading: {
+      type: Boolean
+    }
+  },
+  emits: ["change-step", "update:loading"],
+  setup(props, { emit }) {
+    const { notifications } = useNotifications();
+    const { product } = toRefs(props);
+    const { PRODUCT_TYPE } = useConstants();
+    const form = ref<IProductData>({
+      type: 1,
+      name: "",
+      company_id: 1,
+      description: "",
+      status: 1,
+      support_email: "",
+      support_phone: "",
+      url: ""
+    });
+    const submitForm = async () => {
+      try {
+        await api.put(`/products/${product.value.id}`, form.value);
+        emit("change-step");
+      }
+      catch (error) {
+        notifications.error(error);
+      }
+      finally {
+        emit("update:loading", false);
+      }
+    };
+    onMounted(() => {
+      form.value = product.value;
+    });
+    return {
+      form,
+      submitForm,
+      PRODUCT_TYPE
+    };
+  },
 });
 </script>
 
 <style>
-
 </style>

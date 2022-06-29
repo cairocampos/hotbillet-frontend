@@ -67,9 +67,10 @@ api.interceptors.response.use(function(response) {
       })
     })
   } else {
-    localStorage.removeItem("@Hotbillet:token")
-    localStorage.removeItem("hot_refresh_token")
-    router.push('/login')
+    // localStorage.removeItem("@Hotbillet:token")
+    // localStorage.removeItem("hot_refresh_token")
+    // router.push('/login')
+    Promise.reject(error)
   }
 });
 

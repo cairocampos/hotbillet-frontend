@@ -26,9 +26,9 @@
         @input="testInput('url', result)"
       />
       <Autocomplete
-        v-model="form.product_type"
+        v-model="form.type"
         label="Tipo do produto"
-        :options="Object.values(PRODUCT_TYPE).map(type => ({label: type, value: type}))"
+        :options="Object.entries(PRODUCT_TYPE).map(([key,value]) => ({label: key, value: value}))"
         :bordered="true"
         label-class="text-xs"
       />
@@ -106,7 +106,7 @@ const form = ref<IProductData>({
   abbreviation: "",
   company_id: 1,
   url: "",
-  product_type: "FISICO",
+  type: 1,
   status: "ATIVO",
   support_email: "",
   support_tel: "",
