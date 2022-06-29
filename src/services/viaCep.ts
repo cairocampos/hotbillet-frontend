@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface IViacep {
   cep: string;
   logradouro: string;
@@ -9,4 +11,9 @@ export interface IViacep {
   gia: string;
   ddd: string;
   siafi: string;
+}
+
+export const viaCep = async (cep: string) => {
+  const { data } = await axios.get<IViacep>(`https://viacep.com.br/ws/${cep}/json/`);
+  return data;
 }

@@ -14,7 +14,7 @@
 import TitlePage from "@/components/TitlePage.vue";
 import { defineComponent, reactive, ref } from "@vue/runtime-core";
 import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services";
+import { api } from "@/services/api";
 import Container from "@/components/UI/Layout/Container.vue";
 import { ICompany } from "../interfaces/ICompany";
 import { useRouter } from "vue-router";

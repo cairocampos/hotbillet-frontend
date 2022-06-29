@@ -1,4 +1,4 @@
-import * as constants from '@/contants';
+import * as constants from '@/constants';
 
 type Composition = typeof constants;
 

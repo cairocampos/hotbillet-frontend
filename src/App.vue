@@ -50,7 +50,7 @@
 import Menu from "./components/menu/Menu.vue";
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 import Alert from "./components/Alert.vue";
 
 import Notify from "./components/Notify.vue";
@@ -81,8 +81,7 @@ export default defineComponent({
     const open = ref<boolean>(false);
 
     onMounted(() => {
-      store.dispatch("usuario/getJwtData");
-      store.dispatch("loadSpec");
+      store.dispatch("auth/setUser");
     });
 
     setTimeout(() => {
@@ -92,7 +91,6 @@ export default defineComponent({
     return {
       isLogin,
       open,
-      store,
       obj: { show: true },
     };
   },

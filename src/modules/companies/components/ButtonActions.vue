@@ -5,7 +5,7 @@
     @click="$emit('export')"
   >
     <template #left>
-      <Icon icon="arrow-up" />
+      <PhArrowUp />
     </template>
     Exportar
   </Button>
@@ -15,7 +15,7 @@
     @click="$emit('filter')"
   >
     <template #left>
-      <Icon icon="filter" />
+      <PhFunnelSimple />
     </template>
     Filtrar
   </Button>
@@ -24,8 +24,9 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
 import Button from '@/components/UI/Button/Button.vue';
+import { PhArrowUp, PhFunnelSimple } from 'phosphor-vue'
 export default defineComponent({
-  components: { Button },
+  components: { Button, PhArrowUp, PhFunnelSimple },
   emits: ['export', 'filter'],
   setup() {
     //

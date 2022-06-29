@@ -103,7 +103,7 @@
 import { useFormHandler } from '@/composables/useFormHandler';
 import useNotifications from '@/composables/useNotifications';
 import { IProduct, IProductFaq } from '@/interfaces/IProduct';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import {defineComponent, onMounted, PropType, ref, toRefs} from 'vue';
 export default defineComponent({
     props: {

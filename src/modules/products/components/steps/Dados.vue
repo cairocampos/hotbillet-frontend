@@ -130,7 +130,7 @@
 import useConstants from "@/composables/useConstants";
 import useNotifications from "@/composables/useNotifications";
 import { IProduct, IProductData } from "@/interfaces/IProduct";
-import { api } from "@/services";
+import { api } from "@/services/api";
 import { defineComponent, onMounted, PropType, ref, toRefs } from "@vue/runtime-core";
 import AppSelect from "@/components/global/AppSelect.vue";
 

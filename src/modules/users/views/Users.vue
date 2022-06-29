@@ -50,7 +50,7 @@
           v-else
           class="text-red-500 flex items-center space-x-2"
         >
-          <Icon icon="fingerprint" />
+          <PhFingerprint />
           <span>Desativado</span>
         </span>
       </template>
@@ -62,8 +62,7 @@
           class="flex items-center text-xs border-l-2 border-gray-300"
         >
           <span class="mx-2 pl-4 font-medium">Ver</span> 
-          <Icon
-            icon="arrow-right"
+          <PhArrowRight
             class="text-lg"
           />
         </router-link>
@@ -79,7 +78,7 @@ import HeadContent from '@/components/HeadContent.vue';
 
 import {computed, defineComponent, onMounted, ref} from 'vue';
 import { IUserData } from '@/interfaces/IUser';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import { useDateTime } from '@/composables/useDateTime';
 import { IHeader } from '@/interfaces/IDatatable';
 import Datatable from '@/components/UI/Datatable/Datatable.vue';
@@ -87,6 +86,8 @@ import useHelpers from '@/composables/useHelpers'
 import useConstants from '@/composables/useConstants';
 import Button from '@/components/UI/Button/Button.vue';
 import NoRecords from '@/components/NoRecords.vue';
+import {PhFingerprint,PhArrowRight} from 'phosphor-vue'
+import { IPagination } from '@/interfaces/IPagination';
 
 export default defineComponent({
   components: {
@@ -94,7 +95,9 @@ export default defineComponent({
     HeadContent,
     Datatable,
     Button,
-    NoRecords
+    NoRecords,
+    PhFingerprint,
+    PhArrowRight
 },
   setup() {
     const loading = ref(false);
@@ -134,8 +137,8 @@ export default defineComponent({
     const fetchUsers = async () => {
       try {
         loading.value = true;
-        const response = await api.get<{users: IUserData[]}>('/users')
-        users.value = response.data.users;
+        const response = await api.get<IPagination<IUserData[]>>('/users')
+        users.value = response.data.data;
       } catch (error) {
         console.log(error)
       } finally {

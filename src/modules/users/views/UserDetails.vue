@@ -89,7 +89,7 @@
 <script lang="ts">
 import useNotifications from "@/composables/useNotifications";
 import { IUser } from "@/interfaces/IUser";
-import { api } from "@/services";
+import { api } from "@/services/api";
 import { defineComponent, computed, onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
 import PageLoading from "@/components/global/PageLoading.vue";

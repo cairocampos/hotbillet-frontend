@@ -1,5 +1,14 @@
 <template>
   <Container>
+    <PhBook />
+    <Can :permissions="permissions">
+      <div>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa, exercitationem.
+        </p>
+      </div>
+    </Can>
+
     <Datatable
       :headers="headers"
       :items="items"
@@ -9,12 +18,30 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, DirectiveBinding, ref } from 'vue';
 import Container from '@/components/UI/Layout/Container.vue';
 import { IHeader } from '@/interfaces/IDatatable';
 import Datatable from '@/components/UI/Datatable/Datatable.vue';
+import Can from '@/components/Can.vue';
+
+import { PhBook } from 'phosphor-vue'
+
+function testador(el: HTMLElement, binding: string[]) {
+  const p = ["list"];
+  const teste = document.createComment('');
+  const has = binding.every(permission => {
+    return p.includes(permission)
+  })
+  if(!has) {
+    el.parentNode?.removeChild(el);
+    return
+  }
+
+  teste.parentNode?.insertBefore(el, teste)
+}
+
 export default defineComponent({
-  components: { Container, Datatable },
+  components: { Container, Datatable, Can, PhBook },
     setup() {
       const headers: IHeader[] = [
         {
@@ -38,11 +65,18 @@ export default defineComponent({
         {id: 2, name: "Juan", age: 26, profile: {id: 1, name: "Admin"}},
       ];
 
+      const permissions = ref(["teste"]);
+
+      setTimeout(() => {
+        permissions.value = ["list"]
+      }, 5000)
+
       return {
         headers,
-        items
+        items,
+        permissions
       }
-    },
+    }
 })
 </script>
 

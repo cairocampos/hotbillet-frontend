@@ -151,7 +151,7 @@
 import {ref} from 'vue';
 import { computed, defineComponent, onMounted, PropType, toRefs } from "@vue/runtime-core";
 import { IProduct, IProductLink } from '@/interfaces/IProduct';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import useConstants from '@/composables/useConstants';
 

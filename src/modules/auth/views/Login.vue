@@ -130,34 +130,25 @@
 import { useRouter } from "vue-router";
 import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
-import { api } from "../../../services";
-import { useStore } from "vuex";
+import { api } from "@/services/api";
+import { useStore } from "@/store";
 import Button from "@/components/UI/Button/Button.vue";
-
-interface ILogin {
-  token_access: string;
-  token_refresh: string;
-}
-
 export default defineComponent({
   name: "Login",
   components: { Button },
   setup() {
-    const router = useRouter();
     const store = useStore();
-    const email = ref("company1@hotbillet.com.br");
+    const email = ref("admin@hotbillet.com");
     const password = ref("123456");
     const btnLoading = ref(false);
     const exibirSenha = ref(false);
     const login = async () => {
       try {
         btnLoading.value = true;
-        const response = await api.post<ILogin>("/login", {
+        await store.dispatch('auth/login', {
           email: email.value,
-          password: password.value,
-        });
-        store.dispatch("usuario/defineUsuario", response.data);
-        router.push({ name: "Dashboard" });
+          password:password.value
+        })
       } catch (error) {
         console.log(error);
       } finally {

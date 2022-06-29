@@ -13,9 +13,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://apihomolog.hotbillet.com.br",
+        // target: "https://apihomolog.hotbillet.com.br",
+        target: "http://localhost",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "")
+        // rewrite: (path) => path.replace(/^\/api/, "")
       },
     },
   },

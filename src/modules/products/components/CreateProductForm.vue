@@ -85,7 +85,7 @@ import useValidate from 'vue-tiny-validate';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import useConstants from '@/composables/useConstants';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import { useRouter } from 'vue-router';
 import { getInputError,testInput, requiredField, validateUrl } from '@/helpers/formValidation'

@@ -103,7 +103,7 @@ import Ebooks from '../components/steps/Ebooks.vue'
 import Faq from '../components/steps/Faq.vue'
 import { useRoute } from 'vue-router';
 import { IProduct } from '@/interfaces/IProduct';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import Button from '@/components/UI/Button/Button.vue';
 

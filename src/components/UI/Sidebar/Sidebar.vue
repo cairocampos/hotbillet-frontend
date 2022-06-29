@@ -15,7 +15,7 @@
             class="text-default text-sm space-x-2"
             @click="toggle()"
           >
-            <Icon icon="arrow-left" />
+            <PhArrowLeft/>
             <span>Fechar</span>
           </button>
         </div>
@@ -28,12 +28,13 @@
 </template>
 
 <script lang="ts">import { defineComponent,ref, watch } from "vue";
-
+import { PhArrowLeft } from 'phosphor-vue'
 export default defineComponent({
     props: {
         show: Boolean
     },
     emits: ["close"],
+    components: {PhArrowLeft},
     setup(props, { emit }) {
         const isActive = ref(false);
         watch(isActive, val => {

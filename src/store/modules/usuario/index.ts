@@ -27,7 +27,7 @@ const usuarioModule: Module<UsuarioState, RootState> = {
   },
   actions: {
     logout({commit}) {
-      localStorage.removeItem('hot_token');
+      localStorage.removeItem('@Hotbillet:token');
       localStorage.removeItem('hot_refresh_token');
       commit('SET_USUARIO', {
         id:"",
@@ -39,16 +39,16 @@ const usuarioModule: Module<UsuarioState, RootState> = {
       router.push({path:"/login"})
     },
     defineUsuario({dispatch}, data: {token_access:string;token_refresh:string;}) {
-      localStorage.setItem('hot_token', data.token_access);
+      localStorage.setItem('@Hotbillet:token', data.token_access);
       localStorage.setItem('hot_refresh_token', data.token_refresh);
 
       dispatch('getJwtData');
     },
     getJwtData({commit}) {
-      const token = localStorage.getItem('hot_token');
+      const token = localStorage.getItem('@Hotbillet:token');
       if(token) {
         const [,data,] = token.split('.');
-        commit('SET_USUARIO', JSON.parse(atob(data)));
+        // commit('SET_USUARIO', JSON.parse(atob(data)));
       }
     }
   },

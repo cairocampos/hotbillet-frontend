@@ -59,10 +59,7 @@
           radius="md"
           @click="appendCheckout"
         >
-          <Icon
-            icon="plus"
-            size="lg"
-          />
+          <PhPlus />
         </Button>
       </div>
     </Grid>
@@ -88,7 +85,7 @@
             radius="md"
             @click="deleteCheckout(index)"
           >
-            <Icon icon="trash" />
+            <PhTrash />
           </Button>
         </div>
       </Grid>
@@ -152,6 +149,7 @@ import { ITransactionTypes } from '../../interfaces/ITransaction';
 import Checkbox from '@/components/UI/Form/Input/Checkbox/Checkbox.vue';
 import LoadingText from '@/components/UI/Loading/LoadingText.vue';
 import SelectField from '@/components/UI/Form/SelectField/SelectField.vue';
+import { PhPlus, PhTrash } from 'phosphor-vue'
 
 const checkout = ref({
   id:0,

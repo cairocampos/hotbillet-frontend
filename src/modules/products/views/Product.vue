@@ -87,7 +87,7 @@ import NavTabHeader from '@/components/NavTabHeader.vue';
 import RouteBack from '@/components/RouteBack.vue'
 import { IProduct } from "@/interfaces/IProduct";
 import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services";
+import { api } from "@/services/api";
 import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 
@@ -113,7 +113,6 @@ export default defineComponent({
   setup(props) {
     const loading = ref(false);
     const {notifications} = useNotifications();
-    const product = ref<IProduct>();
     const tabs = [
       { label: "Dados", value: 'Dados'},
       { label: "Links", value: 'Links' },
@@ -125,11 +124,12 @@ export default defineComponent({
     const tabActive = ref(tabs[0]);
 
 
+    const product = ref<IProduct>();
     const fetchProduct = async () => {
       try {
         loading.value = true;
-        const {data} = await api.get<{product: IProduct}>(`/products/${props.id}`)
-        product.value = data.product;
+        const {data} = await api.get<IProduct>(`/products/${props.id}`)
+        product.value = data;
       } catch (error) {
         notifications.error(error);
       } finally {

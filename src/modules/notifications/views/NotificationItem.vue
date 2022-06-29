@@ -30,13 +30,13 @@
     <div class="space-x-2">
       <Dropdown>
         <template #title>
-          <Icon icon="ellipsis" />
+          <PhDotsThree />
         </template>
         <DropdownItem
           class="flex space-x-2 items-center"
           @click="onClick"
         >
-          <Icon icon="check" />
+          <PhCheck/>
           <span>Marcar como lida</span>
         </DropdownItem>
       </Dropdown>
@@ -55,9 +55,10 @@ import Text from '@/components/UI/Layout/Text.vue'
 import Dropdown from '@/components/UI/Dropdown/Dropdown.vue'
 import DropdownItem from '@/components/UI/Dropdown/DropdownItem.vue'
 import { defineComponent } from 'vue'
+import { PhCheck, PhDotsThree } from 'phosphor-vue'
 
 export default defineComponent({
-  components: { Avatar, Heading, Text,Dropdown,DropdownItem },
+  components: { Avatar, Heading, Text,Dropdown,DropdownItem,PhCheck,PhDotsThree },
     setup () {    
       const onClick = () => {
         alert('clicou')

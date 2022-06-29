@@ -15,7 +15,7 @@
           size="sm"
           variant="success"
         >
-          <Icon icon="check" />
+          <PhCheck/>
           Ler todas
         </Button>
       </CardHeader>
@@ -39,9 +39,10 @@ import CardContent from "@/components/UI/Card/CardContent.vue";
 import Text from "@/components/UI/Layout/Text.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import NotificationItem from './NotificationItem.vue'
+import {PhCheck} from 'phosphor-vue'
 
 export default defineComponent({
-    components: {Container, Heading, Card, CardHeader,CardContent, Text, Button, NotificationItem},
+    components: {Container, Heading, Card, CardHeader,CardContent, Text, Button, NotificationItem,PhCheck},
     setup() {
         //
     }

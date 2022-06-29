@@ -11,7 +11,7 @@
         variant="secondary"
       >
         <template #left>
-          <Icon icon="search" />
+          <PhMagnifyingGlass/>
         </template>
       </TextField>
     </div>
@@ -62,13 +62,14 @@ import { IHeader } from "@/interfaces/IDatatable";
 import { defineComponent, PropType, ref, watch } from "vue";
 import TextField from "../Form/Input/TextField.vue";
 import NoRecords from "@/components/NoRecords.vue";
+import {PhMagnifyingGlass} from 'phosphor-vue'
 
 type Item = {
   [key: string]: string;
 };
 
 export default defineComponent({
-  components: { TextField, NoRecords },
+  components: { TextField, NoRecords,PhMagnifyingGlass },
   props: {
     headers: {
       type: Array as PropType<IHeader[]>,

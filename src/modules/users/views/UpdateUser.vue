@@ -108,8 +108,8 @@ import { useRouter } from 'vue-router'
 import { ref, reactive, watch, onMounted } from 'vue';
 import { IUser } from '@/interfaces/IUser';
 import useNotifications from '@/composables/useNotifications';
-import { api } from '@/services';
-import {useDefaultStore} from '@/store';
+import { api } from '@/services/api';
+import {useStore} from '@/store';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Button from '@/components/UI/Button/Button.vue';
@@ -131,7 +131,7 @@ const props = defineProps({
 })
 
 const { notifications } = useNotifications();
-const store = useDefaultStore;
+const store = useStore();
 const router = useRouter();
 const loading = ref(false);
 const user = ref<IUser>({

@@ -15,13 +15,14 @@ export const PROFILES_NAME: {[key: number]:string} = {
 }
 
 export const PRODUCT_TYPE = {
-  DIGITAL: 'DIGITAL',
-  FISICO: 'FISICO',
+  DIGITAL: 1,
+  FISICO: 2,
 }
 
+
 export const STATUS = {
-  ATIVO: 'ATIVO',
-  INATIVO: 'INATIVO'
+  ATIVO: 1,
+  INATIVO: 2
 }
 
 export const LINKS =  {

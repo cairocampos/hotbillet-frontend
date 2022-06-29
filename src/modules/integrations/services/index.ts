@@ -1,4 +1,4 @@
-import { api } from '@/services'
+import { api } from '@/services/api'
 import { ITransactionTypes } from "../interfaces/ITransaction";
 import { ICheckout } from "../interfaces/ICheckout";
 

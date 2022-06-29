@@ -173,8 +173,8 @@ import { useRouter } from 'vue-router'
 import { defineComponent, ref, reactive, watch } from 'vue';
 import { IUser } from '@/interfaces/IUser';
 import useNotifications from '@/composables/useNotifications';
-import { api } from '@/services';
-import {useDefaultStore} from '@/store';
+import { api } from '@/services/api';
+import {useStore} from '@/store';
 import InputGroup from '@/components/InputGroup.vue';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
@@ -202,7 +202,7 @@ export default defineComponent({
   setup() {
     const { getInputError, testInput } = useFormHandler();
     const { notifications } = useNotifications();
-    const store = useDefaultStore;
+    const store = useStore();
     const router = useRouter();
     
     const loading = ref(false);

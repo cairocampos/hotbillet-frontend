@@ -60,18 +60,18 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 
 export default defineComponent({
   setup() {
     const store = useStore();
     const usuario = computed(() => {
-      const {name = '', profile = '', email = '', phone = ''} = store.state['usuario'].usuario;
+      const {name = '', email = ''} = store.state.auth.user
       return {    
         name,
-        profile,
+        profile: "admin",
         email,
-        phone
+        phone: "33 991409852"
       }
     })
 

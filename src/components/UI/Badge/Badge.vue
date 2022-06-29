@@ -11,8 +11,7 @@
       class="mt-1"
       @click="$emit('on-close')"
     >
-      <Icon
-        icon="times"
+      <PhX
         class="text-xs bg-gray-800 rounded-full p-1 hover:bg-gray-600"
       />
     </div>
@@ -22,6 +21,7 @@
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue';
 import { Variants } from '../layout';
+import { PhX } from 'phosphor-vue'
 export default defineComponent({
   props: {
     variant: {
@@ -41,6 +41,7 @@ export default defineComponent({
     }
   },
   emits: ['on-close'],
+  components: {PhX},
   setup() {
     //
   }

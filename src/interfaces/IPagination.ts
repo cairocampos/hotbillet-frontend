@@ -1,9 +1,9 @@
-export interface IPagination {
-  limit: number;
-  next_page: boolean;
-  offset:number;
-  page:number;
-  sort: string;
-  status: string;
+export interface IPaginationProps {
+  per_page: number;
   total: number;
-}           
+  current_page:number;
+}
+
+export interface IPagination<T> extends IPaginationProps {
+  data: T
+}

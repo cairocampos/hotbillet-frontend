@@ -210,7 +210,7 @@
 <script lang="ts">
 import useNotifications from '@/composables/useNotifications';
 import { IProduct, IProductVideo } from '@/interfaces/IProduct';
-import { api } from '@/services';
+import { api } from '@/services/api';
 import {defineComponent, onMounted, PropType, ref, toRefs} from 'vue';
 import {IMidiaTypes} from '@/interfaces/IMidia'
 

@@ -11,7 +11,8 @@
         </span>
       </div>
       <div>
-        <Icon :icon="`angle-${showOptions ? 'up' : 'down'}`" />
+        <PhCaretUp v-if="showOptions"/>
+        <PhCaretDown v-else/>
       </div>
     </div>
     <span
@@ -78,6 +79,8 @@ import Text from "../Layout/Text.vue";
 import AutocompleteOptions from "./AutocompleteOptions.vue";
 import OptionItem from "./OptionItem.vue";
 
+import { PhCaretUp, PhCaretDown } from 'phosphor-vue'
+
 export default defineComponent({
   directives: {
     focus: {
@@ -86,7 +89,7 @@ export default defineComponent({
       },
     },
   },
-  components: { Text, AutocompleteOptions, OptionItem },
+  components: { Text, AutocompleteOptions, OptionItem, PhCaretDown, PhCaretUp },
   props: {
     label: {
       type: String,

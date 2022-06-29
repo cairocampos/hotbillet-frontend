@@ -1,34 +1,21 @@
-import { createStore } from "vuex";
+import { createStore, useStore as baseUseStore, Store, Module } from "vuex";
 import usuario from "./modules/usuario";
 import alerta from "./modules/alerta";
-import { api } from "@/services";
-import { IProfile } from "@/interfaces/IUser";
+import auth from "./modules/auth";
+import { InjectionKey } from "vue";
+import { RootState } from "./rootState";
 
-export const useDefaultStore = createStore({
+export const key: InjectionKey<Store<RootState>> = Symbol();
+
+export const store = createStore<RootState>({
   strict: import.meta.env.NODE_ENV !== 'production',
-  state: {
-    menuAtivo: false,
-    spec: {
-      profiles: [] as IProfile[],
-    },
-  },
-  mutations: {
-    TOGGLE_MENU(state) {
-      state.menuAtivo = !state.menuAtivo;
-    },
-    UPDATE_SPEC(state, payload) {
-      state.spec = Object.assign(state.spec, payload);
-    },
-  },
-  actions: {
-    async loadSpec({ commit }) {
-      const profilesPromise = api.get("/users/profiles");
-      const [profilesResponse] = await Promise.all([profilesPromise]);
-      commit("UPDATE_SPEC", { profiles: profilesResponse.data.profiles });
-    },
-  },
   modules: {
     usuario,
     alerta,
+    auth
   },
 });
+
+export function useStore() {
+  return baseUseStore(key)
+}

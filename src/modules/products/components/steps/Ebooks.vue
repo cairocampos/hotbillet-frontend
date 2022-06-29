@@ -161,7 +161,7 @@ import { useFormHandler } from "@/composables/useFormHandler";
 import useNotifications from "@/composables/useNotifications";
 import InputInfo from "@/components/global/InputInfo.vue";
 import Badge from "@/components/global/Badge.vue";
-import { api } from "@/services";
+import { api } from "@/services/api";
 import useMidias from "@/composables/midias/useMidias";
 
 export default defineComponent({

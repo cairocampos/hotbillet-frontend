@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { fetchCep } from "../../../services";
+import { viaCep } from "@/services/viaCep";
 import { defineComponent, onMounted, ref, toRefs, watch } from "vue";
 import Loading from "@/components/global/Loading.vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";
@@ -37,7 +37,7 @@ export default defineComponent({
     const getCep = async () => {
       try {
         loading.value = true;
-        const { bairro, localidade, logradouro, uf } = await fetchCep(
+        const { bairro, localidade, logradouro, uf } = await viaCep(
           cep.value
         );
         emit("zipcode-found", { bairro, localidade, logradouro, uf });

@@ -5,7 +5,9 @@
         <p class="text-sm text-dark">
           Subtitulo
         </p>
-        <span class="text-default text-xs">{{ product?.abbreviation ?? '---' }}</span>
+        <span class="text-default text-xs">
+          {{ product?.abbreviation ?? '---' }}
+        </span>
       </div>
 
       <div>
@@ -19,8 +21,12 @@
         <p class="text-sm text-dark">
           Suporte do Fornecedor
         </p>
-        <span class="text-default text-xs block">Email: {{ product?.support_email ?? '---' }}</span>
-        <span class="text-default text-xs block">Telefone: {{ product?.support_tel ?? '---' }}</span>
+        <span class="text-default text-xs block">
+          Email: {{ product?.support_email ?? '---' }}
+        </span>
+        <span class="text-default text-xs block">
+          Telefone: {{ product?.support_tel ?? '---' }}
+        </span>
       </div>
     </div>
 
@@ -40,7 +46,9 @@
         <p class="text-sm text-dark">
           Tipo
         </p>
-        <span class="text-default text-xs">{{ product?.product_type ?? '---' }}</span>
+        <span class="text-default text-xs">
+          {{ product.product_type ?? "---" }}
+        </span>
       </div>
 
       <div>
@@ -81,19 +89,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { IProduct } from "@/interfaces/IProduct";
-import { defineComponent, PropType } from "@vue/runtime-core";
+import { PropType } from "@vue/runtime-core";
 
-export default defineComponent({
-  props: {
-    product: {
-      type: Object as PropType<IProduct>,
-      required: true
-    }
-  },
-  setup() {
-    //
+defineProps({
+  product: {
+    type: Object as PropType<IProduct>,
+    required: true
   }
 })
 </script>

@@ -38,10 +38,7 @@
             class="flex items-center text-xs border-l-2 border-gray-300"
           >
             <span class="mx-2 pl-4 font-medium">Ver</span>
-            <Icon
-              icon="arrow-right"
-              class="text-lg"
-            />
+            <PhArrowRight  class="text-lg"/>
           </router-link>
         </template>
       </Datatable>
@@ -56,7 +53,7 @@ import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import Datatable from "@/components/UI/Datatable/Datatable.vue";
 import useLoading from "@/composables/useLoading";
 import useNotifications from "@/composables/useNotifications.ts";
-import { api } from "../../../services";
+import { api } from "@/services/api";
 import { IHeader } from "@/interfaces/IDatatable";
 import Tabs from "@/components/UI/Tabs/Tabs.vue";
 import Tab from "@/components/UI/Tabs/Tab.vue"; 
@@ -66,6 +63,7 @@ import { ICompanySimple } from "../interfaces/ICompany";
 import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
+import {PhArrowRight} from 'phosphor-vue'
 export default defineComponent({
   components: {
     Datatable,
@@ -75,7 +73,8 @@ export default defineComponent({
     SidebarFilters,
     PageLoading,
     Button,
-    HeadPage
+    HeadPage,
+    PhArrowRight
 },
   setup() {
     const { loading } = useLoading();
