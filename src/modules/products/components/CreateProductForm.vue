@@ -9,13 +9,14 @@
         :error="getInputError('name', result)"
         @input="testInput('name', result)"
       />
-      <TextField
-        v-model="form.abbreviation"
-        label="Sigla do produto"
+      <Autocomplete
+        v-model="form.company_id"
+        label="Empresa"
         variant="secondary"
         label-class="text-xs"
-        :error="getInputError('abbreviation', result)"
-        @input="testInput('abbreviation', result)"
+        :error="getInputError('company_id', result)"
+        :config="companiesConfig"
+        @input="testInput('company_id', result)"
       />
       <TextField
         v-model="form.url"
@@ -25,17 +26,16 @@
         :error="getInputError('url', result)"
         @input="testInput('url', result)"
       />
-      <Autocomplete
+      <Listbox
         v-model="form.type"
-        label="Tipo do produto"
         :options="Object.entries(PRODUCT_TYPE).map(([key,value]) => ({label: key, value: value}))"
-        :bordered="true"
-        label-class="text-xs"
+        label="Tipo do produto"
+        variant="secondary"
       />
     </div>
     <div class="mt-10 md:mt-0 space-y-12">
       <TextField
-        v-model="form.support_tel"
+        v-model="form.support_phone"
         label="Contato do suporte"
         placeholder="(XX) X XXXX-XXXX"
         mask="(##) # ####-####"
@@ -83,12 +83,13 @@ import { IProduct, IProductData } from '@/interfaces/IProduct';
 import Form from '@/components/UI/Form/Form.vue';
 import useValidate from 'vue-tiny-validate';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
-import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
+import Autocomplete, {AutocompleteConfig} from '@/components/UI/Autocomplete/Autocomplete.vue';
 import useConstants from '@/composables/useConstants';
 import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import { useRouter } from 'vue-router';
 import { getInputError,testInput, requiredField, validateUrl } from '@/helpers/formValidation'
+import Listbox from '@/components/UI/Listbox/Listbox.vue';
 const { PRODUCT_TYPE } = useConstants()
 const { notifications } = useNotifications()
 const router = useRouter()
@@ -103,20 +104,19 @@ const emit = defineEmits(['update:loading']);
 
 const form = ref<IProductData>({
   name: "",
-  abbreviation: "",
-  company_id: 1,
+  company_id: Number(),
   url: "",
-  type: 1,
-  status: "ATIVO",
+  type: PRODUCT_TYPE.DIGITAL,
   support_email: "",
-  support_tel: "",
+  support_phone: "",
   description: "",
+  status: 1
 });
 
 const rules = reactive({
   name: requiredField(),
-  abbreviation: requiredField(),
-  url: [requiredField(), validateUrl()]
+  url: [requiredField(), validateUrl()],
+  company_id: requiredField()
 })
 
 const {result} = useValidate(form, rules)
@@ -144,6 +144,22 @@ const submit = async () => {
 };
 
 defineExpose({submit})
+
+const companiesConfig: AutocompleteConfig = {
+  url: "/companies",
+  processResults: (data) => {
+    const items = data.data.map(item => ({
+      id: item.id,
+      text: item.name
+    }));
+    return {
+      results: items,
+      pagination: {
+        more: (data.last_page > data.current_page)
+      }
+    }
+  }
+}
 
 </script>
 

@@ -1,19 +1,19 @@
 <template>
-  <div
-    class="p-2 hover:bg-gray-400 hover:bg-opacity-20 cursor-pointer transition-all"
+  <li
+    :class="`text-sm text-zinc-600 p-2 hover:bg-zinc-200 cursor-pointer transition-colors ${active && 'bg-zinc-200'}`"
   >
-    <slot />
-  </div>
+    <slot></slot>
+  </li>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
-export default defineComponent({
-  setup() {
-    //
+<script setup lang="ts">
+defineProps({
+  active: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
 
-<style lang='scss' scoped>
+<style scoped>
 </style>

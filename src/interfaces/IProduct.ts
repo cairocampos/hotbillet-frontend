@@ -15,15 +15,13 @@ export interface IProductData {
 
 export interface IProductLink {
   id?: number;
-  link_type: string;
-  description: string;
   url: string;
   name:string;
 }
 
 export interface IProductEbook {
   id?: number;
-  description: string;
+  title: string;
   url: string;
 }
 

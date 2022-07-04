@@ -5,20 +5,7 @@
         class="text-blue-600 flex items-center space-x-2 mb-10"
         @click="modalAdd = true"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          />
-        </svg> 
+        <PhPlus />
         <span class="text-sm">Perguntas e Respostas</span>
       </button>
 
@@ -33,7 +20,7 @@
             </h3>
             <button
               class="text-red-500 text-xs font-medium"
-              @click="removeFaq(faqItem)"
+              @click="remove(faqItem)"
             >
               Remover
             </button>
@@ -55,7 +42,7 @@
       <template #body>
         <form
           class="form-sm space-y-12"
-          @submit.prevent="appendFaq()"
+          @submit.prevent="appen()"
         >
           <div class="form-group">
             <label class="label">Titulo</label>
@@ -63,7 +50,7 @@
               v-model="faq.title"
               type="text"
               class="form-control form-control-line"
-              :class="{error: formHandler.has('title')}"
+              :class="{ error: formHandler.has('title') }"
               @input="formHandler.clear('title')"
             />
             <InputInfo
@@ -80,7 +67,7 @@
               v-model="faq.description"
               class="form-control form-control-line border rounded-sm"
               rows="10"
-              :class="{error: formHandler.has('description')}"
+              :class="{ error: formHandler.has('description') }"
               @input="formHandler.clear('description')"
             ></textarea>
             <InputInfo
@@ -99,96 +86,103 @@
   </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useFormHandler } from '@/composables/useFormHandler';
 import useNotifications from '@/composables/useNotifications';
 import { IProduct, IProductFaq } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
-import {defineComponent, onMounted, PropType, ref, toRefs} from 'vue';
-export default defineComponent({
-    props: {
-        product: {
-            type: Object as PropType<IProduct>,
-            required:true
-        },
-        loading: {
-            type: Boolean
-        }
-    },
-    emits:['update:loading', 'change-step'],
-    setup(props, {emit}) {
-        const { formHandler } = useFormHandler();
-        const { notifications } = useNotifications();
-        const { product } = toRefs(props)
-        const modalAdd = ref(false);
-        const faqs = ref<IProductFaq[]>([])
-        const faq = ref<IProductFaq>({
-            title: '',
-            description: ''
-        });
+import { onMounted, PropType, ref, toRefs } from 'vue';
+import { PhPlus } from 'phosphor-vue'
 
-        const checkForm = () => {
-            const errors: {[key: string]: string} = {};
-            const { title, description } = faq.value;
-            if(!title) errors['title'] = 'Campo obrigatório'
-            if(!description) errors['description'] = 'Campo obrigatório'
+const props = defineProps({
+  product: {
+    type: Object as PropType<IProduct>,
+    required: true
+  },
+  loading: {
+    type: Boolean
+  }
+})
+const emit = defineEmits(['update:loading', 'change-step']);
+const { formHandler } = useFormHandler();
+const { notifications } = useNotifications();
+const { product } = toRefs(props)
+const modalAdd = ref(false);
+const faqs = ref<IProductFaq[]>([])
+const deletedFaqs = ref<number[]>([])
+const faq = ref<IProductFaq>({
+  title: '',
+  description: ''
+});
 
-            if(Object.keys(errors).length) {
-                formHandler.record(errors);
-            }
-        }
+const fetchFaqs = async () => {
+  try {
+    const { data } = await api.get<IProductFaq[]>(`/products/${props.product.id}/faqs`)
+    faqs.value = data;
+  } catch (error) {
+    notifications.error(error)
+  } finally {
+    //
+  }
+}
 
-        const appendFaq = () => {
-            checkForm();
-            if(formHandler.any()) return;
-            console.log(faq.value)
-            modalAdd.value = false;
-            faqs.value?.push(faq.value);
-            faq.value = {
-                title: '',
-                description: ''
-            }
-        }
+const checkForm = () => {
+  const errors: { [key: string]: string } = {};
+  const { title, description } = faq.value;
+  if (!title) errors['title'] = 'Campo obrigatório'
+  if (!description) errors['description'] = 'Campo obrigatório'
 
-        const removeFaq = (item:IProductFaq) => {
-            const index = faqs.value?.findIndex(faq => faq.description == item.description)
-            console.log(index);
-            if(index !== -1)
-                faqs.value?.splice(index, 1);
-        }
+  if (Object.keys(errors).length) {
+    formHandler.record(errors);
+  }
+}
 
-        const submitForm = async () => {
-            try {
-                const {data} = await api.put<IProduct>(`/products/${product.value.id}/faqs`, {faqs:faqs.value})
-                emit('change-step');
-                notifications.success('Alterações efetuadas.')
-                faqs.value = data.faqs ?? [];
-            } catch (error) {
-                notifications.error(error)
-            } finally {
-                emit('update:loading', false);
-            }
-        }
+const appen = () => {
+  checkForm();
+  if (formHandler.any()) return;
+  console.log(faq.value)
+  modalAdd.value = false;
+  faqs.value?.push(faq.value);
+  faq.value = {
+    title: '',
+    description: ''
+  }
+}
 
-        onMounted(() => {
-            if(product.value?.faqs) {
-                faqs.value = product.value.faqs
-            }
-        });
+const remove = (item: IProductFaq) => {
+  const index = faqs.value?.findIndex(faq => faq.description == item.description)
+  if (index !== -1)
+    faqs.value?.splice(index, 1);
 
-        return {
-            modalAdd,
-            faq,
-            faqs,
-            appendFaq,
-            removeFaq,
-            submitForm,
-            formHandler
-        }
-    }
+  if(item.id) {
+    deletedFaqs.value.push(item.id)
+  }
+}
+
+const submitForm = async () => {
+  try {
+    const { data } = await api.put<IProductFaq[]>(`/products/${product.value.id}/faqs`, {
+      faqs: faqs.value,
+      deleted_ids: deletedFaqs.value
+    })
+    emit('change-step');
+    notifications.success('Alterações efetuadas.')
+    faqs.value = data;
+  } catch (error) {
+    notifications.error(error)
+  } finally {
+    emit('update:loading', false);
+  }
+}
+
+onMounted(() => {
+  fetchFaqs();
+});
+
+defineExpose({
+  submitForm
 })
 </script>
 
 <style>
-
 </style>

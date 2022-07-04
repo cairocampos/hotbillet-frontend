@@ -1,84 +1,53 @@
 <template>
   <Container>
-    <PhBook />
-    <Can :permissions="permissions">
-      <div>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa, exercitationem.
-        </p>
-      </div>
-    </Can>
-
-    <Datatable
-      :headers="headers"
-      :items="items"
-      :searchable="true"
+    <Autocomplete
+      v-model="company_id"
+      :options="companies"
+      label-name="name"
+      key-name="id"
+      :loading="loading"
+      variant="secondary"
+      @scrollend="onScrollEnd"
     />
   </Container>
 </template>
 
-<script lang='ts'>
-import { defineComponent, DirectiveBinding, ref } from 'vue';
+<script setup lang="ts">
 import Container from '@/components/UI/Layout/Container.vue';
-import { IHeader } from '@/interfaces/IDatatable';
-import Datatable from '@/components/UI/Datatable/Datatable.vue';
-import Can from '@/components/Can.vue';
+import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
+import { onMounted, ref } from 'vue';
+import { api } from '@/services/api';
+import { IPagination } from '@/interfaces/IPagination';
+import usePagination from '@/composables/usePagination';
 
-import { PhBook } from 'phosphor-vue'
-
-function testador(el: HTMLElement, binding: string[]) {
-  const p = ["list"];
-  const teste = document.createComment('');
-  const has = binding.every(permission => {
-    return p.includes(permission)
-  })
-  if(!has) {
-    el.parentNode?.removeChild(el);
-    return
-  }
-
-  teste.parentNode?.insertBefore(el, teste)
+interface Company {
+  id:number;
+  name:string;
 }
 
-export default defineComponent({
-  components: { Container, Datatable, Can, PhBook },
-    setup() {
-      const headers: IHeader[] = [
-        {
-          text: "Nome",
-          value: "name",
-          format: (value: string) => value.toUpperCase()
-        },
-        {
-          text: "Idade",
-          value: "age"
-        },
-        {
-          text: "Perfil",
-          value: "profile.name"
-        }
-      ];
-
-      const items = [
-        {id: 1, name: "Cairo", age: 23, profile: {id: 1, name: "Admin"}},
-        {id: 2, name: "Leticia", age: 22, profile: {id: 1, name: "Admin"}},
-        {id: 2, name: "Juan", age: 26, profile: {id: 1, name: "Admin"}},
-      ];
-
-      const permissions = ref(["teste"]);
-
-      setTimeout(() => {
-        permissions.value = ["list"]
-      }, 5000)
-
-      return {
-        headers,
-        items,
-        permissions
-      }
+const company_id = ref();
+const companies = ref<Company[]>([])
+const {pagination, nextPage} = usePagination();
+const loading = ref(false);
+const fetchCompanies = async () => {
+  loading.value = true;
+  const {data: {data, ...paginationsProps}} = await api.get<IPagination<Company[]>>('/companies', {
+    params: {
+      page: pagination.value.current_page
     }
-})
-</script>
+  })
+  loading.value = false;
+  companies.value.push(...data)
+  pagination.value = paginationsProps
+}
 
-<style lang='scss' scoped>
-</style>
+const onScrollEnd = () => {
+  if(loading.value) return;
+  nextPage(() => {
+    fetchCompanies();
+  });
+}
+
+onMounted(() => fetchCompanies());
+
+</script>

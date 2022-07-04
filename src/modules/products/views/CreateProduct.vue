@@ -82,7 +82,7 @@ export default defineComponent({
     const loading = ref(false);
     const child = ref<typeof CreateProductForm|null>(null)
     const submitForm = async () => {
-      child.value?.submit();
+      child.value?.submit && child.value.submit();
     };
     return {
       steps,

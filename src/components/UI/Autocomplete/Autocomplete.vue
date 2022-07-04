@@ -1,297 +1,181 @@
 <template>
-  <div class="custom-select-container w-full relative">
-    <label :class="['text-gray-600 font-normal', labelClass]">{{ label }}</label>
+  <div class="relative w-full">
+    <label
+      v-if="label"
+      :class="[labelClass, 'mb-2 block text-zinc-500 text-xs']"
+    >{{ label }}</label>
     <div
-      :class="baseClass"
-      @click="showOptions = !showOptions"
+      :class="`border-b ${error ? 'border-red-500' : 'border-zinc-300'} h-8 flex justify-between items-center p-4 cursor-pointer hover:border-zinc-500 transition-colors`"
+      @click="isOpen = !isOpen"
     >
-      <div>
-        <span>
-          {{ selectedOption[labelKey] ?? "Selecione" }}
-        </span>
-      </div>
-      <div>
-        <PhCaretUp v-if="showOptions"/>
-        <PhCaretDown v-else/>
-      </div>
+      <span v-if="!selectedData?.id">Selecione</span>
+      <span v-else>{{ selectedData.text }}</span>
+      <PhCaretUp v-if="isOpen" />
+      <PhCaretDown v-else />
     </div>
+
     <span
       v-if="error"
-      class="text-danger text-xs"
-    >{{ error }}</span>
-
-    <AutocompleteOptions
-      v-if="showOptions && !disabled"
-      :custom-class="customClass"
-      @scrollend="$emit('scrollend')"
+      class="block text-xs text-red-500 py-1"
     >
-      <template
-        v-if="searchable"
-        #header
-      >
-        <input
-          v-model="search"
-          v-focus
-          type="text"
-          class="form-control text-xs border"
-          placeholder="Digite para buscar"
-        />
-        <Text
-          v-show="loading || showMessage"
-          size="xs"
-          variant="default"
-          class="my-2"
-        >
-          Buscando...
-        </Text>
-      </template>
+      {{ error }}
+    </span>
 
-      <OptionItem
-        v-for="(item, index) in items"
-        :key="index"
-        :class="[isSelected(item) ? 'bg-gray-500 bg-opacity-20' : '']"
-        @click="selectedItem(item)"
+    <Transition name="fade">
+      <SelectOptions
+        v-if="isOpen"
+        :loading="loading"
+        @scrollend="loadMore()"
+        @search="onSearch"
       >
-        {{ item[labelKey] }}
-      </OptionItem>
-      <p
-        v-if="!items.length && !loading"
-        class="p-2"
-      >
-        Nenhum item encontrado.
-      </p>
-    </AutocompleteOptions>
+        <SelectItem
+          v-for="(item, index) in data"
+          :key="index"
+          :active="item.id == selectedData?.id"
+          @click="onSelect(item)"
+        >
+          {{ item.text }}
+        </SelectItem>
+      </SelectOptions>
+    </Transition>
   </div>
 </template>
 
-<script lang="ts">
-import { IOption } from "@/interfaces/IOption";
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  PropType,
-  ref,
-  toRefs,
-  watch,
-} from "vue";
-import Text from "../Layout/Text.vue";
-import AutocompleteOptions from "./AutocompleteOptions.vue";
-import OptionItem from "./OptionItem.vue";
-
+<script setup lang="ts">
 import { PhCaretUp, PhCaretDown } from 'phosphor-vue'
+import { onMounted, PropType, ref, toRefs, watch } from 'vue';
+import SelectOptions from './AutocompleteOptions.vue';
+import SelectItem from './OptionItem.vue';
+import { api } from '@/services/api';
+export type Result = {
+  id: string | number;
+  text: string;
+}
+export type AutocompleteConfig = {
+  url: string;
+  params?: (data: {search:string}) => any;
+  processResults: (data: any) => { results: Result[], pagination: {more:boolean} },
+}
 
-export default defineComponent({
-  directives: {
-    focus: {
-      mounted(el: HTMLInputElement) {
-        el.focus();
-      },
-    },
+type Data = {
+  id: number | string;
+  text: string;
+}
+
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true
   },
-  components: { Text, AutocompleteOptions, OptionItem, PhCaretDown, PhCaretUp },
-  props: {
-    label: {
-      type: String,
-      required: false,
-      default: "",
-    },
-    labelClass: {
-      type: String,
-      default: ""
-    },
-    modelValue: {
-      type: [String, Number, Object, undefined] as PropType<string|number|undefined>,
-      required: true,
-    },
-    options: {
-      type: Object as PropType<IOption[]>,
-      required: true,
-      default: () => {
-        return {
-          label: "",
-          value: "",
-        };
-      },
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-    customClass: {
-      type: String,
-      default: () => {
-        return `border border-gray-300 bg-white bg-opacity-10 hover:border-gray-400`;
-      },
-    },
-    selected: {
-      type: Object as PropType<IOption>,
-      required: false,
-      default: () => ({
-        label: "",
-        value: 0,
-      }),
-    },
-    labelKey: {
-      type: String,
-      default: "label",
-    },
-    labelValue: {
-      type: String,
-      default: "value",
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    ajax: {
-      type: Boolean,
-      default: false,
-    },
-    searchable: {
-      type: Boolean,
-      default: false,
-    },
-    variant: {
-      type: String,
-      default: ""
-    },
-    error: {
-      type: String,
-      required:false,
-      default: ''
-    }
+  label: {
+    type: String,
+    default: ""
   },
-  emits: ["update:modelValue", "scrollend", "search", "open", "selected"],
-  setup(props, { emit }) {
-    const { options, selected, modelValue } = toRefs(props);
-    const showOptions = ref(false);
-    const selectedOption = ref<IOption>(selected.value);
-    const showMessage = ref(false);
-
-    watch(selected, (val) => {
-      selectedOption.value = val;
-    });
-    const selectedItem = (option: IOption) => {
-      showOptions.value = false;
-      search.value = "";
-      selectedOption.value = option;
-      emit("update:modelValue", option[props.labelValue]);
-      emit("selected", option[props.labelValue])
-    };
-    const search = ref("");
-    let interval = setTimeout(() => null);
-    watch(search, () => {
-      showMessage.value = true;
-      clearTimeout(interval);
-      interval = setTimeout(() => {
-        emit("search", search.value);
-        showMessage.value = false;
-      }, 500);
-    });
-    watch(showOptions, (val) => {
-      if (val) {
-        emit("open");
-      }
-    });
-    const items = computed(() => {
-      if (!props.ajax) {
-        const regex = new RegExp(search.value, "i");
-        // const newOptions = options.value;
-        // if(props.selected.value) {
-        //   if(!newOptions.find(item => item.value == props.selected.value)) {
-        //     newOptions.unshift({
-        //       label: props.selected.label,
-        //       value: props.selected.value,
-        //     })
-        //   }
-        // }
-        return options.value.filter((option) =>
-          regex.test(option[props.labelKey])
-        );
-      }
-
-      return options.value;
-    });
-
-    const isSelected = (option: IOption) => {
-      if (
-        option[props.labelValue] == props.modelValue ||
-        (!props.modelValue &&
-          option[props.labelValue] == props.selected[props.labelValue])
-      )
-        return true;
-      return false;
-    };
-
-    const baseClass = computed(() => {
-      return [
-        'custom-select-input flex items-center justify-between cursor-pointer',
-        'transition-all border-gray-300 bg-white bg-opacity-10 hover:border-gray-400',
-        props.variant != 'secondary' ? 'border' : 'border-b',
-        Boolean(props.error) && 'is-invalid'
-      ]
-    });
-
-    const checkModelValue = () => {
-      if (!props.ajax && props.modelValue) {
-        const option = options.value.find(
-          (item) => item[props.labelValue] == props.modelValue
-        );
-
-        if (option) {
-          selectedOption.value = {
-            [props.labelKey]: option[props.labelKey],
-            [props.labelValue]: option[props.labelValue],
-          };
-        }
-      }
-    }
-
-    watch(options, () => checkModelValue());
-    watch(modelValue, () => checkModelValue())
-
-    onMounted(() => {
-      checkModelValue()
-    });
-
-    return {
-      selectedItem,
-      showOptions,
-      search,
-      items,
-      selectedOption,
-      isSelected,
-      showMessage,
-      baseClass
-    };
+  config: {
+    type: Object as PropType<AutocompleteConfig>,
+    required: true
   },
-});
-</script>
+  labelClass: {
+    type: String,
+    default:""
+  },
+  error: {
+    type: String,
+    default: ""
+  },
+  selected: {
+    type: Object as PropType<Data>,
+    default: () => ({
+      id: "",
+      text: ""
+    })
 
-<style scoped lang="scss">
-.custom-select-input {
-  width: 100%;
-  padding: 0 16px;
-  height: 37px;
-  &:disabled {
-    cursor: not-allowed;
   }
-   &.border {
-     border-radius: 6px;
-     height: 50px;
-   }
-   &.is-invalid {
-    border-color: red;
-    color:red;
+})
+
+const { selected } = toRefs(props)
+
+const emit = defineEmits(['update:modelValue', 'input'])
+const loading = ref(false);
+const isOpen = ref(false);
+const selectedData = ref<Data>();
+const data = ref<Data[]>([])
+const hasNextPage = ref(false)
+const params = ref({
+  search: ""
+});
+
+const onSelect = (data: Data) => {
+  emit('update:modelValue', data.id);
+  isOpen.value = false;
+  selectedData.value = data;
+  emit('input', data)
+}
+
+const processData = (responseData: any) => {
+  const { results, pagination } = props.config.processResults(responseData)
+  data.value.push(...results)
+  hasNextPage.value = pagination.more
+}
+
+const fetchData = async () => {
+  try {
+    loading.value = true;
+    const {data} = await api.get(props.config.url, {
+      params: props.config?.params && props.config.params(params.value)
+    });
+    processData(data);
+  } catch (error) {
+    console.log(error)
+  } finally {
+    loading.value = false;
   }
 }
 
-.options {
-  position: absolute;
-  width: 100%;
-  z-index: 10;
-  background: #fff !important;
+const onSearch = (term:string) => {
+  params.value.search = term;
+  data.value = [];
+  fetchData();
+}
+
+const loadMore = () => {
+ if(!loading.value && hasNextPage.value) {
+  fetchData();
+ } 
+}
+
+watch(isOpen, val => {
+  if(!val) {
+    data.value = []
+    params.value.search = "";
+  } else {
+    fetchData();
+  }
+})
+
+const initializeData = () => {
+  selectedData.value = props.selected
+}
+
+watch(selected, val => {
+  initializeData();
+})
+
+onMounted(() => {
+  if(props.selected.id) {
+    initializeData();
+  }
+})
+</script>
+
+<style scoped>
+.fade-enter-from,
+.fade-leave-from {
+  transition: all .3s ease-in;
+}
+
+.fade-enter-active,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -7,7 +7,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   function(config) {
-    const token = localStorage.getItem('@Hotbillet:token');;
+    const token = localStorage.getItem('@Hotbillet:token');
     if (token && config?.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -48,6 +48,9 @@ api.interceptors.response.use(function(response) {
       }).catch((error) => {
         failedRequestsQueue.forEach(request => request.onFailure(error))
         failedRequestsQueue = []
+        localStorage.removeItem("@Hotbillet:token")
+        localStorage.removeItem("hot_refresh_token")
+        router.push('/login')
       })
       .finally(() => {
         isRefreshing = false;
@@ -62,7 +65,7 @@ api.interceptors.response.use(function(response) {
           resolve(api(originalConfig))
         },
         onFailure: (error: AxiosError) => {
-          reject(error);
+          return reject(error);
         }
       })
     })
@@ -70,7 +73,7 @@ api.interceptors.response.use(function(response) {
     // localStorage.removeItem("@Hotbillet:token")
     // localStorage.removeItem("hot_refresh_token")
     // router.push('/login')
-    Promise.reject(error)
+    return Promise.reject(error)
   }
 });
 

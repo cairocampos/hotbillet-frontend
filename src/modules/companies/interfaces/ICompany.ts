@@ -7,6 +7,7 @@ export interface ICompanySimple {
 
 export interface ICompany {
   id: number;
+  name:string;
   company_name: string;
   cpf_cnpj: string;
   email: string;

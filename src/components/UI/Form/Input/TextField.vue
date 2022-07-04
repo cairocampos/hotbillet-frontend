@@ -107,7 +107,7 @@ export default defineComponent({
 <style lang='scss' scoped>
 @import '@/assets/scss/variables';
 .input-field {
-  padding: 8px 14px;
+  padding: 8px;
   &.border {
     border: 1px solid #DDD;
     &:focus-within {
