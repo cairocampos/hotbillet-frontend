@@ -2,7 +2,7 @@
   <Box class="space-y-16 w-full">
     <Box class="flex items-center justify-between">
       <Heading>
-        {{ company.company_name }}
+        {{ company.name }}
       </Heading>
       <div class="flex items-center space-x-4">
         <Button
@@ -32,7 +32,7 @@
           Vendido por
         </Text>
         <Text size="sm">
-          {{ company.company_name }}
+          {{ company.name }}
         </Text>
         <!-- <a
           href="#"
@@ -48,10 +48,10 @@
           Suporte do Fornecedor
         </Text>
         <Text size="sm">
-          Email: {{ company.email }}
+          Email: {{ company.support_email }}
         </Text>
         <Text size="sm">
-          Telefone: {{ maskPhone(company.tel1) }}
+          Telefone: {{ maskPhone(company.support_phone) }}
         </Text>
       </Box>
     </Box>
@@ -62,10 +62,10 @@
           size="xs"
           variant="default"
         >
-          Produzido por
+          Responsável
         </Text>
         <Text size="sm">
-          {{ company.company_name }}
+          {{ company.producer_name }}
         </Text>
       </Box>
       <Box class="flex flex-col">

@@ -11,7 +11,7 @@
         variant="secondary"
       >
         <template #left>
-          <PhMagnifyingGlass/>
+          <PhMagnifyingGlass />
         </template>
       </TextField>
     </div>
@@ -65,7 +65,7 @@ import NoRecords from "@/components/NoRecords.vue";
 import {PhMagnifyingGlass} from 'phosphor-vue'
 
 type Item = {
-  [key: string]: string;
+  [key: string]: string|number;
 };
 
 export default defineComponent({

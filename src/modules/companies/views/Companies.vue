@@ -38,7 +38,7 @@
             class="flex items-center text-xs border-l-2 border-gray-300"
           >
             <span class="mx-2 pl-4 font-medium">Ver</span>
-            <PhArrowRight  class="text-lg"/>
+            <PhArrowRight class="text-lg" />
           </router-link>
         </template>
       </Datatable>
@@ -52,18 +52,19 @@
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import Datatable from "@/components/UI/Datatable/Datatable.vue";
 import useLoading from "@/composables/useLoading";
-import useNotifications from "@/composables/useNotifications.ts";
+import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services/api";
 import { IHeader } from "@/interfaces/IDatatable";
 import Tabs from "@/components/UI/Tabs/Tabs.vue";
-import Tab from "@/components/UI/Tabs/Tab.vue"; 
+import Tab from "@/components/UI/Tabs/Tab.vue";
 import ButtonActions from "../components/ButtonActions.vue";
 import SidebarFilters from "../components/SidebarFilters.vue";
-import { ICompanySimple } from "../interfaces/ICompany";
+import { ICompanyMetrics } from "../interfaces/ICompany";
 import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
-import {PhArrowRight} from 'phosphor-vue'
+import { PhArrowRight } from 'phosphor-vue'
+import { IPagination } from "@/interfaces/IPagination";
 export default defineComponent({
   components: {
     Datatable,
@@ -75,13 +76,13 @@ export default defineComponent({
     Button,
     HeadPage,
     PhArrowRight
-},
+  },
   setup() {
     const { loading } = useLoading();
     const { notifications } = useNotifications();
     const tabs = { ACTIVE: 0, INACTIVE: 1 };
     const activeTab = ref(tabs.ACTIVE);
-    const companies = ref<ICompanySimple[]>([]);
+    const companies = ref<ICompanyMetrics[]>([]);
     const showFilters = ref(false);
 
     const headers = computed<IHeader[]>(() => [
@@ -108,15 +109,15 @@ export default defineComponent({
     const fetchCompanies = async () => {
       try {
         loading.value.primary = true;
-        const { data } = await api.get<{ companies: ICompanySimple[] }>(
-          `/companies/list`,
+        const { data: { data } } = await api.get<IPagination<ICompanyMetrics[]>>(
+          `/companies`,
           {
             params: {
               status: activeTab.value == 0 ? "ATIVO" : "INATIVO"
             }
           }
         );
-        companies.value = data.companies;
+        companies.value = data;
       } catch (error) {
         notifications.error(error);
       } finally {
@@ -139,4 +140,5 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

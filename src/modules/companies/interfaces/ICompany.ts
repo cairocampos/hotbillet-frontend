@@ -1,4 +1,4 @@
-export interface ICompanySimple {
+export interface ICompanyMetrics {
   id: number;
   name: string;
   products_total: number;
@@ -8,16 +8,8 @@ export interface ICompanySimple {
 export interface ICompany {
   id: number;
   name:string;
-  company_name: string;
-  cpf_cnpj: string;
-  email: string;
-  tel1: string;
-  tel2: string;
-  cep: string;
-  address: string;
-  address_number: string;
-  complement: string;
-  district: string;
-  city: string;
-  state: string;
+  producer_name?: string;
+  support_email: string;
+  support_phone: string;
+  cnpj: string;
 }

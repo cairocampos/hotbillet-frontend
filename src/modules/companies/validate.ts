@@ -3,12 +3,12 @@ import useHelpers from "@/composables/useHelpers";
 const { isCpfOrCnpj } = useHelpers();
 
 export const createCompanyRules = {
-  company_name: {
+  name: {
     name: "required",
     test: (value: string) => Boolean(value),
     message: FORM.REQUIRED,
   },
-  cpf_cnpj: [
+  cnpj: [
     {
       name: "required",
       test: (value: string) => Boolean(value),
@@ -20,12 +20,12 @@ export const createCompanyRules = {
       message: FORM.CPF_CNPJ_INVALID,
     },
   ],
-  tel1: {
+  support_phone: {
     name: "required",
     test: (value: string) => Boolean(value),
     message: FORM.REQUIRED,
   },
-  email: [
+  support_email: [
     {
       name: "required",
       test: (value: string) => Boolean(value),
@@ -36,30 +36,5 @@ export const createCompanyRules = {
       test: (value: string) => /\@/.test(value),
       message: FORM.EMAIL_INVALID,
     },
-  ],
-  cep: {
-    name: "required",
-    test: (value: string) => Boolean(value),
-    message: FORM.REQUIRED,
-  },
-  district: {
-    name: "required",
-    test: (value: string) => Boolean(value),
-    message: FORM.REQUIRED,
-  },
-  address: {
-    name: "required",
-    test: (value: string) => Boolean(value),
-    message: FORM.REQUIRED,
-  },
-  city: {
-    name: "required",
-    test: (value: string) => Boolean(value),
-    message: FORM.REQUIRED,
-  },
-  state: {
-    name: "required",
-    test: (value: string) => Boolean(value),
-    message: FORM.REQUIRED,
-  },
+  ]
 };

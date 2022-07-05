@@ -3,7 +3,7 @@
     <HeadPage class="mb-10">
       <RouteBack :route="{name:'Companies'}">
         <h1 class="text-xl text-dark">
-          {{ company?.company_name ?? 'Carregando...' }}
+          {{ company?.name ?? 'Carregando...' }}
         </h1>
       </RouteBack>
     </HeadPage>

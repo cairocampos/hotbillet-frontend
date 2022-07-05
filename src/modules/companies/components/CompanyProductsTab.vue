@@ -63,8 +63,8 @@ export default defineComponent({
     const fetchProducts = async () => {
       try {
         loading.value = true;
-        const {data} = await api.get<{products: IProductData[]}>(`/companies/${props.id}/products`)
-        products.value = data.products
+        const {data} = await api.get<IProductData[]>(`/companies/${props.id}/products`)
+        products.value = data
         await Promise.resolve(setTimeout(() => null, 150000))
       } catch (error) {
         notifications.error(error)
