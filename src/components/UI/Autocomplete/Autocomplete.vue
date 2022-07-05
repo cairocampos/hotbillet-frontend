@@ -53,7 +53,7 @@ export type Result = {
 }
 export type AutocompleteConfig = {
   url: string;
-  params?: (data: {search:string}) => any;
+  params?: (data: {search:string, page: number}) => any;
   processResults: (data: any) => { results: Result[], pagination: {more:boolean} },
 }
 
@@ -102,7 +102,8 @@ const selectedData = ref<Data>();
 const data = ref<Data[]>([])
 const hasNextPage = ref(false)
 const params = ref({
-  search: ""
+  search: "",
+  page: 1
 });
 
 const onSelect = (data: Data) => {
@@ -122,7 +123,7 @@ const fetchData = async () => {
   try {
     loading.value = true;
     const {data} = await api.get(props.config.url, {
-      params: props.config?.params && props.config.params(params.value)
+      params: props.config?.params && props.config.params(params.value) || params.value
     });
     processData(data);
   } catch (error) {
@@ -134,12 +135,14 @@ const fetchData = async () => {
 
 const onSearch = (term:string) => {
   params.value.search = term;
+  params.value.page = 1;
   data.value = [];
   fetchData();
 }
 
 const loadMore = () => {
  if(!loading.value && hasNextPage.value) {
+  params.value.page++;
   fetchData();
  } 
 }
