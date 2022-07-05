@@ -10,6 +10,16 @@
       </button>
 
       <div class="space-y-4">
+        <div
+          v-if="loading"
+          class="w-max"
+        >
+          <PageLoading />
+        </div>
+        <span
+          v-else-if="!faqs.length"
+          class="text-zinc-500 text-sm"
+        >Nenhum item encontrado</span>
         <Card
           v-for="(faqItem, index) in faqs"
           :key="index"
@@ -42,7 +52,7 @@
       <template #body>
         <form
           class="form-sm space-y-12"
-          @submit.prevent="appen()"
+          @submit.prevent="append()"
         >
           <div class="form-group">
             <label class="label">Titulo</label>
@@ -93,6 +103,7 @@ import { IProduct, IProductFaq } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import { onMounted, PropType, ref, toRefs } from 'vue';
 import { PhPlus } from 'phosphor-vue'
+import PageLoading from '@/components/global/PageLoading.vue';
 
 const props = defineProps({
   product: {
@@ -115,14 +126,16 @@ const faq = ref<IProductFaq>({
   description: ''
 });
 
+const loading = ref(false)
 const fetchFaqs = async () => {
   try {
+    loading.value = true;
     const { data } = await api.get<IProductFaq[]>(`/products/${props.product.id}/faqs`)
     faqs.value = data;
   } catch (error) {
     notifications.error(error)
   } finally {
-    //
+    loading.value = false;
   }
 }
 
@@ -137,12 +150,12 @@ const checkForm = () => {
   }
 }
 
-const appen = () => {
+const append = () => {
   checkForm();
   if (formHandler.any()) return;
   console.log(faq.value)
   modalAdd.value = false;
-  faqs.value?.push(faq.value);
+  faqs.value?.unshift(faq.value);
   faq.value = {
     title: '',
     description: ''

@@ -15,6 +15,12 @@
         class="space-y-4"
       >
         <div class="md:grid md:grid-cols-2 md:gap-4">
+          <div
+            v-if="loading"
+            class="w-max"
+          >
+            <PageLoading />
+          </div>
           <Card
             v-for="(link, index) in links"
             :key="index"
@@ -114,15 +120,16 @@ const linkForm = ref<IProductLink>({
   url: ""
 })
 
-
+const loading = ref(false)
 const fetchLinks = async () => {
   try {
+    loading.value = true;
     const { data } = await api.get<IProductLink[]>(`/products/${props.product.id}/links`);
     links.value = data;
   } catch (error) {
     notifications.error(error)
   } finally {
-    //
+    loading.value = false;
   }
 }
 
