@@ -9,7 +9,7 @@ const auth = {
 };
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_API_URL : "/api",
 });
 
 api.interceptors.request.use(
@@ -30,9 +30,9 @@ api.interceptors.request.use(
 const store = useStore();
 api.interceptors.response.use(function(response) {
   return response;
-}, function ({response}: AxiosError) {
+}, function (error: AxiosError) {
   const UNATHORIZED = 401;
-  if(response?.status == UNATHORIZED) {
+  if(error.response?.status == UNATHORIZED) {
     localStorage.removeItem('hot_token');
     localStorage.removeItem('hot_refresh_token');
     // location.reload

@@ -21,3 +21,6 @@ app.use(Maska)
 app.use(Notifications)
 app.directive("money", VMoney);
 app.mount('#app')
+
+
+console.log('env', import.meta.env)
