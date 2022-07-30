@@ -102,7 +102,7 @@ export default defineComponent({
       required: true,
     },
     options: {
-      type: Object as PropType<IOption[]>,
+      type: Object as PropType<any[]>,
       required: true,
       default: () => {
         return {

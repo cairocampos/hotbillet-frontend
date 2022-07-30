@@ -75,7 +75,7 @@ export default defineComponent({
       required: true,
     },
     items: {
-      type: Array as PropType<Item[]>,
+      type: Array as PropType<any[]>,
       required: true,
     },
     searchable: {

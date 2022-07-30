@@ -55,7 +55,7 @@
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import Datatable from "@/components/UI/Datatable/Datatable.vue";
 import useLoading from "@/composables/useLoading";
-import useNotifications from "@/composables/useNotifications.ts";
+import useNotifications from "@/composables/useNotifications";
 import { api } from "../../../services";
 import { IHeader } from "@/interfaces/IDatatable";
 import Tabs from "@/components/UI/Tabs/Tabs.vue";

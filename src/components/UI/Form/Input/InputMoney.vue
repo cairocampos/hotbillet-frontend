@@ -23,7 +23,7 @@
         :placeholder="placeholder"
         :class="`text-${size} flex-1 text-blue-500 text-right`"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="onInput"
       />
       <slot name="right" />
     </div>
@@ -35,6 +35,7 @@
 </template>
 
 <script lang='ts'>
+import { emit } from 'process';
 import { computed, defineComponent, PropType } from 'vue';
 export default defineComponent({
   props: {
@@ -73,7 +74,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue'],
-  setup(props) {
+  setup(props, {emit}) {
     const computedClass = computed(() => {
       const variants = {
         primary: "bg-white border rounded-md",
@@ -83,8 +84,14 @@ export default defineComponent({
       return variants[props.variant];
     })
 
+    const onInput = (payload: Event) => {
+      const target = payload.target as HTMLInputElement
+      emit('update:modelValue', target.value)
+    }
+
     return {
-      computedClass
+      computedClass,
+      onInput
     }
   }
 })

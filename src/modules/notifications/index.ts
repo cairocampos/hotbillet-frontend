@@ -1,5 +1,5 @@
-import router from './router'
+import {notifications} from './router'
 
 export default {
-  router
+  notifications
 }

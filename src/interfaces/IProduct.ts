@@ -5,7 +5,7 @@ export interface IProductData {
   id?: number;
   name: string;
   abbreviation: string;
-  company_id?: number;
+  company_id: number;
   url: string;
   product_type: ProductType;
   status: ProductStatus;
