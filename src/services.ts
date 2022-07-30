@@ -9,7 +9,7 @@ const auth = {
 };
 
 const api = axios.create({
-  baseURL: "http://52.3.266.34/api",
+  baseURL: import.meta.env.PROD ? import.meta.env.VITE_API_URL : "/api",
 });
 
 api.interceptors.request.use(
