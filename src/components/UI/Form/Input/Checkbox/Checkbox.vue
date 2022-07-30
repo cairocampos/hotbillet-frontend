@@ -1,13 +1,13 @@
 <template>
   <div class="hot__checkbox flex space-x-2 items-center relative mr-4">
     <input
-      :id="value"
+      :id="String(value)"
       type="checkbox"
       :value="value"
       @change="onChange"
     >
     <label
-      :for="value"
+      :for="String(value)"
       class="text-base"
     >{{ label }}</label>
   </div>

@@ -5,7 +5,7 @@
     :class="['flex text-gray-200 px-6 py-2 items-center space-x-4 space-y-0', {active: activeRoute == route.name}]"
   >
     <img
-      :src="route.meta.icon"
+      :src="(route.meta.icon as string)"
       class="h-6"
     >
     <Text>{{ route.meta.label }}</Text>

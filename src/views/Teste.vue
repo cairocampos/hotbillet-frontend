@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <Container>
     <Datatable
       :headers="headers"
@@ -47,4 +47,4 @@ export default defineComponent({
 </script>
 
 <style lang='scss' scoped>
-</style>
+</style> -->

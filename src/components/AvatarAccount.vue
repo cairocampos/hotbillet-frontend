@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import {computed} from 'vue';
 import defaultAvatar from "@/assets/fake/perfil.jpeg"
 const props = defineProps({
