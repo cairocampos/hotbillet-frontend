@@ -30,7 +30,7 @@
                 <input
                   v-model="email"
                   type="text"
-                  class="w-100 bg-transparent outline-none"
+                  class="w-100 bg-transparent outline-none flex-1"
                 />
               </div>
             </div>
