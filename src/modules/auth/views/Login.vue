@@ -145,8 +145,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const email = ref("company1@hotbillet.com.br");
-    const password = ref("123456");
+    const email = ref("");
+    const password = ref("");
     const btnLoading = ref(false);
     const exibirSenha = ref(false);
     const login = async () => {
