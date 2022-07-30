@@ -30,7 +30,7 @@
                 <input
                   v-model="email"
                   type="text"
-                  class="w-100 bg-transparent outline-none flex-1"
+                  class="w-100 bg-transparent outline-none"
                 />
               </div>
             </div>
@@ -47,7 +47,7 @@
                 <input
                   v-model="password"
                   :type="exibirSenha ? 'text' : 'password'"
-                  class="w-100 bg-transparent outline-none"
+                  class="w-100 bg-transparent outline-none flex-1"
                 />
                 <div class="input-append">
                   <button
