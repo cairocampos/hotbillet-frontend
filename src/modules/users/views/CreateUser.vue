@@ -39,7 +39,7 @@
 
         <Autocomplete
           v-model="user.user_profile_id"
-          :options="store.state.spec.profiles"
+          :options="[]"
           label-key="description"
           label-value="id"
           label="Perfil"
@@ -174,7 +174,7 @@ import { defineComponent, ref, reactive, watch } from 'vue';
 import { IUser } from '@/interfaces/IUser';
 import useNotifications from '@/composables/useNotifications';
 import { api } from '@/services';
-import {useDefaultStore} from '@/store';
+// import {useDefaultStore} from '@/store';
 import InputGroup from '@/components/InputGroup.vue';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
@@ -202,7 +202,7 @@ export default defineComponent({
   setup() {
     const { getInputError, testInput } = useFormHandler();
     const { notifications } = useNotifications();
-    const store = useDefaultStore;
+    // const store = useDefaultStore;
     const router = useRouter();
     
     const loading = ref(false);
@@ -264,7 +264,7 @@ export default defineComponent({
       result,
       getInputError,
       testInput,
-      store,
+      // store,
       save,
       user,
       loading,

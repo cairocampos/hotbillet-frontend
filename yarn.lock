@@ -1767,7 +1767,7 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
-"@vue/devtools-api@^6.0.0-beta.11", "@vue/devtools-api@^6.1.4":
+"@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.2.1":
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.2.1.tgz#6f2948ff002ec46df01420dfeff91de16c5b4092"
   integrity sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==
@@ -5614,6 +5614,14 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
+pinia@^2.0.17:
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.17.tgz#f925e5e4f73c15e16dfb4838176a9ca50752f26b"
+  integrity sha512-AtwLwEWQgIjofjgeFT+nxbnK5lT2QwQjaHNEDqpsi2AiCwf/NY78uWTeHUyEhiiJy8+sBmw0ujgQMoQbWiZDfA==
+  dependencies:
+    "@vue/devtools-api" "^6.2.1"
+    vue-demi "*"
+
 pkg-dir@^4.1.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-4.2.0.tgz#f099133df7ede422e81d1d8448270eeb3e4261f3"
@@ -7182,6 +7190,11 @@ vite@^2.9.7:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-demi@*:
+  version "0.13.6"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.6.tgz#f9433cbd75e68a970dec066647f4ba6c08ced48f"
+  integrity sha512-02NYpxgyGE2kKGegRPYlNQSL1UWfA/+JqvzhGCOYjhfbLWXU5QQX0+9pAm/R2sCOPKr5NBxVIab7fvFU0B1RxQ==
+
 vue-demi@^0.11.2:
   version "0.11.4"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.4.tgz#6101992fe4724cf5634018a16e953f3052e94e2a"
@@ -7258,13 +7271,6 @@ vue@^3.2.31:
     "@vue/runtime-dom" "3.2.37"
     "@vue/server-renderer" "3.2.37"
     "@vue/shared" "3.2.37"
-
-vuex@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
-  integrity sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==
-  dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.11"
 
 watchpack@^2.4.0:
   version "2.4.0"

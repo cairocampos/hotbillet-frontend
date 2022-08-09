@@ -60,20 +60,19 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-// import { useStore } from "vuex";
+// import { useStore } from "@Hotbillet:token";
 
 export default defineComponent({
   setup() {
     // const store = useStore();
     const usuario = computed(() => {
-      return {}
-      // const {name = '', profile = '', email = '', phone = ''} = store.state['usuario'].usuario;
-      // return {    
-      //   name,
-      //   profile,
-      //   email,
-      //   phone
-      // }
+      const {name = '', profile = '', email = '', phone = ''} = store.state['usuario'].usuario;
+      return {    
+        name,
+        profile,
+        email,
+        phone
+      }
     })
 
     return {

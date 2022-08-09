@@ -4,7 +4,6 @@ export type ProductStatus = "ATIVO" | "INATIVO";
 export interface IProductData {
   id?: number;
   name: string;
-  abbreviation: string;
   company_id: number;
   url: string;
   product_type: ProductType;

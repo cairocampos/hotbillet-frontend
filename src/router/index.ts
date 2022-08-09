@@ -16,7 +16,7 @@ import { integrationsRoutes } from "../modules/integrations/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
-import { useDefaultStore } from "../store";
+// import { useDefaultStore } from "../store";
 import { auth } from "../services";
 
 const routes: Array<RouteRecordRaw> = [
@@ -47,7 +47,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  useDefaultStore.commit("TOGGLE_MENU");
+  // useDefaultStore.commit("TOGGLE_MENU");
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!auth.token()) {

@@ -16,7 +16,7 @@
       <DropdownNotifications />
       <div
         class="bg-white py-2 pl-4 pr-8 cursor-pointer"
-        @click="store.dispatch('usuario/logout')"
+        @click="onLogout"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -38,8 +38,9 @@
 </template>
 
 <script lang="ts">
+import { useAuthStore } from "@/store/modules/auth";
 import { defineComponent } from "@vue/runtime-core";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 import DropdownNotifications from "./DropdownNotifications/DropdownNotifications.vue";
 
 export default defineComponent({
@@ -51,13 +52,19 @@ export default defineComponent({
       }
     },
     setup() {
-        const store = useStore();
+        const store = useAuthStore()
+
+        const onLogout = () => {
+          store.logout();
+        }
+
         const toggleMenu = () => {
-            store.commit("TOGGLE_MENU");
+            // store.commit("TOGGLE_MENU");
         };
         return {
-            store,
-            toggleMenu
+            // store,
+            toggleMenu,
+            onLogout
         };
     }
 })

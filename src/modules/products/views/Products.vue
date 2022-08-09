@@ -77,7 +77,7 @@ import Filtros from "../components/Filtros.vue"
 import { api } from '@/services';
 import { IProductData } from '@/interfaces/IProduct';
 import usePagination from '@/composables/usePagination';
-import { IPagination } from '@/interfaces/IPagination';
+import { IPaginationData } from '@/interfaces/IPagination';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/global/HeadPage.vue';
 
@@ -104,9 +104,9 @@ export default defineComponent({
     const fetchProducts = async () => {
       try {
         loading.value = true;
-        const {data} = await api.get<{products: IProductData[], pagination: IPagination}>('/products');
-        products.value = data.products;
-        pagination.value = data.pagination;
+        const {data: {data, ...item}} = await api.get<IPaginationData<IProductData[]>>('/products');
+        products.value = data;
+        pagination.value = item
       } catch (error) {
         console.log(error);
       } finally {

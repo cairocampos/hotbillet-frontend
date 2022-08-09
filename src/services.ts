@@ -1,15 +1,15 @@
 import axios, {AxiosError} from "axios";
 import { IViacep } from "./interfaces/IViacep";
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 
 const auth = {
   token(): string | null {
-    return localStorage.getItem("hot_token");
+    return localStorage.getItem("@Hotbillet:token");
   },
 };
 
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? import.meta.env.VITE_API_URL : "/api",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use(
@@ -27,14 +27,13 @@ api.interceptors.request.use(
 );
 
 
-const store = useStore();
+// const store = useStore();
 api.interceptors.response.use(function(response) {
   return response;
 }, function (error: AxiosError) {
   const UNATHORIZED = 401;
   if(error.response?.status == UNATHORIZED) {
-    localStorage.removeItem('hot_token');
-    localStorage.removeItem('hot_refresh_token');
+    localStorage.removeItem('@Hotbillet:token');
     // location.reload
   }
   

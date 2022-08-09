@@ -30,7 +30,7 @@
                 <input
                   v-model="email"
                   type="text"
-                  class="w-100 bg-transparent outline-none"
+                  class="w-100 bg-transparent outline-none flex-1"
                 />
               </div>
             </div>
@@ -96,19 +96,16 @@
               </div>
             </div>
 
-            <div class="form-group text-center">
-              <div>
-                <Button
-                  size="md"
-                  :loading="btnLoading"
-                  variant="light"
-                  :block="true"
-                  radius="md"
-                  type="submit"
-                >
-                  Entrar
-                </Button>
-              </div>
+            <div class="flex justify-center">
+              <Button
+                size="md"
+                :loading="btnLoading"
+                variant="light"
+                radius="md"
+                type="submit"
+              >
+                Entrar
+              </Button>
             </div>
             <div>
               <p class="text-sm text-gray-50">
@@ -131,8 +128,8 @@ import { useRouter } from "vue-router";
 import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
 import { api } from "../../../services";
-import { useStore } from "vuex";
 import Button from "@/components/UI/Button/Button.vue";
+import { useAuthStore, Auth } from "@/store/modules/auth";
 
 interface ILogin {
   token_access: string;
@@ -144,7 +141,7 @@ export default defineComponent({
   components: { Button },
   setup() {
     const router = useRouter();
-    const store = useStore();
+    const store = useAuthStore();
     const email = ref("");
     const password = ref("");
     const btnLoading = ref(false);
@@ -152,11 +149,12 @@ export default defineComponent({
     const login = async () => {
       try {
         btnLoading.value = true;
-        const response = await api.post<ILogin>("/login", {
+        const {data} = await api.post<Auth>("/login", {
           email: email.value,
           password: password.value,
         });
-        store.dispatch("usuario/defineUsuario", response.data);
+
+        store.setData(data)
         router.push({ name: "Dashboard" });
       } catch (error) {
         console.log(error);
