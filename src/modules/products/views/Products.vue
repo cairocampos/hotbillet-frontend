@@ -64,9 +64,9 @@ import Filtros from "../components/Filtros.vue"
 import { api } from '@/services/api';
 import { IProductData } from '@/interfaces/IProduct';
 import usePagination from '@/composables/usePagination';
-import { IPaginationData } from '@/interfaces/IPagination';
+import { IPagination } from '@/interfaces/IPagination';
 import Button from '@/components/UI/Button/Button.vue';
-import HeadPage from '@/components/global/HeadPage.vue';
+import HeadPage from '@/components/HeadPage.vue';
 import { PhFunnelSimple } from 'phosphor-vue'
 
 const { pagination } = usePagination();

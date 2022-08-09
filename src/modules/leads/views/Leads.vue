@@ -54,12 +54,14 @@ import NavTabHeader from '@/components/NavTabHeader.vue';
 import TableLeads from '../components/TableLeads.vue';
 import UploadManual from '../components/UploadManual.vue';
 import Atendimento from '../components/Atendimento.vue';
+import HeadPage from "@/components/HeadPage.vue";
 export default defineComponent({
   components: {
     NavTabHeader,
     TableLeads,
     UploadManual,
-    Atendimento
+    Atendimento,
+    HeadPage
   },
   setup() {
     const habilitarFiltro = ref(false)

@@ -59,8 +59,9 @@ import Button from '@/components/UI/Button/Button.vue';
 import CompanyDataTab from '../components/CompanyDataTab.vue';
 import CompanyProductsTab from '../components/CompanyProductsTab.vue';
 import Loading from '@/components/global/Loading.vue';
+import HeadPage from '@/components/HeadPage.vue';
 export default defineComponent({
-  components: { Container, RouteBack, Tabs, Tab, Button, CompanyDataTab, CompanyProductsTab, Loading },
+  components: { Container, RouteBack, Tabs, Tab, Button, CompanyDataTab, CompanyProductsTab, Loading, HeadPage },
   props: {
     id: {
       type: [String,Number],

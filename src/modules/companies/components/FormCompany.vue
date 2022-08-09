@@ -35,15 +35,15 @@
         variant="secondary"
         mask="(##) #####-####"
         label="Telefone"
-        :error="getInputError('tel1', result)"
-        @input="testInput('tel1', result)"
+        :error="getInputError('support_phone', result)"
+        @input="testInput('support_phone', result)"
       />
       <TextField
         v-model="company.support_email"
         variant="secondary"
         label="E-mail"
-        :error="getInputError('email', result)"
-        @input="testInput('email', result)"
+        :error="getInputError('support_email', result)"
+        @input="testInput('support_email', result)"
       />
     </div>
 

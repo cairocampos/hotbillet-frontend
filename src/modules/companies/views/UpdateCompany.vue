@@ -27,7 +27,7 @@ import FormCompany from "../components/FormCompany.vue";
 import PageLoading from "@/components/global/PageLoading.vue";
 import useLoading from "@/composables/useLoading";
 import RouteBack from "@/components/RouteBack.vue";
-import HeadPage from "@/components/global/HeadPage.vue";
+import HeadPage from "@/components/HeadPage.vue";
 export default defineComponent({
   components: {
     Container,
@@ -48,18 +48,10 @@ export default defineComponent({
     const {notifications} = useNotifications();
 
     const company = ref<Omit<ICompany, "id">>({
-      company_name: "",
-      cpf_cnpj: "",
-      email: "",
-      tel1: "",
-      tel2: "",
-      cep: "",
-      address: "",
-      address_number: "",
-      complement: "",
-      district: "",
-      city: "",
-      state: "",
+      name: "",
+      cnpj: "",
+      support_email: "",
+      support_phone: "",
     });
 
     const fetchCompany = async () => {

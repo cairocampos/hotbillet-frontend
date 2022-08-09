@@ -40,10 +40,7 @@
 <script lang="ts">
 import { useAuthStore } from "@/store/modules/auth";
 import { defineComponent } from "@vue/runtime-core";
-// import { useStore } from "vuex";
 import DropdownNotifications from "./DropdownNotifications/DropdownNotifications.vue";
-
-import { useStore } from "@/store";
 
 export default defineComponent({
     components: { DropdownNotifications },

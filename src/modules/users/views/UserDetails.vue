@@ -3,7 +3,7 @@
     <HeadPage>
       <RouteBack :route="{name:'Users'}">
         <h1 class="text-xl text-dark">
-          {{ usuario.name }}
+          {{ user.name }}
         </h1>
       </RouteBack>
     </HeadPage>
@@ -22,13 +22,14 @@
 
                 <div class="space-y-4">
                   <h3 class="text-2xl text-dark font-medium">
-                    {{ usuario.name }}
+                    {{ user.name }}
                   </h3>
                   <p class="text-sm text-default font-light">
-                    {{ profileName }}
+                    <!-- {{ profileName }} -->
+                    Admin
                   </p>
                   <div class="text-sm text-dark flex space-x-6">
-                    <p>E-mail: {{ usuario.email }}</p>
+                    <p>E-mail: {{ user.email }}</p>
                   </div>
                 </div>
               </div>
@@ -86,70 +87,46 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import useNotifications from "@/composables/useNotifications";
 import { IUser } from "@/interfaces/IUser";
 import { api } from "@/services/api";
-import { defineComponent, computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
 import PageLoading from "@/components/global/PageLoading.vue";
-import useConstants from "@/composables/useConstants";
 import Button from "@/components/UI/Button/Button.vue";
 import AvatarAccount from "../../../components/AvatarAccount.vue";
+import HeadPage from "@/components/HeadPage.vue";
 
-export default defineComponent({
-  components: { RouteBack, PageLoading, Button, AvatarAccount },
-  props: {
-    id: {
-      type: [Number, String],
-      required:true
-    }
-  },
-  setup(props) {
-    const { PROFILES_NAME } = useConstants();
-    const loading = ref(false);
-    const { notifications } = useNotifications();
-    const usuario = ref<IUser>({
-      email: "",
-      last_name:"",
-      name:"",
-      user_profile_id:0,
-      company_id:0,
-      id:0,
-      supervisor_id:0,
-    });
-
-    const fetchUser = async () => {
-      try {
-        loading.value = true;
-        const {data} = await api.get<{user: IUser}>(`/users/${props.id}`);
-        usuario.value = data.user
-      } catch (error) {
-        notifications.error(error);
-      } finally {
-        loading.value = false;
-      }
-    }
-
-    const profileName = computed(() => {
-      if(usuario.value.user_profile_id) {
-        return PROFILES_NAME[usuario.value.user_profile_id];
-      }
-
-      return '';
-    });
-
-
-    onMounted(() => fetchUser())
-
-
-    return {
-      usuario,
-      loading,
-      profileName
-    };
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    required:true
   }
 })
+
+const loading = ref(false);
+const { notifications } = useNotifications();
+const user = ref<IUser>({
+  email: "",
+  name:"",
+  profile_id: Number(),
+  id:Number(),
+  supervisor_id: Number(),
+});
+
+const fetchUser = async () => {
+  try {
+    loading.value = true;
+    const {data} = await api.get<IUser>(`/users/${props.id}`);
+    user.value = data
+  } catch (error) {
+    notifications.error(error);
+  } finally {
+    loading.value = false;
+  }
+}
+onMounted(() => fetchUser())
 </script>
 
 <style>

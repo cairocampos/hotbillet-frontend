@@ -18,6 +18,7 @@
     "mitt": "^3.0.0",
     "mosha-vue-toastify": "^1.0.23",
     "notiwind": "^1.2.5",
+    "phosphor-vue": "^4.4.0",
     "pinia": "^2.0.17",
     "v-money": "^0.8.1",
     "vue": "^3.2.31",

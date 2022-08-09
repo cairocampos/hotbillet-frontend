@@ -88,6 +88,7 @@ import Button from '@/components/UI/Button/Button.vue';
 import NoRecords from '@/components/NoRecords.vue';
 import {PhFingerprint,PhArrowRight} from 'phosphor-vue'
 import { IPagination } from '@/interfaces/IPagination';
+import HeadPage from '@/components/HeadPage.vue';
 
 export default defineComponent({
   components: {
@@ -97,7 +98,8 @@ export default defineComponent({
     Button,
     NoRecords,
     PhFingerprint,
-    PhArrowRight
+    PhArrowRight,
+    HeadPage
 },
   setup() {
     const loading = ref(false);

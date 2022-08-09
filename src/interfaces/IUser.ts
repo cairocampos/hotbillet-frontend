@@ -1,12 +1,10 @@
 export interface IUser {
     id?:number;
     name:string;
-    last_name:string;
     email: string;
-    password?: string;
-    user_profile_id: number;
-    company_id?: number;
+    profile_id: number;
     supervisor_id?:number;
+    profile_picture?:string;
 }
 
 export interface IUserData extends IUser {
