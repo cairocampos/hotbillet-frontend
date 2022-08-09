@@ -30,7 +30,7 @@
                 <input
                   v-model="email"
                   type="text"
-                  class="w-100 bg-transparent outline-none"
+                  class="w-100 bg-transparent outline-none flex-1"
                 />
               </div>
             </div>
@@ -47,7 +47,7 @@
                 <input
                   v-model="password"
                   :type="exibirSenha ? 'text' : 'password'"
-                  class="w-100 bg-transparent outline-none"
+                  class="w-100 bg-transparent outline-none flex-1"
                 />
                 <div class="input-append">
                   <button
@@ -96,19 +96,16 @@
               </div>
             </div>
 
-            <div class="form-group text-center">
-              <div>
-                <Button
-                  size="md"
-                  :loading="btnLoading"
-                  variant="light"
-                  :block="true"
-                  radius="md"
-                  type="submit"
-                >
-                  Entrar
-                </Button>
-              </div>
+            <div class="flex justify-center">
+              <Button
+                size="md"
+                :loading="btnLoading"
+                variant="light"
+                radius="md"
+                type="submit"
+              >
+                Entrar
+              </Button>
             </div>
             <div>
               <p class="text-sm text-gray-50">
@@ -130,25 +127,35 @@
 import { useRouter } from "vue-router";
 import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
-import { api } from "@/services/api";
-import { useStore } from "@/store";
+import { api } from "../../../services";
 import Button from "@/components/UI/Button/Button.vue";
+import { useAuthStore, Auth } from "@/store/modules/auth";
+
+interface ILogin {
+  token_access: string;
+  token_refresh: string;
+}
+
 export default defineComponent({
   name: "Login",
   components: { Button },
   setup() {
-    const store = useStore();
-    const email = ref("admin@hotbillet.com");
-    const password = ref("123456");
+    const router = useRouter();
+    const store = useAuthStore();
+    const email = ref("");
+    const password = ref("");
     const btnLoading = ref(false);
     const exibirSenha = ref(false);
     const login = async () => {
       try {
         btnLoading.value = true;
-        await store.dispatch('auth/login', {
+        const {data} = await api.post<Auth>("/login", {
           email: email.value,
-          password:password.value
-        })
+          password: password.value,
+        });
+
+        store.setData(data)
+        router.push({ name: "Dashboard" });
       } catch (error) {
         console.log(error);
       } finally {

@@ -16,7 +16,8 @@ import { integrationsRoutes } from "../modules/integrations/router";
 
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
-import { api } from "@/services/api";
+// import { useDefaultStore } from "../store";
+import { auth } from "../services";
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,
@@ -46,7 +47,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // store.commit("TOGGLE_MENU");
+  // useDefaultStore.commit("TOGGLE_MENU");
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!localStorage.getItem('@Hotbillet:token')) {

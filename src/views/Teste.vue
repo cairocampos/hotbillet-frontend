@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <Container>
     <Autocomplete
       v-model="company_id"
@@ -25,29 +25,13 @@ interface Company {
   name:string;
 }
 
-const company_id = ref();
-const companies = ref<Company[]>([])
-const {pagination, nextPage} = usePagination();
-const loading = ref(false);
-const fetchCompanies = async () => {
-  loading.value = true;
-  const {data: {data, ...paginationsProps}} = await api.get<IPagination<Company[]>>('/companies', {
-    params: {
-      page: pagination.value.current_page
-    }
-  })
-  loading.value = false;
-  companies.value.push(...data)
-  pagination.value = paginationsProps
-}
-
-const onScrollEnd = () => {
-  if(loading.value) return;
-  nextPage(() => {
-    fetchCompanies();
-  });
-}
-
-onMounted(() => fetchCompanies());
-
+      return {
+        headers,
+        items
+      }
+    },
+})
 </script>
+
+<style lang='scss' scoped>
+</style> -->

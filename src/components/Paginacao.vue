@@ -16,7 +16,7 @@
       :key="pagina"
     >
       <router-link
-        :to="{ query: query(pagina) }"
+        :to="{ query: query(pagina.toString()) }"
         :class="[paginaAtual == pagina ? 'active': '']"
       >
         {{ pagina }}

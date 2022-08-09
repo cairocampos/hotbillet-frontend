@@ -11,7 +11,7 @@
           class="flex items-center text-sm text-default gap-1"
           @click="habilitarFiltro = !habilitarFiltro"
         >
-          <PhFunnelSimple/>
+          <PhFunnelSimple />
           <span>Filtrar</span>
         </button>
       </template>
@@ -64,7 +64,7 @@ import Filtros from "../components/Filtros.vue"
 import { api } from '@/services/api';
 import { IProductData } from '@/interfaces/IProduct';
 import usePagination from '@/composables/usePagination';
-import { IPagination } from '@/interfaces/IPagination';
+import { IPaginationData } from '@/interfaces/IPagination';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/global/HeadPage.vue';
 import { PhFunnelSimple } from 'phosphor-vue'

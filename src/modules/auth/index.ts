@@ -1,5 +1,5 @@
-import router from './router'
+import {authRoutes} from './router'
 
 export default {
-  router
+  authRoutes
 }

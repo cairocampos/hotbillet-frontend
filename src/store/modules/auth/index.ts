@@ -1,74 +1,54 @@
-import { Action, ActionTree, Module, Store, useStore } from "vuex"
-import router from '@/router'
-import { RootState } from "@/store/interface"
-import { api } from "@/services/api";
+import {useRouter} from "vue-router";
+import { api } from "@/services";
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-type User = {
-  id:number;
-  name:string;
-  email:string;
+interface User {
+  name: string
+  email: string
 }
-
-type SignInCredentials = {
-  email:string;
-  password:string;
-}
-
-export interface AuthState {
-  isAuthenticated: boolean;
+export interface Auth {
+  token: string;
   user: User
 }
 
-const authModule: Module<AuthState, RootState> = {
-  namespaced:true,
-  state: {
-    isAuthenticated: false,
-    user: {} as User
-  },
-  mutations: {
-    setUser(store, payload: User) {
-      store.user = payload;
-    },
-    setIsAuthenticated(store, payload: boolean) {
-      store.isAuthenticated = payload;
-    }
-  },
-  actions: {
-    login({commit}, {email, password} : SignInCredentials) {
-      return api.post<{token:string; user: User}>('/login', {
-        email,
-        password
-      }).then(response => {
-        const {data: { user, token }} = response;
-        commit('setUser', user)
-        commit('setIsAuthenticated', token)
-        localStorage.setItem('@Hotbillet:token', token);
-        router.push({path:"/"})
-      }).catch(error => {
-        throw error
-      })
-    },
-    logout({commit}) {
-      return api.post('/logout')
-        .then(() => {
-          localStorage.removeItem('@Hotbillet:token');
-          localStorage.removeItem('hot_refresh_token');
-          commit('setUser', {});
-          router.push({path:"/login"})
-        })
-    },
-    setUser({commit}) {
-      return api.get('/user')
-        .then(response => {
-          commit('setUser', response.data);
-        })
-    }
-  },
-  getters: {
-    getNomeUsuario: state => {
-      return  state.user.name;
+export const useAuthStore = defineStore('auth', () => {
+  const user = ref<User>();
+  const loading = ref(false)
+  const tokenName = '@Hotbillet:token'
+
+  const setData = (data: Auth) => {
+    localStorage.setItem(tokenName, data.token)
+    user.value = data.user
+  }
+
+  const fetchUser = async () => {
+    loading.value = true
+    const {data} = await api.get('/user')
+    user.value = data;
+    loading.value = false
+  }
+
+  const checkAuth = () => {
+    const token = localStorage.getItem(tokenName);
+    if(token) {
+      fetchUser();
     }
   }
-}
 
-export default authModule;
+  const router = useRouter()
+  const logout = async () => {
+    await api.post('/logout')
+    user.value = {} as User;
+    localStorage.removeItem(tokenName)
+    router.push('/login')
+  }
+
+  return {
+    user,
+    setData,
+    checkAuth,
+    loading,
+    logout
+  }
+})

@@ -52,13 +52,12 @@
 
 
 <script lang="ts" setup>
+import { computed, ref, watch } from "vue";
 interface Option {
   label: string;
   value: string | number;
   selected?: boolean;
 }
-
-import { computed, ref, watch } from "vue";
 const showOptions = ref(false);
 const props = defineProps({
   multiple: {
@@ -81,7 +80,9 @@ const selectedOptions = ref<Option[]>([]);
 const root = ref<HTMLElement>();
 const searchable = ref("");
 const updateSelected = (option: Option) => {
-  root.value.innerHTML = "";
+  if(root?.value) {
+    root.value.innerHTML = "";
+  }
   searchable.value = "";
 
   if (props.multiple) {

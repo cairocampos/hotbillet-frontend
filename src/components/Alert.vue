@@ -84,7 +84,7 @@
 <script lang="ts">
 
 import {defineComponent, watch, computed} from 'vue';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 
 export default defineComponent({
     props: {
@@ -95,7 +95,7 @@ export default defineComponent({
     },
    setup(props) {
         const screen = "w-1/4";
-        const store = useStore();
+        // const store = useStore();
 
         const statusAlert = computed(() => props.modelValue ? props.modelValue?.show : null);
 
@@ -103,7 +103,7 @@ export default defineComponent({
             let temporizador;
             if(val) {
                 temporizador =  setTimeout(() => {
-                    store.commit('alerta/UPDATE_ALERTA', {show:false});
+                    // store.commit('alerta/UPDATE_ALERTA', {show:false});
                 }, props.modelValue?.duration ? props.modelValue?.duration : 3000);
             } else {
                 clearTimeout(temporizador);

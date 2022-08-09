@@ -1,9 +1,7 @@
 <template>
   <div class="min-h-screen w-full">
     <Notify />
-
-    <!-- <LoadingPage v-model="obj" /> -->
-
+    <LoadingPage v-if="store.loading" />
     <template v-if="!isLogin">
       <div
         class="w-full bg-gray-100 text-right px-6 flex items-center justify-end py-2 md:hidden"
@@ -50,19 +48,22 @@
 import Menu from "./components/menu/Menu.vue";
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "@/store";
+// import { useStore } from "vuex";
 import Alert from "./components/Alert.vue";
 
 import Notify from "./components/Notify.vue";
+import { useAuthStore } from "./store/modules/auth";
+import LoadingPage from "./components/LoadingPage.vue";
 
 export default defineComponent({
   components: {
     Menu,
     Alert,
     Notify,
-  },
+    LoadingPage
+},
   setup() {
-    const store = useStore();
+    const store = useAuthStore();
     const route = useRoute();
 
     const isLogin = computed(() => {
@@ -81,7 +82,7 @@ export default defineComponent({
     const open = ref<boolean>(false);
 
     onMounted(() => {
-      store.dispatch("auth/setUser");
+      store.checkAuth()
     });
 
     setTimeout(() => {
@@ -91,7 +92,9 @@ export default defineComponent({
     return {
       isLogin,
       open,
+      // store,
       obj: { show: true },
+      store
     };
   },
 });

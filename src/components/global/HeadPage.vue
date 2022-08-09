@@ -51,9 +51,9 @@ export default defineComponent({
       }
     },
     setup() {
-        const store = useStore();
+        // const store = useStore();
         const toggleMenu = () => {
-            store.commit("TOGGLE_MENU");
+            // store.commit("TOGGLE_MENU");
         };
         return {
           store,

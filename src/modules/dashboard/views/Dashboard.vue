@@ -5,16 +5,17 @@
         Dashboard
       </h1>
     </HeadPage>
+
+    <p>
+      {{ store.$state }}
+    </p>
   </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
-export default defineComponent({
-  setup() {
-    //
-  }
-})
+<script lang='ts' setup>
+import HeadPage from '@/components/HeadPage.vue'
+import { useAuthStore } from '@/store/modules/auth';
+const store = useAuthStore();
 </script>
 
 <style lang='scss' scoped>

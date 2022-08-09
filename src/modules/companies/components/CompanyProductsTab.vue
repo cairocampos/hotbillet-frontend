@@ -48,7 +48,7 @@ import useNotifications from '@/composables/useNotifications';
 import NoRecords from '@/components/NoRecords.vue';
 import PageLoading from '@/components/global/PageLoading.vue';
 export default defineComponent({
-  components: { Box, Heading, Button, CardProduto, Button, NoRecords, PageLoading },
+  components: { Box, Heading, Button, CardProduto, NoRecords, PageLoading },
   props: {
     id: {
       type: [Number,String],

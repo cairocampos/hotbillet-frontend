@@ -8,10 +8,10 @@
       </RouteBack>
     </HeadPage>
 
-    <NavTabHeader
+    <!-- <NavTabHeader
       v-model:tabActive="tabActive"
       :tabs="tabs"
-    />
+    /> -->
 
     <section class="m-4 my-16">
       <PageLoading v-if="loading" />

@@ -1,5 +1,5 @@
-import router from './router'
+import {companies} from './router'
 
 export default {
-  router
+  companies
 }
