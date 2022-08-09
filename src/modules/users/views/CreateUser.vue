@@ -6,7 +6,7 @@
     />
 
     <Form
-      class="md:flex justify-between px-10"
+      class="md:w-1/3 flex flex-col gap-6"
       @submit.prevent="save"
     >
       <div class="space-y-12">
@@ -20,15 +20,6 @@
         />
 
         <TextField
-          v-model="user.last_name"
-          variant="secondary"
-          label="Sobrenome"
-          label-class="text-xs"
-          :error="getInputError('last_name', result)"
-          @input="testInput('last_name', result)"
-        />
-
-        <TextField
           v-model="user.email"
           variant="secondary"
           label-class="text-xs"
@@ -38,15 +29,15 @@
         />
 
         <Autocomplete
-          v-model="user.user_profile_id"
+          v-model="user.profile_id"
           :options="[]"
           label-key="description"
           label-value="id"
           label="Perfil"
           label-class="text-xs"
           variant="secondary"
-          :error="getInputError('user_profile_id', result)"
-          @selected="testInput('user_profile_id', result)"
+          :error="getInputError('profile_id', result)"
+          @selected="testInput('profile_id', result)"
         />
 
         <div
@@ -59,7 +50,7 @@
           </Text>
         </div>
         <Autocomplete
-          v-if="user.user_profile_id == Profile.VENDEDOR && supervisors?.length"
+          v-if="user.profile_id == Profile.VENDEDOR && supervisors?.length"
           v-model="user.supervisor_id"
           :options="supervisors"
           label-key="name"
@@ -137,31 +128,27 @@
           </template>
         </InputGroup>
       </div>
-      
-      <div class="hidden lg:block separate bg-gray-200"></div>
 
-      <div class="my-10 md:my-0">
-        <div class="space-x-4 flex items-center">
-          <Button
-            :loading="loading"
-            loading-type="border"
-            :disabled="loading"
-            radius="full"
-            variant="dark"
-            text-loading="Salvando..."
-            type="submit"
-          >
-            Cadastrar
-          </Button>
-          <Button
-            radius="full"
-            :redirect="{name:'Users'}"
-            variant="dark"
-            outline
-          >
-            Cancelar
-          </Button>
-        </div>
+      <div class="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between">
+        <Button
+          radius="full"
+          :redirect="{name:'Users'}"
+          variant="dark"
+          outline
+        >
+          Cancelar
+        </Button>
+        <Button
+          :loading="loading"
+          loading-type="border"
+          :disabled="loading"
+          radius="full"
+          variant="dark"
+          text-loading="Salvando..."
+          type="submit"
+        >
+          Cadastrar
+        </Button>
       </div>
     </Form>
   </div>
