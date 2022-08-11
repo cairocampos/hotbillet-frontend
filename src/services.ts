@@ -1,5 +1,6 @@
 import axios, {AxiosError} from "axios";
 import { IViacep } from "./interfaces/IViacep";
+import router from "./router";
 // import { useStore } from 'vuex'
 
 const auth = {
@@ -34,6 +35,7 @@ api.interceptors.response.use(function(response) {
   const UNATHORIZED = 401;
   if(error.response?.status == UNATHORIZED) {
     localStorage.removeItem('@Hotbillet:token');
+    router.push('/')
     // location.reload
   }
   

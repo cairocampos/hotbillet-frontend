@@ -1,12 +1,16 @@
-import { IObjectUnknown } from "@/interfaces/IObjectUnknown";
-import { ref } from "vue";
-import { Result } from "vue-tiny-validate";
+import { computed, reactive, ref } from "vue";
+import { Data, Option, Result, Rule, Rules, UnknownObject } from "vue-tiny-validate";
 import { FORM } from '../constants/messages'
 
 type Teste = Record<string, string>;
 
 interface Dic {
   [key: string]: string;
+}
+
+export interface Validator {
+  result: Result,
+  field: string
 }
 
 interface IFormHandler {
@@ -24,12 +28,15 @@ type RequiredField = {
   message: string;
 }
 
+type Transform = ((value: any, data?: Data, rules?: Rules, option?: Option) => Result | any);
+
 interface IComposition {
   formHandler: IFormHandler;
   removeError: (field?: string) => void;
   getInputError: (key: string, result: Result) => string;
   testInput: (key: string, result: Result) => void;
-  requiredField: () => RequiredField
+  requiredField: () => RequiredField,
+  transform: Transform
 }
 
 export function useFormHandler(): IComposition {
@@ -91,6 +98,28 @@ export function useFormHandler(): IComposition {
     }
   };
 
+  const transform: Transform = (value, data, rules) => {
+    const bools: boolean[] = []
+    if(typeof data === "object" && rules) {
+      Object.entries(data).forEach(([key, value]) => {
+        const fieldRule = rules[key] as Rule
+        if(fieldRule) {
+          if(!Array.isArray(fieldRule) && fieldRule.test) {
+            const test = fieldRule?.test(value) as boolean
+            bools.push(test);
+          } else if(Array.isArray(fieldRule)) {
+            fieldRule.forEach(rule => {
+              bools.push(rule.test(value))
+            })
+          }
+        }
+      });
+    }
+
+    const isInvalid = bools.some(val => !val);
+    return {...value, $invalid: isInvalid}
+  }
+
   const requiredField = () => {
     return {
       name: "required",
@@ -110,6 +139,7 @@ export function useFormHandler(): IComposition {
     removeError,
     getInputError,
     testInput,
-    requiredField
+    requiredField,
+    transform
   };
 }

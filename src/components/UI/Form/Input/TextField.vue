@@ -3,12 +3,18 @@
     <label
       v-if="label"
       :class="['text-gray-600 font-normal', labelClass]"
-    >{{ label }}</label>  
+    >
+      {{ label }}
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
+    </label>  
     <div
       :class="[
         computedClass,
         'input-field text-gray-400 flex items-center space-x-4',
-        {'is-invalid': Boolean(error)}]"
+        {'is-invalid': Boolean(errorMessage)}]"
     >
       <slot
         name="left"
@@ -25,14 +31,15 @@
       <slot name="right" />
     </div>
     <span
-      v-if="error"
+      v-if="errorMessage"
       class="text-danger text-xs"
-    >{{ error }}</span>
+    >{{ errorMessage }}</span>
   </div>
 </template>
 
 <script lang='ts'>
 import { computed, defineComponent, PropType, ref } from 'vue';
+import {Validator, useFormHandler} from '@/composables/useFormHandler'
 export default defineComponent({
   props: {
     modelValue: {
@@ -71,10 +78,19 @@ export default defineComponent({
     labelClass: {
       type: String,
       default: ""
+    },
+    validator: {
+      type: [Object, undefined] as PropType<Validator|undefined>,
+      default: undefined
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue', 'input'],
   setup(props, {emit}) {
+    const { getInputError, testInput } = useFormHandler()
     const computedClass = computed(() => {
       const variants = {
         primary: "bg-white border rounded-md",
@@ -92,13 +108,22 @@ export default defineComponent({
       const target = event.target as HTMLInputElement;
       emit('update:modelValue', target.value);
       emit('input', target.value);
-    } 
+      /*if(props.validator) {
+        testInput(props.validator.field, props.validator.result)
+      }*/
+    }
+
+    const errorMessage = computed(() => {
+      if(!props.validator) return '';
+      return getInputError(props.validator.field, props.validator.result)
+    });
 
     return {
       computedClass,
       inputElement,
       setFocus,
-      onInput
+      onInput,
+      errorMessage
     }
   }
 })

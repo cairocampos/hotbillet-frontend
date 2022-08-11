@@ -22,7 +22,8 @@ export const requiredField = () => {
   return {
     name: "required",
     test: (field:string) => Boolean(field),
-    message: FORM.REQUIRED
+    message: FORM.REQUIRED,
+    required:true
   }
 }
 

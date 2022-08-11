@@ -20,7 +20,7 @@ import { useRouter } from "vue-router";
 import useValidate from 'vue-tiny-validate'
 import {createCompanyRules} from '../validate'
 import FormCompany from "../components/FormCompany.vue";
-import HeadPage from "@/components/global/HeadPage.vue";
+import HeadPage from "@/components/HeadPage.vue";
 
 const router = useRouter();
 const loading = ref(false)

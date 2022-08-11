@@ -73,7 +73,7 @@ const props = defineProps({
   },
   config: {
     type: Object as PropType<AutocompleteConfig>,
-    required: true
+    default: null
   },
   labelClass: {
     type: String,
