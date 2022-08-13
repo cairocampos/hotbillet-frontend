@@ -5,8 +5,6 @@
       title="Usuários"
     />
 
-    <strong>resultado {{ result }}</strong>
-
     <Form
       class="md:w-1/3 flex flex-col gap-6"
       @submit.prevent="save"
@@ -29,11 +27,11 @@
           :validator="{result, field: 'email'}"
         />
 
-        <Autocomplete
+        <Listbox
           v-model="user.profile_id"
-          :options="[]"
-          label-key="description"
-          label-value="id"
+          :options="profiles"
+          label-name="description"
+          key-name="id"
           label="Perfil"
           label-class="text-xs"
           variant="secondary"
@@ -49,15 +47,16 @@
             Carregando...
           </Text>
         </div>
-        <Autocomplete
-          v-if="user.profile_id == Profile.VENDEDOR && supervisors?.length"
+        <Listbox
+          v-if="user.profile_id == PROFILES.VENDEDOR && supervisors?.length"
           v-model="user.supervisor_id"
           :options="supervisors"
-          label-key="name"
-          label-value="id"
-          label="Selecione um supervisor para vincular ao vendedor"
+          label-name="name"
+          key-name="id"
+          label="Perfil"
           label-class="text-xs"
-          :searchable="true"
+          variant="secondary"
+          :validator="{result, field: 'supervisor_id'}"
         />
       </div>
 
@@ -89,48 +88,53 @@
 <script lang="ts" setup>
 import HeadPage from '@/components/HeadPage.vue'
 import { useRouter } from 'vue-router'
-import { ref, reactive, watch } from 'vue';
-import { IUser } from '@/interfaces/IUser';
+import { ref, reactive, watch, onMounted } from 'vue';
+import { User, UserData } from '@/core/interfaces/User';
 import useNotifications from '@/composables/useNotifications';
 import { api } from '@/services';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Button from '@/components/UI/Button/Button.vue';
-import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import useValidate from 'vue-tiny-validate';
 import { useFormHandler } from '@/composables/useFormHandler';
-import { Profile } from '@/enums/constants';
 import Loading from '@/components/UI/Loading/Loading.vue'
 import Text from '@/components/UI/Layout/Text.vue';
 import { createUserFormRequest } from '../helpers';
+import { fetchProfiles } from '@/core/services/api/profiles'
+import { fetchUsers } from '@/core/services/api/users'
+import {Profile} from '@/core/interfaces/Profile'
+import { PROFILES } from '@/constants';
+import Listbox from '@/components/UI/Listbox/Listbox.vue';
 
 const { transform } = useFormHandler();
 const { notifications } = useNotifications();
 const router = useRouter();
 
 const loading = ref(false);
-const user = ref<IUser>({
+const user = ref<UserData>({
   name: '',
   email:'',
   profile_id: Number(),
-  supervisor_id: Number()
+  supervisor_id: Number(),
 });
 
 const loadingSupervisors  = ref(false);
-const supervisors = ref<IUser[]>()
+const supervisors = ref<User[]>()
 
-const fetchSupervisors = async () => {
-  loadingSupervisors.value = true;
-  const { data } = await api.get<{users: IUser[]}>(`/users/supervisor`)
-  supervisors.value = data.users;
-  loadingSupervisors.value = false;
+const getSupervisors = async () => {
+  try {
+    loadingSupervisors.value = true;
+    const { data: {data} } = await fetchUsers({profile_id: PROFILES.SUPERVISOR})
+    supervisors.value = data
+  } finally {
+    loadingSupervisors.value = false;
+  }
 }
 
-const showPassword = ref(false);
-const generatePassword = () => {
-  const senha01 = Date.now().toString(36).slice(-6);
-  const senha = senha01 + btoa(senha01);
-  // user.value.password = senha;
+const profiles = ref<Profile[]>([])
+const getProfiles = async () => {
+  const {data} = await fetchProfiles();
+  profiles.value = data;
 }
 
 const rules = reactive(createUserFormRequest);
@@ -153,14 +157,16 @@ const save = async () => {
 }
 
 watch(() => user.value.profile_id, profile_id => {
-  if(profile_id == Profile.VENDEDOR) {
+  if(profile_id == PROFILES.VENDEDOR) {
     user.value.supervisor_id = 1;
-    fetchSupervisors();
+    getSupervisors();
     return
   }
 
   delete user.value.supervisor_id
 });
+
+onMounted(() => getProfiles());
 
 </script>
 

@@ -7,12 +7,10 @@
       <PageLoading />
     </div>
     <div v-else>
-      <HeadPage class="mb-10">
-        <h1 class="text-2xl text-gray-600">
-          {{ product?.name }}
-        </h1>
-      </HeadPage>
-
+      <HeadPage
+        class="mb-10"
+        :title="product?.name"
+      />
 
       <div class="flex items-start justify-between">
         <ul class="steps hidden md:flex space-x-16 relative">
@@ -106,6 +104,7 @@ import { IProduct } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import Button from '@/components/UI/Button/Button.vue';
+import HeadPage from '@/components/HeadPage.vue'
 
 interface Step {
     label:string;
@@ -120,7 +119,8 @@ export default defineComponent({
     Midias,
     Ebooks,
     Faq,
-    Button
+    Button,
+    HeadPage
 },
   props: {
     id: {

@@ -1,6 +1,4 @@
 import app from "../../index";
-
-import HeadPage from "./HeadPage.vue";
 import Modal from "./Modal.vue";
 import SelectInput from "./SelectInput.vue";
 import Card from "./Card.vue";
@@ -10,7 +8,6 @@ import Badge from "./Badge.vue";
 import PageLoading from "./PageLoading.vue";
 import InputInfo from "./InputInfo.vue";
 
-app.component("HeadPage", HeadPage);
 app.component("Modal", Modal);
 app.component("SelectInput", SelectInput);
 app.component("Card", Card);

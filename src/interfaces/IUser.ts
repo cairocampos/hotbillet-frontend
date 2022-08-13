@@ -15,7 +15,6 @@ export interface IUserData extends IUser {
 
 
 export interface IProfile {
-    id?:number;
+    id:number;
     description:string;
-    constant: string;
 }

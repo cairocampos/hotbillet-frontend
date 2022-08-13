@@ -45,7 +45,10 @@
       :items="users"
     >
       <template #status="{ item }">
-        <span v-if="item.status == STATUS.INATIVO">Ativo</span>
+        <span
+          v-if="item.status == STATUS.ATIVO"
+          class="bg-green-500 bg-opacity-80 text-white rounded-md px-2"
+        >Ativo</span>
         <span
           v-else
           class="text-red-500 flex items-center space-x-2"

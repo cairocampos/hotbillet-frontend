@@ -28,8 +28,8 @@
     </thead>
     <tbody>
       <tr
-        v-for="item in 10"
-        :key="item"
+        v-for="lead in leads"
+        :key="lead.id"
       >
         <td>
           <div class="flex space-x-2 items-center">
@@ -37,18 +37,18 @@
               src="@/assets/icons/boleto.svg"
               class="h-5 w-5"
             >
-            <span class="text-xs text-gray-800">Boleto Vencido</span>
+            <span class="text-xs text-gray-800">{{ lead.event.name }}</span>
           </div>
         </td>
-        <td>Alan Alves</td>
+        <td>{{ lead.customer_name }}</td>
         <td>
           <div class="leads__status">
             <div class="tag tag__em_negociacao"></div>
-            <span>Aguardando Contato</span>
+            <span>{{ lead.status_description }}</span>
           </div>
         </td>
         <td class="font-medium">
-          Mateus
+          {{ firstName(lead.seller.name) }}
         </td>
         <td class="flex items-center space-x-2">
           <img
@@ -56,7 +56,7 @@
             alt=""
             class="object-cover h-10 w-10 rounded-full"
           />
-          <span>Just4You</span>
+          <span>{{ lead.product_name }}</span>
         </td>
         <td class="text-sm">
           <p class="font-md font-semibold">
@@ -71,7 +71,7 @@
             </button>
             <button
               class="flex items-center text-xs px-2"
-              @click="showLead"
+              @click="showLead(lead.id)"
             >
               <span class="font-medium mr-2">Ver</span> 
               <svg
@@ -96,23 +96,34 @@
   </table>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+<script lang="ts" setup>
+import { fetchLeads } from "@/core/services/api/leads";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import {Lead} from '@/core/interfaces/Lead'
+import {firstName} from '@/helpers'
+const router = useRouter();
 
-export default defineComponent({
-  setup() {
-    const router = useRouter();
+const leads = ref<Lead[]>([])
+const showLead = (lead_id: number) => {
+  router.push({path: `/leads/${lead_id}`});
+}
 
-    const showLead = () => {
-      router.push({path: '/leads/10'});
-    }
-
-    return {
-      showLead
-    }
+const getLeads = async () => {
+  try {
+    const {data: {data}} = await fetchLeads()
+    leads.value = data
+  } catch (error) {
+    console.log(error)
+  } finally {
+    //
   }
+}
+
+onMounted(() => {
+  getLeads()
 })
+
 </script>
 
 <style scoped lang="scss">

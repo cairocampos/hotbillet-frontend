@@ -25,8 +25,7 @@
                     {{ user.name }}
                   </h3>
                   <p class="text-sm text-default font-light">
-                    <!-- {{ profileName }} -->
-                    Admin
+                    {{ user.profile_description }}
                   </p>
                   <div class="text-sm text-dark flex space-x-6">
                     <p>E-mail: {{ user.email }}</p>
@@ -89,7 +88,7 @@
 
 <script lang="ts" setup>
 import useNotifications from "@/composables/useNotifications";
-import { IUser } from "@/interfaces/IUser";
+import { User} from "@/core/interfaces/User";
 import { api } from "@/services/api";
 import { onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
@@ -97,6 +96,7 @@ import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import AvatarAccount from "../../../components/AvatarAccount.vue";
 import HeadPage from "@/components/HeadPage.vue";
+import { fetchUser } from "@/core/services/api/users";
 
 const props = defineProps({
   id: {
@@ -107,18 +107,21 @@ const props = defineProps({
 
 const loading = ref(false);
 const { notifications } = useNotifications();
-const user = ref<IUser>({
+const user = ref<User>({
   email: "",
   name:"",
   profile_id: Number(),
   id:Number(),
   supervisor_id: Number(),
+  status_description: "",
+  status: 1,
+  profile_description: ""
 });
 
-const fetchUser = async () => {
+const getUser = async () => {
   try {
     loading.value = true;
-    const {data} = await api.get<IUser>(`/users/${props.id}`);
+    const {data} = await fetchUser(props.id as number);
     user.value = data
   } catch (error) {
     notifications.error(error);
@@ -126,7 +129,7 @@ const fetchUser = async () => {
     loading.value = false;
   }
 }
-onMounted(() => fetchUser())
+onMounted(() => getUser())
 </script>
 
 <style>

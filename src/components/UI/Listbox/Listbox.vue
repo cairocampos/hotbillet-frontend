@@ -7,7 +7,13 @@
       v-if="label"
       for=""
       class="text-xs text-zinc-700"
-    >{{ label }}</label>
+    >
+      {{ label }}
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
+    </label>
     <div
       :class="computedClass"
       @click="showOptions = !showOptions"
@@ -17,6 +23,10 @@
       </span>
       <component :is="arrowIcon" />
     </div>
+    <span
+      v-if="errorMessage"
+      class="text-danger text-xs"
+    >{{ errorMessage }}</span>
     <Transition name="fade">
       <ListboxOptions
         v-show="showOptions"
@@ -58,19 +68,18 @@ import { PhCaretUp, PhCaretDown } from 'phosphor-vue'
 import { onBeforeUnmount, onMounted, PropType, ref, toRefs, watch } from 'vue';
 import { computed } from '@vue/reactivity';
 import OptionItem from './OptionItem.vue';
+import { Validator } from '@/composables/useFormHandler';
+import { getInputError } from '@/helpers/formValidation';
 
 type Option = {
   [key:string]:string|number
 }
 
-const defaultLabelName = "label";
-const defaultKeyName = "value";
-
 type Variants = "primary"|"secondary"
 
 const props = defineProps({
   options: {
-    type: Array as PropType<Option[]>,
+    type: Array as PropType<any[]>,
     required:true
   },
   labelName: {
@@ -96,12 +105,21 @@ const props = defineProps({
   variant: {
     type: String as PropType<Variants>,
     default: "primary"
+  },
+  validator: {
+    type: [Object, undefined] as PropType<Validator|undefined>,
+    default: undefined
+  },
+  required: {
+    type: Boolean,
+    default:false
   }
 })
 const emit = defineEmits(['on:selected', 'update:modelValue']);
 const search = ref('')
 const showOptions = ref(false)
 const element = ref<HTMLElement>();
+const { options } = toRefs(props)
 
 const filteredOptions = computed(() => {
   const regex = new RegExp(search.value , 'i');
@@ -130,10 +148,6 @@ const checkSelectedProp = () => {
   }
 }
 
-onMounted(() => {
-  checkSelectedProp();
-});
-
 const computedClass = computed(() => {
   const variants = {
     primary: `cursor-pointer h-12 bg-zinc-100 rounded-md text-zinc-700 flex items-center justify-between px-4 mt-2`,
@@ -150,12 +164,20 @@ const clickOutsideElement = (event: Event) => {
   }
 }
 
+const errorMessage = computed(() => {
+  if(!props.validator) return '';
+  return getInputError(props.validator.field, props.validator.result)
+});
+
 onMounted(() => {
+  checkSelectedProp();
   document.addEventListener('click', clickOutsideElement);
 })
 onBeforeUnmount(() => {
   document.removeEventListener('click', clickOutsideElement);
 })
+
+watch(options, () => checkSelectedProp())
 
 </script>
 
@@ -169,4 +191,4 @@ onBeforeUnmount(() => {
 .fade-leave-active {
   transition: opacity .3s;
 }
-</style>
+</style>;

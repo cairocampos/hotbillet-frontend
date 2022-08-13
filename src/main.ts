@@ -10,6 +10,7 @@ import './components/global'; // Componentes globais
 import './directives/global'; // Diretivas globais
 
 const pinia = createPinia();
+
 app.use(router)
 app.use(Maska)
 app.use(Notifications)

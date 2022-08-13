@@ -1,9 +1,8 @@
 export const PROFILES = {
   SUPER_ADMIN: 1,
   ADMIN: 2,
-  EMPRESA: 3,
-  SUPERVISOR: 4,
-  VENDEDOR: 5,
+  SUPERVISOR: 3,
+  VENDEDOR: 4,
 }
 
 export const PROFILES_NAME: {[key: number]:string} = {

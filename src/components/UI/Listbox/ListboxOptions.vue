@@ -11,7 +11,8 @@
       'border',
       'border-zinc-200',
       'max-h-64',
-      'overflow-y-auto'
+      'overflow-y-auto',
+      'z-10'
     ]"
 
     @scroll="onScroll"

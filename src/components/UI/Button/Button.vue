@@ -135,7 +135,7 @@ const onClick = () => emit('click')
 .btn-light { @apply bg-light-200 text-zinc-900 hover:bg-light-200; }
 .btn-dark { 
   background: linear-gradient(180deg, #494545 -46.02%, #2F2D2C 100%);
-  @apply text-white hover:opacity-95 disabled:opacity-75 disabled:hover:bg-dark-500;
+  @apply text-white hover:opacity-95 disabled:opacity-30 disabled:hover:bg-dark-500;
 }
 
 

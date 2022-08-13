@@ -7,6 +7,7 @@ export interface IProductData {
   company_id: number;
   url: string;
   type: number;
+  type_description: string;
   status: number;
   support_email?: string;
   support_phone?: string;

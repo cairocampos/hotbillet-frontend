@@ -8,10 +8,10 @@
       </RouteBack>
     </HeadPage>
 
-    <!-- <NavTabHeader
+    <NavTabHeader
       v-model:tabActive="tabActive"
       :tabs="tabs"
-    /> -->
+    />
 
     <section class="m-4 my-16">
       <PageLoading v-if="loading" />
@@ -25,7 +25,7 @@
               <h3 class="font-medium text-xl">
                 {{ product?.name }}
               </h3>
-              <span class="text-default text-xs font-light">{{ product?.abbreviation }}</span>
+              <!-- <span class="text-default text-xs font-light">{{ product?.abbreviation }}</span> -->
             </div>
           </div>
 
@@ -90,6 +90,7 @@ import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services/api";
 import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
+import HeadPage from "@/components/HeadPage.vue";
 
 export default defineComponent({
   components: {
@@ -102,7 +103,8 @@ export default defineComponent({
     NavTabHeader,
     RouteBack,
     PageLoading,
-    Button
+    Button,
+    HeadPage
 },
   props: {
     id: {

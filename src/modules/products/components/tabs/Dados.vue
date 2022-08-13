@@ -47,7 +47,7 @@
           Tipo
         </p>
         <span class="text-default text-xs">
-          {{ product.product_type ?? "---" }}
+          {{ product.type_description ?? "---" }}
         </span>
       </div>
 

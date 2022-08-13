@@ -72,3 +72,5 @@ export const generatePassword = (length: number) => {
   const pass = Date.now().toString(36).slice(-6);
   return (pass + btoa(pass)).slice(-`${length}`);
 }
+
+export const firstName = (value:string) => value.split(" ")[0]
