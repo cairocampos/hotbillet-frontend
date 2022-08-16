@@ -47,7 +47,7 @@
           v-if="loadingSupervisors"
           class="flex items-center gap-2"
         >
-          <Loading class="w-4 h-4" />
+          <Spinner class="w-4 h-4" />
           <Text variant="default">
             Carregando...
           </Text>
@@ -101,7 +101,7 @@ import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import useValidate from 'vue-tiny-validate';
 import { useFormHandler } from '@/composables/useFormHandler';
-import Loading from '@/components/UI/Loading/Loading.vue'
+import Spinner from '@/components/UI/Spinner/Spinner.vue'
 import Text from '@/components/UI/Layout/Text.vue';
 import { createUserFormRequest } from '../helpers';
 import { fetchProfiles } from '@/core/services/api/profiles'

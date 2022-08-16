@@ -1,54 +1,28 @@
 <template>
-  <span class="mx-auto"></span>
+  <div :class="['loading animate-spin', `w-${width} h-${height}`]"></div>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
-export default defineComponent({
-  setup() {
-    //
+<script setup lang="ts">
+defineProps({
+  width: {
+    type: [String,Number],
+    default: 4
+  },
+  height: {
+    type: [String, Number],
+    default: 4
   }
 })
 </script>
 
-<style lang='scss' scoped>
-span {
-    height: 20px;
-    width: 20px;
-    display: block;
-    background: transparent;
-    border-radius: 50%;
-    position: relative;
-}
-
-span::after,
-span::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 100%;
-  width: 100%;
+<style scoped>
+.loading {
+  /* height:18px;
+  width:18px; */
   border-radius: 50%;
-  animation: 2s ease-in-out 0s infinite normal none running animate;
-  background-color: #FFF;
-  top:0;
-  left:0;
+  background:transparent;
+  border:3px solid rgba(0,0,0,.2);
+  --tw-bg-opacity: 1;
+  border-top-color: rgba(229, 231, 235, var(--tw-bg-opacity));
 }
-
-span::after {
-  animation-delay: -1s;
-}
-
-@keyframes animate {
-  from {
-    opacity: 0;
-    transform: scale(-1);
-  }
-
-  to {
-    background-color: rgba(255,255,255,0.5);
-    transform: scale(1.1);
-  }
-}
-
 </style>

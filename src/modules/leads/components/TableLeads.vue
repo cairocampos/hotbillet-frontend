@@ -109,6 +109,7 @@ const showLead = (lead_id: number) => {
   router.push({path: `/leads/${lead_id}`});
 }
 
+const loading = ref(false)
 const getLeads = async () => {
   try {
     const {data: {data}} = await fetchLeads()
@@ -116,7 +117,7 @@ const getLeads = async () => {
   } catch (error) {
     console.log(error)
   } finally {
-    //
+    loading.value = false;
   }
 }
 
