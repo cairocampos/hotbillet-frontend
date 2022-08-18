@@ -1,20 +1,19 @@
-import { IMidiaTypes } from "@/interfaces/IMidia";
-import { IProductImage } from "@/interfaces/IProduct";
+import { ProductMedia } from "@/core/interfaces/Product";
 import { Ref, ref } from "vue";
 type MidiaItem = {
   id: number;
-  type: IMidiaTypes
+  type: 'IMAGE' | 'VIDEO'
 }
 
 interface IComposition {
-  images: Ref<IProductImage[]>,
-  removeImage: (imagem: IProductImage) => void
+  images: Ref<ProductMedia[]>,
+  removeImage: (imagem: ProductMedia) => void
 }
 
 export default function useImage(midiasRemoved: Ref<MidiaItem[]>): IComposition {
-  const images = ref<IProductImage[]>([])
+  const images = ref<ProductMedia[]>([])
 
-  const removeImage = (imagem: IProductImage) => {
+  const removeImage = (imagem: ProductMedia) => {
     const imageIndex = images.value.findIndex(item => item.url == imagem.url);
 
     if(imageIndex !== -1) {
@@ -23,7 +22,7 @@ export default function useImage(midiasRemoved: Ref<MidiaItem[]>): IComposition 
         const { id, type } = imagem;
         midiasRemoved.value.push({
           id,
-          type
+          type: `IMAGE`
         });
       }
     }

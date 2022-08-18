@@ -31,8 +31,8 @@
           </p>
           <div class="flex flex-wrap">
             <div
-              v-for="item in 4"
-              :key="item"
+              v-for="image in images"
+              :key="image.id"
               class="produto__img w-36 h-36 relative m-2"
             >
               <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
@@ -42,12 +42,11 @@
                 >
               </button>
               <img
-                src="@/assets/fake/produto.png"
-                alt=""
+                :src="image.url"
                 class="object-cover h-full rounded-md"
               >
             </div>
-          </div>    
+          </div>
         </div>
 
         <div>
@@ -56,8 +55,8 @@
           </p>
           <div class="flex flex-wrap">
             <div
-              v-for="item in 6"
-              :key="item"
+              v-for="image in images"
+              :key="image.id"
               class="produto__img w-36 h-36 relative m-2"
             >
               <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
@@ -67,7 +66,7 @@
                 >
               </button>
               <img
-                src="@/assets/fake/produto.png"
+                :src="image.url"
                 alt=""
                 class="object-cover h-full rounded-md"
               >
@@ -85,8 +84,8 @@
           </p>
           <div class="flex flex-wrap">
             <div
-              v-for="item in 6"
-              :key="item"
+              v-for="video in videos"
+              :key="video.id"
               class="w-52 border m-2"
             >
               <div class="produto__img relative">
@@ -111,7 +110,7 @@
                     href=""
                     target="_blank"
                     class="text-blue-500 midia__link"
-                  >https://youtube.com</a>
+                  >{{ video.url }}</a>
                   <button>
                     <img
                       src="@/assets/icons/copy.svg"
@@ -174,8 +173,38 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue';
+import useNotifications from '@/composables/useNotifications';
+import { ProductMedia } from '@/core/interfaces/Product';
+import { fetchMidias } from '@/core/services/api/products'
+import { IProduct } from '@/interfaces/IProduct';
+import {PropType, ref} from 'vue';
 const tabMidia = ref('Imagens');
+const { notifications } = useNotifications()
+
+const props = defineProps({
+  product: {
+    type: Object as PropType<IProduct>,
+    required: true
+  }
+});
+
+const videos = ref<ProductMedia[]>([]);
+const images = ref<ProductMedia[]>([]);
+
+const loading = ref(false);
+(async () => {
+  try {
+    loading.value = true;
+    const {data} = await fetchMidias(props.product.id as number);
+    videos.value = data.filter(item => item.type_description == 'VIDEO')
+    images.value = data.filter(item => item.type_description == 'IMAGE')
+  } catch (error) {
+    notifications.error(error);
+  } finally {
+    loading.value = true;
+  }
+})()
+
 </script>
 
 <style scoped lang="scss">

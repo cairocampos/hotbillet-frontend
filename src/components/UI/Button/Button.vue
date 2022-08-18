@@ -8,7 +8,7 @@
     @click="onClick"
   >
     <slot name="left"></slot>
-    <Loading
+    <Spinner
       v-if="loading"
       class="w-4 h-4"
     />
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
-import Loading from '../Loading/Loading.vue';
+import Spinner from '../Spinner/Spinner.vue';
 type ButtonSize = "xs"|"sm"|"md"|"lg"
 type ButtonVariants = "primary"|"secondary"|"info"|"danger"|"dark"|"warning"|"brand"
 |"success"|"light"|"special"|"reset"|"link"

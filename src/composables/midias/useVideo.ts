@@ -1,20 +1,19 @@
-import { IMidiaTypes } from "@/interfaces/IMidia";
-import { IProductVideo } from "@/interfaces/IProduct";
+import { ProductMedia } from "@/core/interfaces/Product";
 import { Ref, ref } from "vue";
 type MidiaItem = {
   id: number;
-  type: IMidiaTypes
+  type: 'IMAGE' | 'VIDEO'
 }
 
 interface IComposition {
-  videos: Ref<IProductVideo[]>,
-  removeVideo: (video: IProductVideo) => void
+  videos: Ref<ProductMedia[]>,
+  removeVideo: (video: ProductMedia) => void
 }
 
 export default function useVideo(midiasRemoved: Ref<MidiaItem[]>): IComposition {
-  const videos = ref<IProductVideo[]>([])
+  const videos = ref<ProductMedia[]>([])
 
-  const removeVideo = (video: IProductVideo) => {
+  const removeVideo = (video: ProductMedia) => {
     const videoIndex = videos.value.findIndex(item => item.url == video.url);
 
     if(videoIndex !== -1) {
