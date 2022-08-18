@@ -51,17 +51,17 @@
       r="12.18187"
       fill="#fff"
     /></svg>
-    <p class="text-base">
-      Nenhum registro encontrado
-    </p>
+    <small class="text-zinc-500">
+      {{ title }}
+    </small>
   </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
-export default defineComponent({
-  setup() {
-    //
+<script setup lang='ts'>
+defineProps({
+  title: {
+    type: String,
+    default: "Nada por aqui..."
   }
 })
 </script>

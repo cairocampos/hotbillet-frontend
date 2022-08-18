@@ -15,3 +15,9 @@ export enum MediaTypeEnum {
   IMAGE = 1,
   VIDEO = 2
 }
+
+export interface ProductCoupon {
+  id: number;
+  title:string;
+  code: string;
+}

@@ -17,6 +17,8 @@
       </li>
     </ul>
 
+    <Loading v-if="loading" />
+
     <transition-group
       name="slide-fade"
       mode="out-in"
@@ -26,9 +28,6 @@
         class="space-y-10"
       >
         <div>
-          <p class="text-default font-medium text-sm">
-            Produto
-          </p>
           <div class="flex flex-wrap">
             <div
               v-for="image in images"
@@ -48,40 +47,12 @@
             </div>
           </div>
         </div>
-
-        <div>
-          <p class="text-default font-medium text-sm">
-            Brindes
-          </p>
-          <div class="flex flex-wrap">
-            <div
-              v-for="image in images"
-              :key="image.id"
-              class="produto__img w-36 h-36 relative m-2"
-            >
-              <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
-                <img
-                  src="@/assets/icons/shared.svg"
-                  alt=""
-                >
-              </button>
-              <img
-                :src="image.url"
-                alt=""
-                class="object-cover h-full rounded-md"
-              >
-            </div>
-          </div>        
-        </div>
       </div>
       <div
         v-else
         class="space-y-10"
       >
         <div>
-          <p class="text-default font-medium text-sm">
-            Youtube
-          </p>
           <div class="flex flex-wrap">
             <div
               v-for="video in videos"
@@ -102,60 +73,15 @@
                 >
               </div>
               <div class="text-xs p-2">
-                <p class="text-default whitespace-nowrap overflow-hidden midia__description">
+                <p class="text-default whitespace-nowrap overflow-hidden midia__description text-ellipsis">
                   Produto milagroso para o seu cabelo...
                 </p>
-                <div class="flex items-center justify-between mt-2">
+                <div class="flex items-center justify-between mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
                   <a
-                    href=""
+                    :href="video.url"
                     target="_blank"
                     class="text-blue-500 midia__link"
                   >{{ video.url }}</a>
-                  <button>
-                    <img
-                      src="@/assets/icons/copy.svg"
-                      alt=""
-                    >
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>    
-        </div>
-
-        <div>
-          <p class="text-default font-medium text-sm">
-            Vimeo
-          </p>
-          <div class="flex flex-wrap">
-            <div
-              v-for="item in 6"
-              :key="item"
-              class="w-52 border m-2"
-            >
-              <div class="produto__img relative">
-                <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
-                  <img
-                    src="@/assets/icons/shared.svg"
-                    alt=""
-                  >
-                </button>
-                <img
-                  src="@/assets/fake/produto.png"
-                  alt=""
-                  class="object-cover h-40"
-                >
-              </div>
-              <div class="text-xs p-2">
-                <p class="text-default whitespace-nowrap overflow-hidden midia__description">
-                  Produto milagroso para o seu cabelo...
-                </p>
-                <div class="flex items-center justify-between mt-2">
-                  <a
-                    href=""
-                    target="_blank"
-                    class="text-blue-500 midia__link"
-                  >https://vimeo.com</a>
                   <button>
                     <img
                       src="@/assets/icons/copy.svg"
@@ -177,7 +103,8 @@ import useNotifications from '@/composables/useNotifications';
 import { ProductMedia } from '@/core/interfaces/Product';
 import { fetchMidias } from '@/core/services/api/products'
 import { IProduct } from '@/interfaces/IProduct';
-import {PropType, ref} from 'vue';
+import {onMounted, PropType, ref} from 'vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 const tabMidia = ref('Imagens');
 const { notifications } = useNotifications()
 
@@ -192,7 +119,7 @@ const videos = ref<ProductMedia[]>([]);
 const images = ref<ProductMedia[]>([]);
 
 const loading = ref(false);
-(async () => {
+const getMidias = async () => {
   try {
     loading.value = true;
     const {data} = await fetchMidias(props.product.id as number);
@@ -201,9 +128,11 @@ const loading = ref(false);
   } catch (error) {
     notifications.error(error);
   } finally {
-    loading.value = true;
+    loading.value = false;
   }
-})()
+}
+
+onMounted(() => getMidias());
 
 </script>
 
@@ -215,18 +144,20 @@ const loading = ref(false);
     }
 }
 
-
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
-}
-
+.slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+  transition:  all .3s ease-in;
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(20px);
   opacity: 0;
+}
+
+.slide-fade-enter-from {
+  transform: translateX(-20px);
+}
+.slide-fade-leave-to {
+  transform: translateX(20px);
 }
 </style>

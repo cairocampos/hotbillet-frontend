@@ -81,6 +81,7 @@ import Midias from "../components/tabs/Midias.vue";
 import Ebooks from "../components/tabs/Ebooks.vue";
 import Faq from "../components/tabs/Faq.vue";
 import Conversao from "../components/tabs/Conversao.vue";
+import Coupons from "../components/tabs/Coupons.vue";
 
 import NavTabHeader from '@/components/NavTabHeader.vue';
 
@@ -104,7 +105,8 @@ export default defineComponent({
     RouteBack,
     PageLoading,
     Button,
-    HeadPage
+    HeadPage,
+    Coupons
 },
   props: {
     id: {
@@ -118,6 +120,7 @@ export default defineComponent({
     const tabs = [
       { label: "Dados", value: 'Dados'},
       { label: "Links", value: 'Links' },
+      { label: "Cupons", value: 'Coupons' },
       { label: "Mídias", value: 'Midias' },
       { label: "Ebooks", value: 'Ebooks' },
       { label: "Faq", value: 'Faq' },
