@@ -19,4 +19,4 @@ app.directive("money", VMoney);
 app.mount('#app')
 
 
-console.log('env', import.meta.env)
+// console.log('env', import.meta.env)

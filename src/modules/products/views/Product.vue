@@ -18,7 +18,13 @@
       <div v-else-if="product && product.id">
         <div class="grid grid-cols-3 mb-10">
           <div class="flex items-center space-x-4 col-span-2">
-            <div class="w-16 h-16 bg-gray-200 rounded-full">
+            <div class="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
+              <img
+                :src="product.cover"
+                alt=""
+                class="h-full object-cover"
+                @error="fallbackImage"
+              >
               <!-- <img src="@/assets/fake/produto.png" alt="" class="h-100 w-100 object-contain rounded-full"> -->
             </div>
             <div>
@@ -78,10 +84,10 @@ import { ref, defineComponent, onMounted } from "vue";
 import Dados from "../components/tabs/Dados.vue";
 import Links from "../components/tabs/Links.vue";
 import Midias from "../components/tabs/Midias.vue";
-import Ebooks from "../components/tabs/Ebooks.vue";
 import Faq from "../components/tabs/Faq.vue";
 import Conversao from "../components/tabs/Conversao.vue";
 import Coupons from "../components/tabs/Coupons.vue";
+import Images from "../components/tabs/Images.vue";
 
 import NavTabHeader from '@/components/NavTabHeader.vue';
 
@@ -92,13 +98,13 @@ import { api } from "@/services/api";
 import PageLoading from "@/components/global/PageLoading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
+import defaultImage from '../../../assets/images/default.png'
 
 export default defineComponent({
   components: {
     Dados,
     Links,
     Midias,
-    Ebooks,
     Faq,
     Conversao,
     NavTabHeader,
@@ -106,7 +112,8 @@ export default defineComponent({
     PageLoading,
     Button,
     HeadPage,
-    Coupons
+    Coupons,
+    Images
 },
   props: {
     id: {
@@ -120,9 +127,9 @@ export default defineComponent({
     const tabs = [
       { label: "Dados", value: 'Dados'},
       { label: "Links", value: 'Links' },
-      { label: "Cupons", value: 'Coupons' },
+      { label: "Imagens", value: 'Images' },
       { label: "Mídias", value: 'Midias' },
-      { label: "Ebooks", value: 'Ebooks' },
+      { label: "Cupons", value: 'Coupons' },
       { label: "Faq", value: 'Faq' },
       { label: "Conversão", value: 'Conversao' },
     ]
@@ -142,6 +149,11 @@ export default defineComponent({
       }
     }
 
+    const fallbackImage = (event: Event) => {
+      const target = event.target as HTMLImageElement
+      target.src = defaultImage
+    }
+
     onMounted(() => {
       fetchProduct();
     })
@@ -149,7 +161,8 @@ export default defineComponent({
     return {
       tabs, tabActive,
       product,
-      loading
+      loading,
+      fallbackImage
     }
   }
 })

@@ -10,43 +10,35 @@
   </component>
 </template>
 
-<script lang='ts'>
-import { computed, defineComponent, inject } from 'vue';
-export default defineComponent({
-  props: {
-    href: {
-      type: String,
-      default: undefined
-    },
-    to: {
-      type: [String, Object],
-      default: undefined
-    }
+<script lang="ts" setup>
+import { computed, inject } from 'vue';
+const props = defineProps({
+  href: {
+    type: String,
+    default: undefined
   },
-  emits:['click'],
-  setup(props, {emit}) {
-    const closeDropdown = inject<() => void>('closeDropdown', Function);
-    const is = computed(() => {
-      if(typeof props.to !== 'undefined') {
-        return 'RouterLink';
-      }
-
-      if(typeof props.href !== 'undefined') {
-        return 'a';
-      }
-      return 'button';
-    })
-    const onClick = (event: Event) => {      
-      emit('click', event);
-      closeDropdown();
-    }
-
-    return {
-      is,
-      onClick
-    }
+  to: {
+    type: [String, Object],
+    default: undefined
   }
+});
+
+const emits = defineEmits(['click']);
+const closeDropdown = inject<() => void>('closeDropdown', Function);
+const is = computed(() => {
+  if(typeof props.to !== 'undefined') {
+    return 'RouterLink';
+  }
+
+  if(typeof props.href !== 'undefined') {
+    return 'a';
+  }
+  return 'button';
 })
+const onClick = (event: Event) => {      
+  emits('click', event);
+  closeDropdown();
+}
 </script>
 
 <style lang='scss' scoped>

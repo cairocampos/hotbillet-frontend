@@ -6,18 +6,25 @@ export interface ProductEbook {
 
 export interface ProductMedia {
   id?: number;
-  type: 1 | 2;
-  type_description: 'IMAGE' | 'VIDEO',
+  type?: 1 | 2;
+  type_description?: 'EBOOK' | 'VIDEO',
   url: string;
+  title: string;
 }
 
 export enum MediaTypeEnum {
-  IMAGE = 1,
+  EBOOK = 1,
   VIDEO = 2
 }
 
 export interface ProductCoupon {
-  id: number;
+  id?: number;
   title:string;
   code: string;
+}
+
+export interface ProductImage {
+  id?:number;
+  url:string;
+  cover:boolean;
 }

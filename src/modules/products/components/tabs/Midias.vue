@@ -3,10 +3,10 @@
     <ul class="flex items-center space-x-10 text-default text-xs">
       <li
         class="cursor-pointer pb-2"
-        :class="{'border-b-2 border-gray-500': tabMidia == 'Imagens'}"
-        @click="tabMidia = 'Imagens'"
+        :class="{'border-b-2 border-gray-500': tabMidia == 'Ebooks'}"
+        @click="tabMidia = 'Ebooks'"
       >
-        Imagens
+        Ebooks
       </li>
       <li
         class="cursor-pointer pb-2"
@@ -24,72 +24,67 @@
       mode="out-in"
     >
       <div
-        v-if="tabMidia == 'Imagens'"
+        v-if="tabMidia == 'Ebooks'"
         class="space-y-10"
       >
-        <div>
-          <div class="flex flex-wrap">
-            <div
-              v-for="image in images"
-              :key="image.id"
-              class="produto__img w-36 h-36 relative m-2"
+        <table class="table-white text-xs w-full my-6">
+          <tbody>
+            <tr
+              v-for="ebook in ebooks"
+              :key="ebook.id"
             >
-              <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
+              <td>{{ ebook.title }}</td>
+              <td class="text-default font-light">
+                {{ ebook.url }}
+              </td>
+              <td
+                align="right"
+                class="flex items-center justify-end space-x-2"
+              >
+                <!-- <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
                 <img
                   src="@/assets/icons/shared.svg"
                   alt=""
                 >
-              </button>
-              <img
-                :src="image.url"
-                class="object-cover h-full rounded-md"
-              >
-            </div>
-          </div>
-        </div>
+              </button> -->
+                <button
+                  v-copy="ebook.url"
+                  class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition"
+                >
+                  <img
+                    src="@/assets/icons/copy.svg"
+                    alt=""
+                  >
+                </button>
+                <!-- <button class="btn btn-sm hover:bg-gray-200 p-1 rounded-md transition">
+                <img
+                  src="@/assets/icons/download.svg"
+                  alt=""
+                >
+              </button> -->
+                <a
+                  :href="ebook.url"
+                  target="_blank"
+                  class="text-blue-500"
+                >Abrir Link</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div
         v-else
         class="space-y-10"
       >
         <div>
+          <NoRecords v-if="!videos.length" />
           <div class="flex flex-wrap">
             <div
               v-for="video in videos"
               :key="video.id"
-              class="w-52 border m-2"
+              class="border m-2"
             >
-              <div class="produto__img relative">
-                <button class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
-                  <img
-                    src="@/assets/icons/shared.svg"
-                    alt=""
-                  >
-                </button>
-                <img
-                  src="@/assets/fake/produto.png"
-                  alt=""
-                  class="object-cover h-40"
-                >
-              </div>
-              <div class="text-xs p-2">
-                <p class="text-default whitespace-nowrap overflow-hidden midia__description text-ellipsis">
-                  Produto milagroso para o seu cabelo...
-                </p>
-                <div class="flex items-center justify-between mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                  <a
-                    :href="video.url"
-                    target="_blank"
-                    class="text-blue-500 midia__link"
-                  >{{ video.url }}</a>
-                  <button>
-                    <img
-                      src="@/assets/icons/copy.svg"
-                      alt=""
-                    >
-                  </button>
-                </div>
-              </div>
+              <YoutubeThumbnail :source="video.url" />
             </div>
           </div>    
         </div>
@@ -105,7 +100,9 @@ import { fetchMidias } from '@/core/services/api/products'
 import { IProduct } from '@/interfaces/IProduct';
 import {onMounted, PropType, ref} from 'vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
-const tabMidia = ref('Imagens');
+import YoutubeThumbnail from '@/components/youtube/YoutubeThumbnail.vue';
+import NoRecords from '@/components/NoRecords.vue';
+const tabMidia = ref('Ebooks');
 const { notifications } = useNotifications()
 
 const props = defineProps({
@@ -115,8 +112,8 @@ const props = defineProps({
   }
 });
 
+const ebooks = ref<ProductMedia[]>([]);
 const videos = ref<ProductMedia[]>([]);
-const images = ref<ProductMedia[]>([]);
 
 const loading = ref(false);
 const getMidias = async () => {
@@ -124,7 +121,7 @@ const getMidias = async () => {
     loading.value = true;
     const {data} = await fetchMidias(props.product.id as number);
     videos.value = data.filter(item => item.type_description == 'VIDEO')
-    images.value = data.filter(item => item.type_description == 'IMAGE')
+    ebooks.value = data.filter(item => item.type_description == 'EBOOK')
   } catch (error) {
     notifications.error(error);
   } finally {

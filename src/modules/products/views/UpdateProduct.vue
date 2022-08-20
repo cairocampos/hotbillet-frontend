@@ -76,7 +76,10 @@
         </div>
       </div>
 
-      <section class="m-4 my-16">
+      <section
+        v-if="product?.id"
+        class="m-4 my-16"
+      >
         <component
           :is="currentStep.component"
           ref="root"
@@ -97,7 +100,8 @@ import {ref, computed, defineComponent, onMounted} from 'vue';
 import Dados from '../components/steps/Dados.vue'
 import Links from '../components/steps/Links.vue'
 import Midias from '../components/steps/Midias.vue'
-import Ebooks from '../components/steps/Ebooks.vue'
+import Images from '../components/steps/Images.vue'
+import Coupons from '../components/steps/Coupons.vue'
 import Faq from '../components/steps/Faq.vue'
 import { useRoute } from 'vue-router';
 import { IProduct } from '@/interfaces/IProduct';
@@ -117,14 +121,15 @@ export default defineComponent({
     Dados,
     Links,
     Midias,
-    Ebooks,
+    Images,
     Faq,
     Button,
-    HeadPage
+    HeadPage,
+    Coupons
 },
   props: {
     id: {
-      type: Number,
+      type: [Number,String],
       required:true
     }
   },
@@ -139,9 +144,10 @@ export default defineComponent({
     const steps = ref<Step[]>([
       {ordem: 1,label: "Dados", component: 'Dados'},
       {ordem: 2,label: "Links", component: 'Links'},
-      {ordem: 3,label: "Mídias", component: 'Midias'},
-      {ordem: 4,label: "Ebooks", component: 'Ebooks'},
-      {ordem: 5,label: "Faq", component: 'Faq'}
+      {ordem: 3,label: "Imagens", component: 'Images'},
+      {ordem: 4,label: "Mídias", component: 'Midias'},
+      {ordem: 5,label: "Cupons", component: 'Coupons'},
+      {ordem: 6,label: "Faq", component: 'Faq'}
     ]);
     const sendingForm = ref(false);
 

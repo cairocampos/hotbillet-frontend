@@ -156,7 +156,8 @@ export default defineComponent({
       status: 1,
       support_email: "",
       support_phone: "",
-      url: ""
+      url: "",
+      type_description: "",
     });
     const submitForm = async () => {
       try {
@@ -196,6 +197,7 @@ export default defineComponent({
         }
       }
     }
+
     onMounted(() => {
       form.value = product.value;
       fetchCompany();

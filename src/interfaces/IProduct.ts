@@ -12,6 +12,7 @@ export interface IProductData {
   support_email?: string;
   support_phone?: string;
   description: string;
+  cover?: string;
 }
 
 export interface IProductLink {

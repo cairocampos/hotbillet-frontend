@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@types/luxon": "^2.3.1",
+    "@vime/core": "^5.3.1",
+    "@vime/vue-next": "^5.3.1",
     "axios": "^0.26.1",
     "core-js": "^3.21.1",
     "luxon": "^2.3.1",

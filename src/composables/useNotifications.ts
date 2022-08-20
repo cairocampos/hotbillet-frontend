@@ -1,5 +1,10 @@
 import axios from "axios";
 import { notify } from "notiwind";
+
+type ErrorObject = {
+  [key:string]: string[]
+}
+
 export default function useNotifications() {
   function createNotify(
     title: string,
@@ -28,13 +33,13 @@ export default function useNotifications() {
       }
 
       if (axios.isAxiosError(error)) {
-        if (error?.response?.data?.error) {
-          const message = error?.response?.data?.error;
-          if (Array.isArray(message)) {
-            message.forEach((msg) => createNotify("Error", msg, "error"));
+        if (error?.response?.data?.errors) {
+          const messages: ErrorObject = error?.response?.data?.errors;
+          if (messages) {
+            Object.entries(messages).forEach(([key,value]) => createNotify("Error", value[0] as string, "error"));
             return;
           }
-          return createNotify("Error", message, "error");
+          return createNotify("Error", error.response.data.message, "error");
         }
       }
 
