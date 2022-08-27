@@ -1,37 +1,38 @@
-<!-- <template>
-  <Container>
-    <Autocomplete
-      v-model="company_id"
-      :options="companies"
-      label-name="name"
-      key-name="id"
-      :loading="loading"
-      variant="secondary"
-      @scrollend="onScrollEnd"
-    />
-  </Container>
+<template>
+  <Listbox
+    v-model="selectedPeople"
+    multiple
+  >
+    <ListboxButton>
+      {{ selectedPeople.map((person) => person.name).join(', ') }}
+    </ListboxButton>
+    <ListboxOptions>
+      <ListboxOption
+        v-for="person in people"
+        :key="person"
+        :value="person"
+      >
+        {{ person.name }}
+      </ListboxOption>
+    </ListboxOptions>
+  </Listbox>
 </template>
 
 <script setup lang="ts">
-import Container from '@/components/UI/Layout/Container.vue';
-import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
-import { onMounted, ref } from 'vue';
-import { api } from '@/services/api';
-import { IPagination } from '@/interfaces/IPagination';
-import usePagination from '@/composables/usePagination';
+  import { ref } from 'vue'
+  import {
+    Listbox,
+    ListboxButton,
+    ListboxOptions,
+    ListboxOption,
+  } from '@headlessui/vue'
 
-interface Company {
-  id:number;
-  name:string;
-}
-
-      return {
-        headers,
-        items
-      }
-    },
-})
+  const people = [
+    { id: 1, name: 'Durward Reynolds' },
+    { id: 2, name: 'Kenton Towne' },
+    { id: 3, name: 'Therese Wunsch' },
+    { id: 4, name: 'Benedict Kessler' },
+    { id: 5, name: 'Katelyn Rohan' },
+  ]
+  const selectedPeople = ref([{id: 1,name: "Kenton Towne"}])
 </script>
-
-<style lang='scss' scoped>
-</style> -->

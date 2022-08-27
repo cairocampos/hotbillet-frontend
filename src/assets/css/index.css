@@ -109,9 +109,10 @@ body {
     background: #111;
     white-space: pre-wrap;
     max-width: 200px;
-	transition: opacity .3s;
+		transition: opacity .3s;
     top: 0;
     left: 0;
+		z-index: 20;
 }
 
 .tooltip__custom::before {

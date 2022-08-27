@@ -12,6 +12,7 @@
           variant="secondary"
           label-class="text-xs"
           :config="config"
+          :selected="productSelected"
         />
         <Select2
           v-model="form.event_ids"
@@ -53,25 +54,35 @@
 <script lang='ts' setup>
 import useModal from '@/composables/useModal';
 import Select2 from '@/components/UI/Select2/Select2.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, PropType, ref, watch } from 'vue';
 import {fetchProducts} from '@/core/services/api/products'
 import {fetchEvents} from '@/core/services/api/events'
 import { IProduct } from '@/interfaces/IProduct';
 import Button from '@/components/UI/Button/Button.vue';
 import { Event } from '@/core/interfaces/Event';
 import { AutocompleteConfig } from '@/components/UI/Autocomplete/Autocomplete.vue';
-import Autocomplete from '../../../components/UI/Autocomplete/Autocomplete.vue';
+import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import useNotifications from '@/composables/useNotifications';
-import {createMessage} from '@/core/services/api/products'
+import {updateMessage } from '@/core/services/api/products'
+import { CreateMessage, Message } from '@/core/interfaces/Message';
+import { api } from '@/services/api';
 
-const emit = defineEmits(['success'])
+const props = defineProps({
+  message: {
+    type: Object as PropType<Message>,
+    required:true
+  }
+})
+
+const emits = defineEmits(['success', 'update:message'])
 
 const { modalAtivo,showModal } = useModal();
 
+
 const form = ref({
-  product_id: 0,
-  event_ids: [],
-  message: ""
+  product_id: props.message.product_id,
+  event_ids: props.message.events.map(event => event.id),
+  message: props.message.message
 })
 
 
@@ -88,10 +99,27 @@ const getEvents = async () => {
   events.value = data
 }
 
+const productSelected = ref<{id:number;text:string}>();
+const getProduct = async () => {
+  const {data} = await api.get(`/products/${props.message.product_id}`)
+  productSelected.value = {
+    id: data.id,
+    text: data.name
+  };
+}
+
+watch(modalAtivo, val => {
+  if(!val) {
+    emits('update:message', null);
+  }
+})
+
 onMounted(() => {
+  modalAtivo.value = true;
+  getProduct();
   getProducts();
   getEvents();
-})
+});
 
 const config: AutocompleteConfig = {
   url: "/products",
@@ -119,10 +147,10 @@ const loading = ref(false);
 const save = async () => {
   try {
     loading.value = true;
-    await createMessage(form.value.product_id, form.value);
-    notifications.success('Mensagem registrada com sucesso!');
+    await updateMessage(props.message.product_id, props.message.id, form.value);
+    notifications.success('Mensagem atualizada com sucesso!');
     modalAtivo.value = false
-    emit('success');
+    emits('success');
   } catch(error) {
     notifications.error(error)
   } finally {

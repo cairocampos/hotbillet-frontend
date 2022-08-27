@@ -18,7 +18,7 @@
           class="modal bg-white rounded-md shadow-sm py-8 px-5 space-y-5"
           :class="screen"
         >
-          <div class="modal-header flex items-center justify-between">
+          <div class="modal-header flex items-center justify-between border-b border-b-zinc-200">
             <h2 v-if="!$slots.header">
               {{ title }}
             </h2>
@@ -43,7 +43,7 @@
               </svg>
             </button>
           </div>
-          <slot />
+          <slot></slot>
         </div>
       </div>
     </transition>

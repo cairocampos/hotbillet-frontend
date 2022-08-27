@@ -53,7 +53,7 @@ const props = defineProps({
   },
   radius: {
     type: String,
-    default: ""
+    default: "full"
   },
   redirect: {
     type: [String,Object],

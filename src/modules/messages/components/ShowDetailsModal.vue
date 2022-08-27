@@ -14,38 +14,54 @@
         </div>
         <div class="flex items-end space-x-2 divide-x divide-gray-200">
           <h3 class="text-default text-sm">
-            Just4You
+            {{ message.product.name }}
           </h3>
-          <div class="flex items-center">
-            <img
-              src="@/assets/icons/boleto-vencido.svg"
-              alt=""
-              class="h-6 ml-2"
+          <div
+            v-if="message.events.length"
+          >
+            <div
+              v-tooltip="message.events.map(event => event.name).join('\n')"
+              class="flex items-center"
             >
-            <span class="font-light text-xs text-default pl-2 mt-1">Boleto Vencido</span>
+              <img
+                src="@/assets/icons/boleto-vencido.svg"
+                alt=""
+                class="h-5 ml-1"
+              >
+              <span class="font-light text-xs text-default pl-2 mt-1 white">{{ message.events[0].name }}</span>
+              <span
+                v-if="message.events.length > 1"
+                class="text-xs text-zinc-400 ml-2"
+              >
+                + {{ message.events.length - 1 }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </template>
     <template #body>
       <div class="mb-4 flex items-center space-x-4 text-xs text-color-base">
-        <p><span class="font-semibold">Status:</span> Mensagem Automática</p>
-        <p><span class="font-semibold">Tag:</span> Saudação</p>
+        <!-- <p><span class="font-semibold">Status:</span> Mensagem Automática</p>
+        <p><span class="font-semibold">Tag:</span> Saudação</p> -->
       </div>
       <div>
-        <p class="text-xs text-color-base leading-5">
-          Nós aqui da (nome da empresa) temos uma novidade.
-          AMANHÃ lançaremos a nova versão da ferramenta (nome da ferramenta)!
-          Separamos alguns profissionais de marketing para testá-lo gratuitamente por 3 dias.
-          E você é uma delas.
-        </p>
+        <pre class="text-xs text-color-base leading-5 whitespace-pre-wrap">{{ message.message }}</pre>
       </div>
     </template>
 
     <template #footer>
-      <div class="flex justify-end">
+      <div class="flex justify-between">
+        <Button
+          variant="danger"
+          outline
+          :loading="loading"
+          @click="destroy(message)"
+        >
+          Remover
+        </Button>
         <button
-          v-copy="'Ok'"
+          v-copy="message.message"
           class="transition hover:bg-gray-200 rounded-md p-1 flex items-center space-x-2"
         >
           <img
@@ -59,18 +75,60 @@
   </Modal>
 </template>
 
-<script lang='ts'>
+<script lang='ts' setup>
 import useModal from '@/composables/useModal';
-import { defineComponent } from 'vue';
-export default defineComponent({
-  setup() {
-    const { modalAtivo,showModal } = useModal();
-    return {
-      modalAtivo,
-      showModal
-    }
+import { Message } from '@/core/interfaces/Message';
+import { onMounted, PropType, ref, watch } from 'vue';
+import Button from '@/components/UI/Button/Button.vue';
+import useNotifications from '@/composables/useNotifications';
+import {destroyMessage} from '@/core/services/api/products'
+import useAlert from '@/composables/useAlert'
+
+const { modalAtivo,showModal } = useModal();
+
+
+const props = defineProps({
+  message: {
+    type: Object as PropType<Message>,
+    required:true
   }
 })
+
+const emits = defineEmits(['update:message', 'success']);
+
+watch(modalAtivo, val => {
+  if(!val) {
+    emits('update:message', null);
+  }
+})
+
+
+const {notifications} = useNotifications();
+const {alerts} = useAlert();
+const loading = ref(false);
+const destroy = (message: Message) => {
+ alerts.confirm('Deseja remover essa mensagem?')
+  .then(async result => {
+    if(result.isConfirmed) {
+       try {
+        loading.value = false;
+        await destroyMessage(message.product_id, message.id);
+        notifications.success('Mensagem removida com sucesso')
+        emits('success');
+        modalAtivo.value = false;
+      } catch(error) {
+        notifications.error(error)
+      } finally {
+        loading.value = false;
+      }
+    }
+  })
+}
+
+onMounted(() => {
+  modalAtivo.value = true;
+})
+
 </script>
 
 <style lang='scss' scoped>

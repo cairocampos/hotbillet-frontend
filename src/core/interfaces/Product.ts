@@ -1,3 +1,5 @@
+import { Event } from "./Event";
+
 export interface ProductEbook {
   id: number;
   title: string;
@@ -27,4 +29,11 @@ export interface ProductImage {
   id?:number;
   url:string;
   cover:boolean;
+}
+
+export interface ProductMessage {
+  id?:number;
+  product_id?:number;
+  message:string;
+  events: Event[],
 }
