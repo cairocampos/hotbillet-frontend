@@ -25,11 +25,10 @@
                 v-tooltip="message.events.map(event => event.name).join('\n')"
                 class="flex items-center"
               >
-                <img
-                  src="@/assets/icons/boleto-vencido.svg"
-                  alt=""
+                <EventIcon
                   class="h-5 ml-1"
-                >
+                  :event-id="message.events[0].id"
+                />
                 <span class="font-light text-xs text-default pl-2 mt-1 white">{{ message.events[0].name }}</span>
                 <span
                   v-if="message.events.length > 1"
@@ -85,8 +84,9 @@
 
 <script setup lang="ts">
 import { Message } from '@/core/interfaces/Message';
-import { PropType } from 'vue';
+import { computed, PropType } from 'vue';
 import useFallbackImage from '@/composables/useFallbackImage';
+import EventIcon from '../../../components/EventIcon.vue'
 
 const emit = defineEmits(['click', 'edit'])
 const props = defineProps({

@@ -81,13 +81,15 @@ import { defineComponent } from "vue";
 import RouteBack from '@/components/RouteBack.vue'
 import ClienteInfo from '../components/detalhes/cliente/ClienteInfo.vue'
 import ProdutoInfo from '../components/detalhes/produto/ProdutoInfo.vue'
+import HeadPage from "@/components/HeadPage.vue";
 
 export default defineComponent({
   components: {
     RouteBack,
     ClienteInfo,
-    ProdutoInfo
-  },
+    ProdutoInfo,
+    HeadPage
+},
   setup() {
     //
   }

@@ -2,10 +2,10 @@
   <div class="relative w-full">
     <label
       v-if="label"
-      :class="[labelClass, 'mb-2 block text-zinc-500 text-xs']"
+      :class="[labelClass, 'mb-2 block text-zinc-500']"
     >{{ label }}</label>
     <div
-      :class="`border-b ${error ? 'border-red-500' : 'border-zinc-300'} h-8 flex justify-between items-center p-4 cursor-pointer hover:border-zinc-500 transition-colors`"
+      :class="`border-b mt-1 ${error ? 'border-red-500' : 'border-zinc-300'} h-8 flex justify-between items-center p-4 cursor-pointer hover:border-zinc-500 transition-colors`"
       @click="isOpen = !isOpen"
     >
       <span v-if="!selectedData?.id">Selecione</span>
@@ -77,7 +77,7 @@ const props = defineProps({
   },
   labelClass: {
     type: String,
-    default:""
+    default:"label"
   },
   error: {
     type: String,

@@ -18,7 +18,7 @@
 <script lang="ts">
 import { viaCep } from "@/services/viaCep";
 import { defineComponent, onMounted, ref, toRefs, watch } from "vue";
-import Loading from "@/components/global/Loading.vue";
+import Loading from "@/components/UI/Loading/Spinner.vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";
 export default defineComponent({
   components: { Loading, TextField },

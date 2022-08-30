@@ -19,7 +19,7 @@
             v-if="loading"
             class="w-max"
           >
-            <PageLoading />
+            <Loading />
           </div>
           <Card
             v-for="(link, index) in links"
@@ -99,6 +99,8 @@ import { IProduct, IProductLink } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import { PhPlus } from 'phosphor-vue'
+import Modal from '@/components/UI/Modal/Modal.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 
 const props = defineProps({
   product: {

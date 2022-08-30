@@ -14,7 +14,7 @@
           v-if="loading"
           class="w-max"
         >
-          <PageLoading />
+          <Loading />
         </div>
         <span
           v-else-if="!faqs.length"
@@ -103,7 +103,8 @@ import { IProduct, IProductFaq } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import { onMounted, PropType, ref, toRefs } from 'vue';
 import { PhPlus } from 'phosphor-vue'
-import PageLoading from '@/components/global/PageLoading.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
+import Modal from '@/components/UI/Modal/Modal.vue';
 
 const props = defineProps({
   product: {

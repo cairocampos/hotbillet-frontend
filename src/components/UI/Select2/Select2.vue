@@ -11,6 +11,7 @@
       >
         {{ label }}
         <span
+          v-if="multiple"
           class="ml-2 text-blue-500 text-xs cursor-pointer"
           @click="selectAll"
         >

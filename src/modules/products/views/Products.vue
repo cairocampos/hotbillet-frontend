@@ -34,7 +34,7 @@
       </Button>
     </div>
 
-    <PageLoading v-if="loading" />
+    <Loading v-if="loading" />
 
     <div v-else-if="products && products.length">
       <div class="space-y-4 lg:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
@@ -68,6 +68,7 @@ import { IPagination } from '@/interfaces/IPagination';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/HeadPage.vue';
 import { PhFunnelSimple } from 'phosphor-vue'
+import Loading from '@/components/UI/Loading/Loading.vue';
 
 const { pagination } = usePagination();
 const loading = ref(false);

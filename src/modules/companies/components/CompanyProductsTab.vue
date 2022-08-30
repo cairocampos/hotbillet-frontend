@@ -13,7 +13,7 @@
       </div>
     </Box>
 
-    <PageLoading v-if="loading" />
+    <Loading v-if="loading" />
     <div class="space-y-4 lg:space-y-0 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6">
       <CardProduto
         v-for="product in products"
@@ -46,9 +46,9 @@ import { IProductData } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import NoRecords from '@/components/NoRecords.vue';
-import PageLoading from '@/components/global/PageLoading.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 export default defineComponent({
-  components: { Box, Heading, Button, CardProduto, NoRecords, PageLoading },
+  components: { Box, Heading, Button, CardProduto, NoRecords, Loading },
   props: {
     id: {
       type: [Number,String],

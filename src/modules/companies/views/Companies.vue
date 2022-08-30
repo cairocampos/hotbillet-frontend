@@ -14,7 +14,7 @@
       </template>
     </Tabs>
 
-    <PageLoading v-if="loading.primary" />
+    <Loading v-if="loading.primary" />
     <div
       v-else
       class="space-y-4"
@@ -60,7 +60,7 @@ import Tab from "@/components/UI/Tabs/Tab.vue";
 import ButtonActions from "../components/ButtonActions.vue";
 import SidebarFilters from "../components/SidebarFilters.vue";
 import { ICompanyMetrics } from "../interfaces/ICompany";
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from '@/components/UI/Loading/Loading.vue';
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
 import { PhArrowRight } from 'phosphor-vue'
@@ -72,7 +72,7 @@ export default defineComponent({
     Tab,
     ButtonActions,
     SidebarFilters,
-    PageLoading,
+    Loading,
     Button,
     HeadPage,
     PhArrowRight

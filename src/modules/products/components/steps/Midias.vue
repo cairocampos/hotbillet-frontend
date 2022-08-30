@@ -14,7 +14,7 @@
           v-if="loading"
           class="w-max"
         >
-          <PageLoading />
+          <Loading />
         </div>
         <span
           v-else-if="!ebooks.length"
@@ -138,11 +138,13 @@ import useNotifications from "@/composables/useNotifications";
 import InputInfo from "@/components/global/InputInfo.vue";
 import { api } from "@/services/api";
 import { PhPlus, PhFilePdf } from 'phosphor-vue'
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from "@/components/UI/Loading/Loading.vue";
 import useLoading from "@/composables/useLoading";
 import { MediaTypeEnum, ProductMedia } from "@/core/interfaces/Product";
 import { fetchMidias } from "@/core/services/api/products";
 import { computed } from "@vue/reactivity";
+import Modal from '@/components/UI/Modal/Modal.vue';
+
 
 const props = defineProps({
   product: {

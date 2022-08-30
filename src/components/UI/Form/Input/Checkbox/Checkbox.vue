@@ -1,15 +1,27 @@
 <template>
-  <div class="hot__checkbox flex space-x-2 items-center relative mr-4">
-    <input
-      :id="String(value)"
-      type="checkbox"
-      :value="value"
-      @change="onChange"
-    >
+  <div class="space-y-4">
     <label
-      :for="String(value)"
-      class="text-base"
-    >{{ label }}</label>
+      for="#"
+      class="label"
+    >
+      {{ label }}
+    </label>
+    <div
+      v-for="option in options"
+      :key="option[keyValue]"
+      class="hot__checkbox flex items-center relative mr-4 gap-2"
+    >
+      <input
+        :id="String(option[keyValue])"
+        type="checkbox"
+        :value="option[keyValue]"
+        @change="onChange"
+      >
+      <label
+        :for="String(option[keyValue])"
+        class="label"
+      >{{ option[keyName] }}</label>
+    </div>
   </div>
 </template>
 
@@ -26,10 +38,6 @@ export default defineComponent({
       required:false,
       default: ""
     },
-    value: {
-      type: [String,Number],
-      required:true
-    },
     trueValue: {
       type: [String,Boolean],
       default:true
@@ -37,6 +45,18 @@ export default defineComponent({
     falseValue: {
       type: [String,Boolean],
       default:false
+    },
+    options: {
+      type: Array as PropType<any[]>,
+      required:true
+    },
+    keyName: {
+      type: String,
+      default: "label"
+    },
+    keyValue: {
+      type: String,
+      default: "value"
     }
   },
   emits:['update:modelValue'],
@@ -99,8 +119,8 @@ export default defineComponent({
     }
     & + label::before {
       box-shadow: 0 2px 4px 0 rgba(115,103,240,.4)!important;
-      border-color: #7367f0;
-      background-color: #7367f0;
+      border-color: #00D115;
+      background-color: #00D115;
     }
   }
 }

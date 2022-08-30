@@ -14,7 +14,7 @@
     />
 
     <section class="m-4 my-16">
-      <PageLoading v-if="loading" />
+      <Loading v-if="loading" />
       <div v-else-if="product && product.id">
         <div class="grid grid-cols-3 mb-10">
           <div class="flex items-center space-x-4 col-span-2">
@@ -95,7 +95,7 @@ import RouteBack from '@/components/RouteBack.vue'
 import { IProduct } from "@/interfaces/IProduct";
 import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services/api";
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from "@/components/UI/Loading/Loading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
 import defaultImage from '../../../assets/images/default.png'
@@ -109,7 +109,7 @@ export default defineComponent({
     Conversao,
     NavTabHeader,
     RouteBack,
-    PageLoading,
+    Loading,
     Button,
     HeadPage,
     Coupons,

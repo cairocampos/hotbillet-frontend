@@ -31,7 +31,7 @@
           v-model="form.message"
           placeholder="Digite aqui a sua mensagem..."
           class="outline-none w-full border rounded p-2 resize-none"
-          rows="10"
+          rows="5"
         ></textarea>
       </div>
     </template>
@@ -53,7 +53,7 @@
 <script lang='ts' setup>
 import useModal from '@/composables/useModal';
 import Select2 from '@/components/UI/Select2/Select2.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {fetchProducts} from '@/core/services/api/products'
 import {fetchEvents} from '@/core/services/api/events'
 import { IProduct } from '@/interfaces/IProduct';
@@ -63,8 +63,9 @@ import { AutocompleteConfig } from '@/components/UI/Autocomplete/Autocomplete.vu
 import Autocomplete from '../../../components/UI/Autocomplete/Autocomplete.vue';
 import useNotifications from '@/composables/useNotifications';
 import {createMessage} from '@/core/services/api/products'
+import Modal from '@/components/UI/Modal/Modal.vue'
 
-const emit = defineEmits(['success'])
+const emit = defineEmits(['success', 'close'])
 
 const { modalAtivo,showModal } = useModal();
 
@@ -88,9 +89,17 @@ const getEvents = async () => {
   events.value = data
 }
 
+watch(modalAtivo, val => {
+  if(!val) {
+    emit('close')
+  }
+})
+
 onMounted(() => {
   getProducts();
   getEvents();
+
+  modalAtivo.value = true;
 })
 
 const config: AutocompleteConfig = {

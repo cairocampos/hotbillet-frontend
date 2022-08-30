@@ -29,17 +29,22 @@
           </div>
           <input
             type="text"
-            class="bg-transparent outline-none"
+            class="outline-none bg-transparent w-full"
           >
         </div>
       </div>
 
       <div class="form-group md:w-1/4 px-3">
         <label class="label">Filtrar Transação</label>
-        <input
-          type="text"
+        <select
+          id=""
+          name=""
           class="form-control input-white input-sm"
-        />
+        >
+          <option value="">
+            Teste
+          </option>
+        </select>
       </div>
       <!-- <div class="form-group md:w-1/4 px-3">
         <label class="label">Filtrar Status</label>
@@ -61,6 +66,11 @@
 
 <script setup lang="ts">
 import Button from '@/components/UI/Button/Button.vue';
+
+const form = {
+  search: "",
+  event_id: Number()
+}
 
 </script>
 

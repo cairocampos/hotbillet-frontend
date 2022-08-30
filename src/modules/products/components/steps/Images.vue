@@ -22,7 +22,7 @@
           v-if="loading"
           class="w-max"
         >
-          <PageLoading />
+          <Loading />
         </div>
         <span
           v-else-if="!images.length"
@@ -36,10 +36,10 @@
               class="produto__img w-52 h-52 relative m-2 flex items-center justify-center bg-zinc-200 group"
             >
               <div class="z-5 absolute right-2 top-2 bg-gray-100 p-1 bg-opacity-50 rounded-md">
-                <ButtonClose
+                <!-- <ButtonClose
                   length="4"
                   @clicked="remove(image)"
-                />
+                /> -->
               </div>
               <Spinner
                 v-if="image.loading"
@@ -76,7 +76,7 @@ import { onMounted, PropType, ref } from "vue";
 import useNotifications from "@/composables/useNotifications";
 import { api } from "@/services/api";
 import { PhPlus, PhCrown } from 'phosphor-vue'
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from '@/components/UI/Loading/Loading.vue';
 import {ProductImage} from '@/core/interfaces/Product'
 import { fetchImages } from '@/core/services/api/products'
 import {generateId} from '@/core/helpers'

@@ -1,7 +1,12 @@
 <template>
   <form class="lg:grid lg:grid-cols-2 lg:gap-32 form-sm">
     <div class="space-y-12">
-      <div class="form-group">
+      <TextField
+        v-model="form.name"
+        variant="secondary"
+        label="Nome do Produto"
+      />
+      <!-- <div class="form-group">
         <label
           for=""
           class="label"
@@ -11,7 +16,7 @@
           type="text"
           class="form-control form-control-line"
         />
-      </div>
+      </div> -->
       <!-- <div class="form-group">
         <label
           for=""
@@ -39,36 +44,17 @@
         label="Empresa"
         :selected="companySelected"
       />
-      <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Link do Produto</label>
-        <input
-          v-model="form.url"
-          type="text"
-          class="form-control form-control-line"
-          placeholder="Cole aqui a URL da página do produto"
-        />
-      </div>
-      <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Tipo de Produto</label>
-        <select
-          v-model="form.type"
-          class="form-control form-control-line"
-        >
-          <option
-            v-for="[key, value] in Object.entries(PRODUCT_TYPE)"
-            :key="key"
-            :value="value"
-          >
-            {{ key }}
-          </option>
-        </select>
-      </div>
+      <TextField
+        v-model="form.url"
+        label="Link do Produto"
+        variant="secondary"
+        placeholder="Cole aqui a URL da página do produto"
+      />
+      <Listbox
+        v-model="form.type"
+        :options="Object.entries(PRODUCT_TYPE).map(([label,value]) => ({label, value}))"
+        label="Tipo de Produto"
+      />
     </div>
 
     <div class="mt-10 md:mt-0 space-y-12">
@@ -127,13 +113,15 @@ import useNotifications from "@/composables/useNotifications";
 import { IProduct, IProductData } from "@/interfaces/IProduct";
 import { api } from "@/services/api";
 import { defineComponent, onMounted, PropType, ref, toRefs } from "@vue/runtime-core";
-import AppSelect from "@/components/global/AppSelect.vue";
 import { AutocompleteConfig } from "@/components/UI/Autocomplete/Autocomplete.vue";
 import Autocomplete from "../../../../components/UI/Autocomplete/Autocomplete.vue";
-import { ICompany } from "@/modules/companies/interfaces/ICompany";
+import TextField from "@/components/UI/Form/Input/TextField.vue";
+import { placeholder } from "@babel/types";
+import Select2 from "@/components/UI/Select2/Select2.vue";
+import Listbox from "@/components/UI/Listbox/Listbox.vue";
 
 export default defineComponent({
-  components: { AppSelect, Autocomplete },
+  components: { Autocomplete, TextField, Select2, Listbox },
   props: {
     product: {
       type: Object as PropType<IProduct>,

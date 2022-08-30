@@ -7,7 +7,7 @@
       />
     </HeadPage>
 
-    <PageLoading v-if="loading" />
+    <Loading v-if="loading" />
     <Form
       v-else
       class="w-full md:w-1/3 flex flex-col gap-6"
@@ -109,7 +109,7 @@ import { fetchUser, fetchUsers, updateUser } from '@/core/services/api/users'
 import {Profile} from '@/core/interfaces/Profile'
 import { PROFILES } from '@/constants';
 import Listbox from '@/components/UI/Listbox/Listbox.vue';
-import PageLoading from '@/components/global/PageLoading.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 import RouteBack from '@/components/RouteBack.vue';
 
 const props = defineProps({

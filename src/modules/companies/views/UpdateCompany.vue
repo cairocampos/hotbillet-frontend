@@ -3,7 +3,7 @@
     <HeadPage>
       <RouteBack title="Atualizar Empresa" />
     </HeadPage>
-    <PageLoading v-if="loading.primary" />
+    <Loading v-if="loading.primary" />
     <FormCompany
       v-else
       v-model="company"
@@ -24,7 +24,7 @@ import { useRouter } from "vue-router";
 import useValidate from 'vue-tiny-validate'
 import {createCompanyRules} from '../validate'
 import FormCompany from "../components/FormCompany.vue";
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from "@/components/UI/Loading/Loading.vue";
 import useLoading from "@/composables/useLoading";
 import RouteBack from "@/components/RouteBack.vue";
 import HeadPage from "@/components/HeadPage.vue";
@@ -32,7 +32,7 @@ export default defineComponent({
   components: {
     Container,
     FormCompany,
-    PageLoading,
+    Loading,
     RouteBack,
     HeadPage
 },

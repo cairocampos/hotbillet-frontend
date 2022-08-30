@@ -19,7 +19,7 @@
             v-if="loading"
             class="w-max"
           >
-            <PageLoading />
+            <Loading />
           </div>
           <Card
             v-for="(coupon, index) in coupons"
@@ -98,6 +98,8 @@ import useNotifications from '@/composables/useNotifications';
 import { PhPlus } from 'phosphor-vue'
 import ButtonCopy from '@/components/UI/Button/ButtonCopy.vue';
 import { createCoupons, fetchCoupons } from '@/core/services/api/products'
+import Modal from '@/components/UI/Modal/Modal.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 
 const props = defineProps({
   product: {

@@ -8,7 +8,7 @@
       </RouteBack>
     </HeadPage>
 
-    <PageLoading v-if="loading" />
+    <Loading v-if="loading" />
     <div v-else>
       <Card>
         <template #body>
@@ -92,7 +92,7 @@ import { User} from "@/core/interfaces/User";
 import { api } from "@/services/api";
 import { onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
-import PageLoading from "@/components/global/PageLoading.vue";
+import Loading from '@/components/UI/Loading/Loading.vue';
 import Button from "@/components/UI/Button/Button.vue";
 import AvatarAccount from "../../../components/AvatarAccount.vue";
 import HeadPage from "@/components/HeadPage.vue";

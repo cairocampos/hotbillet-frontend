@@ -4,7 +4,7 @@
       v-if="loading"
       class="h-screen flex items-center"
     >
-      <PageLoading />
+      <Loading />
     </div>
     <div v-else>
       <HeadPage
@@ -103,12 +103,14 @@ import Midias from '../components/steps/Midias.vue'
 import Images from '../components/steps/Images.vue'
 import Coupons from '../components/steps/Coupons.vue'
 import Faq from '../components/steps/Faq.vue'
+import Conversao from '../components/steps/Conversao.vue'
 import { useRoute } from 'vue-router';
 import { IProduct } from '@/interfaces/IProduct';
 import { api } from '@/services/api';
 import useNotifications from '@/composables/useNotifications';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/HeadPage.vue'
+import Loading from '@/components/UI/Loading/Loading.vue';
 
 interface Step {
     label:string;
@@ -125,7 +127,9 @@ export default defineComponent({
     Faq,
     Button,
     HeadPage,
-    Coupons
+    Coupons,
+    Loading,
+    Conversao
 },
   props: {
     id: {
@@ -147,7 +151,8 @@ export default defineComponent({
       {ordem: 3,label: "Imagens", component: 'Images'},
       {ordem: 4,label: "Mídias", component: 'Midias'},
       {ordem: 5,label: "Cupons", component: 'Coupons'},
-      {ordem: 6,label: "Faq", component: 'Faq'}
+      {ordem: 6,label: "Faq", component: 'Faq'},
+      {ordem: 7,label: "Conversão", component: 'Conversao'}
     ]);
     const sendingForm = ref(false);
 

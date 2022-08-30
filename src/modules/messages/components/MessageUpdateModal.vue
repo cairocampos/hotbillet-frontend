@@ -66,6 +66,7 @@ import useNotifications from '@/composables/useNotifications';
 import {updateMessage } from '@/core/services/api/products'
 import { CreateMessage, Message } from '@/core/interfaces/Message';
 import { api } from '@/services/api';
+import Modal from '@/components/UI/Modal/Modal.vue';
 
 const props = defineProps({
   message: {

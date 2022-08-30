@@ -18,11 +18,11 @@
           class="modal bg-white rounded-md shadow-sm py-8 px-5 space-y-5"
           :class="screen"
         >
-          <div class="modal-header flex items-center justify-between border-b border-b-zinc-200">
+          <div class="modal-header flex items-center justify-between pb-4">
             <h2 v-if="!$slots.header">
               {{ title }}
             </h2>
-            <slot name="header" />
+            <slot name="header"></slot>
             <button
               class="btn m-0 p-0 hover:text-gray-600"
               @click="closeModal"
@@ -43,7 +43,8 @@
               </svg>
             </button>
           </div>
-          <slot></slot>
+          <slot name="body"></slot>
+          <slot name="footer"></slot>
         </div>
       </div>
     </transition>

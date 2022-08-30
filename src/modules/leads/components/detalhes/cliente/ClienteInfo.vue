@@ -41,13 +41,15 @@ import Dados from './Dados.vue'
 import Historico from './Historico.vue'
 import Postback from './Postback.vue'
 import MenuTab from '@/components/MenuTab.vue'
+import Badge from '@/components/UI/Badge/Badge.vue'
 
 export default defineComponent({
     components: {
         Dados,
         Historico,
         Postback,
-        MenuTab
+        MenuTab,
+        Badge
     },
     setup() {
         const tabs = [

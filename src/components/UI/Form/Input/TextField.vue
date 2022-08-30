@@ -77,7 +77,7 @@ export default defineComponent({
     },
     labelClass: {
       type: String,
-      default: ""
+      default: "label"
     },
     validator: {
       type: [Object, undefined] as PropType<Validator|undefined>,

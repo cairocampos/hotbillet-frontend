@@ -1,12 +1,12 @@
 <template>
   <div
     ref="element"
-    class="relative"
+    class="relative w-full"
   >
     <label
       v-if="label"
       for=""
-      class="text-xs text-zinc-700"
+      class="label"
     >
       {{ label }}
       <span
@@ -104,7 +104,7 @@ const props = defineProps({
   },
   variant: {
     type: String as PropType<Variants>,
-    default: "primary"
+    default: "secondary"
   },
   validator: {
     type: [Object, undefined] as PropType<Validator|undefined>,
@@ -150,8 +150,8 @@ const checkSelectedProp = () => {
 
 const computedClass = computed(() => {
   const variants = {
-    primary: `cursor-pointer h-12 bg-zinc-100 rounded-md text-zinc-700 flex items-center justify-between px-4 mt-2`,
-    secondary: `cursor-pointer h-12 bg-zinc-100 text-zinc-700 flex items-center justify-between px-4 mt-2 border-b-2 border-zinc-200`
+    primary: `cursor-pointer h-8 bg-zinc-100 rounded-md text-zinc-700 flex items-center justify-between px-4 mt-2`,
+    secondary: `cursor-pointer h-8 bg-zinc-100 text-zinc-700 flex items-center justify-between px-4 mt-2 border-b border-zinc-300 hover:border-zinc-500`
   }
 
   return variants[props.variant]

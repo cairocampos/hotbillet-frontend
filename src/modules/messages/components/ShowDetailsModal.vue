@@ -23,11 +23,10 @@
               v-tooltip="message.events.map(event => event.name).join('\n')"
               class="flex items-center"
             >
-              <img
-                src="@/assets/icons/boleto-vencido.svg"
-                alt=""
+              <EventIcon
+                :event-id="message.events[0].id"
                 class="h-5 ml-1"
-              >
+              />
               <span class="font-light text-xs text-default pl-2 mt-1 white">{{ message.events[0].name }}</span>
               <span
                 v-if="message.events.length > 1"
@@ -83,6 +82,8 @@ import Button from '@/components/UI/Button/Button.vue';
 import useNotifications from '@/composables/useNotifications';
 import {destroyMessage} from '@/core/services/api/products'
 import useAlert from '@/composables/useAlert'
+import EventIcon from '@/components/EventIcon.vue';
+import Modal from '@/components/UI/Modal/Modal.vue';
 
 const { modalAtivo,showModal } = useModal();
 

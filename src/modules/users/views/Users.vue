@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <PageLoading v-if="loading" />
+    <Loading v-if="loading" />
     <Datatable
       v-else-if="users && users.length"
       :headers="headers"
@@ -92,6 +92,7 @@ import NoRecords from '@/components/NoRecords.vue';
 import {PhFingerprint,PhArrowRight} from 'phosphor-vue'
 import { IPagination } from '@/interfaces/IPagination';
 import HeadPage from '@/components/HeadPage.vue';
+import Loading from '@/components/UI/Loading/Loading.vue';
 
 export default defineComponent({
   components: {
@@ -102,7 +103,8 @@ export default defineComponent({
     NoRecords,
     PhFingerprint,
     PhArrowRight,
-    HeadPage
+    HeadPage,
+    Loading
 },
   setup() {
     const loading = ref(false);

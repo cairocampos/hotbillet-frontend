@@ -79,7 +79,7 @@
     <div class="space-y-4 p-4">
       <div class="form-group">
         <span class="text-sm text-default">Teste</span>
-        <SelectInput />
+        <!-- <SelectInput /> -->
       </div>
     </div>
   </div>
@@ -87,7 +87,6 @@
 
 
 <script lang="ts" setup>
-import SelectInput from "@/components/global/SelectInput.vue"
 </script>
 
 <style>

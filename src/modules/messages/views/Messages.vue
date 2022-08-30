@@ -5,7 +5,7 @@
       <Button
         variant="dark"
         outline
-        @click="messageModal?.showModal()"
+        @click="modalCreateMessageActive = true"
       >
         <PhPlus />
         Mensagem
@@ -38,7 +38,8 @@
     />
 
     <MessageModal
-      ref="messageModal"
+      v-if="modalCreateMessageActive"
+      @close="modalCreateMessageActive = false"
       @success="getMessages()"
     />
 
@@ -69,10 +70,8 @@ const modal = ref<typeof ShowDetailsModal>();
 const messageModal = ref<typeof ShowDetailsModal>();
 const messageSelected = ref<Message>()
 const messageEditSelected = ref<Message>()
-const showDetails = (message: Message) => {
 
-  // modal.value?.showModal();
-}
+const modalCreateMessageActive = ref(false)
 
 const {notifications} = useNotifications();
 const messages = ref<Message[]>([]);
