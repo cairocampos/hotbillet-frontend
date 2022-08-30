@@ -1,5 +1,4 @@
 import axios, {AxiosError} from "axios";
-import { IViacep } from "./interfaces/IViacep";
 import router from "./router";
 // import { useStore } from 'vuex'
 
@@ -43,7 +42,7 @@ api.interceptors.response.use(function(response) {
 });
 
 const fetchCep = async (cep: string) => {
-  const { data } = await axios.get<IViacep>(`https://viacep.com.br/ws/${cep}/json/`);
+  const { data } = await axios.get<any>(`https://viacep.com.br/ws/${cep}/json/`);
   return data;
 }
 

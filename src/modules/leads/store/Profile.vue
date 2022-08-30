@@ -66,7 +66,7 @@ export default defineComponent({
   setup() {
     // const store = useStore();
     const usuario = computed(() => {
-      const {name = '', profile = '', email = '', phone = ''} = store.state['usuario'].usuario;
+      const {name = '', profile = '', email = '', phone = ''} = {name: "teste", profile: "admin", email:"email", phone: 'phone'};
       return {    
         name,
         profile,

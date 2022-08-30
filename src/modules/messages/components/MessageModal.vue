@@ -105,7 +105,8 @@ onMounted(() => {
 const config: AutocompleteConfig = {
   url: "/products",
   processResults: (data) => {
-    const items = data.data.map(item => ({
+    const products = data.data as any[];
+    const items = products.map(item => ({
       id: item.id,
       text: item.name
     }));

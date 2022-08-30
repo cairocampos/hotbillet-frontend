@@ -173,7 +173,7 @@ export default defineComponent({
     const companiesConfig: AutocompleteConfig = {
       url: "/companies",
       processResults: (data) => {
-        const items = data.data.map(item => ({
+        const items = data.data.map((item: any) => ({
           id: item.id,
           text: item.name
         }));

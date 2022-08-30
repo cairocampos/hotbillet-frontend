@@ -22,14 +22,16 @@
 
                 <div class="space-y-4">
                   <h3 class="text-2xl text-dark font-medium">
-                    {{ usuario.name }}
+                    <!-- {{ usuario.name }} -->
+                    nome
                   </h3>
                   <p class="text-sm text-default font-light">
-                    {{ usuario.profile }}
+                    <!-- {{ usuario.profile }} -->
+                    Perfil
                   </p>
                   <div class="text-sm text-dark flex space-x-6">
-                    <p>E-mail: {{ usuario.email }}</p>
-                    <p>Telefone: {{ usuario.phone }}</p>
+                    <p>E-mail: email@email.com</p>
+                    <p>Telefone: (33) 9 9140-9852</p>
                   </div>
                 </div>
               </div>

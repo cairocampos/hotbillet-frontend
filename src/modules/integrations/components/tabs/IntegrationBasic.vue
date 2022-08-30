@@ -8,7 +8,7 @@
     >
       Quer saber como funciona ?
     </Button> -->
-    <FormSection title="Dados de integração" />
+    <!-- <FormSection title="Dados de integração" />
     <Grid
       :cols="2"
       :md="{cols:1}"
@@ -128,7 +128,7 @@
       block
     >
       Salvar
-    </Button>
+    </Button> -->
   </Form>
 </template>
 
@@ -137,7 +137,6 @@ import Form from '@/components/UI/Form/Form.vue';
 import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import {fetchCompanies} from '@/modules/companies/services'
 import { onMounted, ref } from 'vue';
-import { ICompanySimple } from '@/modules/companies/interfaces/ICompany';
 import {ICheckout} from '../../interfaces/ICheckout'
 import useNotifications from '@/composables/useNotifications';
 import { fetchCheckouts, fetchTransactionTypes } from '../../services'
@@ -204,7 +203,7 @@ const loading = ref({
   checkouts: false,
   transactionTypes: false
 });
-const companies = ref<ICompanySimple[]>([])
+const companies = ref([])
 const getCompanies = async () => {
   try {
     loading.value.companies = true;

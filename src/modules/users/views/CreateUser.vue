@@ -111,11 +111,11 @@ const { notifications } = useNotifications();
 const router = useRouter();
 
 const loading = ref(false);
-const user = ref<UserData>({
+const user = ref({
   name: '',
   email:'',
   profile_id: Number(),
-  supervisor_id: Number(),
+  supervisor_id: 0,
 });
 
 const loadingSupervisors  = ref(false);
@@ -163,7 +163,7 @@ watch(() => user.value.profile_id, profile_id => {
     return
   }
 
-  delete user.value.supervisor_id
+  // delete user.value.supervisor_id
 });
 
 onMounted(() => getProfiles());

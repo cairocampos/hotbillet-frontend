@@ -1,97 +1,102 @@
 <template>
-  <div class="grid md:grid-cols-2 gap-6">
-    <div class="space-y-4">
-      <div class="flex items-center gap-4">
-        <SelectField
-          :options="commisionTypes"
-          label="Tipo"
-          variant="secondary"
-        />
-
-        <TextField
-          v-model="form.comission_value"
-          label="Comissão"
-          variant="secondary"
-        />
-      </div>
-      <div class="space-y-2v">
-        <LoadingText
-          v-if="loading.events"
-          text="Carregando transações..."
-        />
-
-        <Checkbox
-          v-model="form.events"
-          :options="events"
-          label="Tipo de eventos"
-          key-name="name"
-          key-value="id"
-        />
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-4">
-      <div>
-        <InputRadio
-          v-model="form.type"
-          label="Quero atender..."
-          :options="[{id:1, name: 'Todos os produtos'}, {id: 2, name: 'Produto específicos'}]"
-          key-value="id"
-          key-name="name"
-          row
-        />
-      </div>
-      <div class="flex gap-2 items-center">
-        <Listbox
-          v-model="checkout.id"
-          variant="secondary"
-          label="Selecione a plataforma"
-          :options="platforms"
-          label-name="name"
-          key-name="id"
-          searchable
-        />
-
-        <TextField
-          v-if="form.type !== 1"
-          v-model="checkout.code"
-          label="Código"
-          variant="secondary"
-        />
-
-        <div
-          v-if="form.type !== 1"
-          class="flex items-end text-blue-500"
-        >
-          <Button
-            variant="link"
-            size="md"
-            radius="md"
-            @click="appendCheckout"
-          >
-            <PhPlus />
-            <span>Adicionar</span>
-          </Button>
+  <div>
+    <HeadPage
+      class="mb-10"
+      title="Nova Integração"
+    />
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <SelectField
+            :options="commisionTypes"
+            label="Tipo"
+            variant="secondary"
+          />
+  
+          <TextField
+            v-model="form.comission_value"
+            label="Comissão"
+            variant="secondary"
+          />
+        </div>
+        <div class="space-y-2v">
+          <LoadingText
+            v-if="loading.events"
+            text="Carregando transações..."
+          />
+  
+          <Checkbox
+            v-model="form.events"
+            :options="events"
+            label="Tipo de eventos"
+            key-name="name"
+            key-value="id"
+          />
+        </div>
+        <div class="flex flex-col gap-4">
+          <div>
+            <InputRadio
+              v-model="form.type"
+              label="Quero atender..."
+              :options="[{id:1, name: 'Todos os produtos'}, {id: 2, name: 'Produto específicos'}]"
+              key-value="id"
+              key-name="name"
+              row
+            />
+          </div>
+          <div class="flex gap-2 items-center">
+            <Listbox
+              v-model="checkout.id"
+              variant="secondary"
+              label="Selecione a plataforma"
+              :options="platforms"
+              label-name="name"
+              key-name="id"
+              searchable
+            />
+  
+            <TextField
+              v-if="form.type !== 1"
+              v-model="checkout.code"
+              label="Código"
+              variant="secondary"
+            />
+  
+            <div
+              v-if="form.type !== 1"
+              class="flex items-end text-blue-500"
+            >
+              <Button
+                variant="link"
+                size="md"
+                radius="md"
+                @click="appendCheckout"
+              >
+                <PhPlus />
+                <span>Adicionar</span>
+              </Button>
+            </div>
+          </div>
+  
+          <ListContainer class="mt-4 md:w-full">
+            <List
+              v-for="(checkout, index) in form.integrations"
+              :key="index"
+            >
+              <ListItem>{{ platformName(checkout.platform_id) }}</ListItem>
+              <ListItem>{{ checkout.product_code }}</ListItem>
+              <ListItem>
+                <button
+                  class="text-red-500 text-xs font-medium"
+                  @click="deleteCheckout(index)"
+                >
+                  Remover
+                </button>
+              </ListItem>
+            </List>
+          </ListContainer>
         </div>
       </div>
-
-      <ListContainer class="mt-4 md:w-full">
-        <List
-          v-for="(checkout, index) in form.integrations"
-          :key="index"
-        >
-          <ListItem>{{ platformName(checkout.platform_id) }}</ListItem>
-          <ListItem>{{ checkout.product_code }}</ListItem>
-          <ListItem>
-            <button
-              class="text-red-500 text-xs font-medium"
-              @click="deleteCheckout(index)"
-            >
-              Remover
-            </button>
-          </ListItem>
-        </List>
-      </ListContainer>
     </div>
   </div>
 </template>
@@ -116,6 +121,8 @@ import ListItem from '@/components/UI/List/ListItem.vue';
 import InputRadio from '@/components/UI/Form/Input/InputRadio/InputRadio.vue';
 import {createIntegration} from '@/core/services/api/products'
 import { IProduct } from '@/interfaces/IProduct';
+import HeadPage from '@/components/HeadPage.vue';
+import TitlePage from '@/components/UI/Layout/TitlePage.vue';
 
 const props = defineProps({
   product: {

@@ -1,5 +1,5 @@
 export interface UserData {
-  supervisor_id?:number;
+  supervisor_id:number|null;
   profile_id:number;
   name:string;
   email:string;

@@ -6,7 +6,7 @@
           Subtitulo
         </p>
         <span class="text-default text-xs">
-          {{ product?.abbreviation ?? '---' }}
+          ---
         </span>
       </div>
 
@@ -25,7 +25,7 @@
           Email: {{ product?.support_email ?? '---' }}
         </span>
         <span class="text-default text-xs block">
-          Telefone: {{ product?.support_tel ?? '---' }}
+          Telefone: {{ product?.support_phone ?? '---' }}
         </span>
       </div>
     </div>

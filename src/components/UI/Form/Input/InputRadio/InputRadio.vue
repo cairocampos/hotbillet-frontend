@@ -1,21 +1,37 @@
 <template>
-  <div class="flex space-x-2 items-center">
-    <input
-      :id="value"
-      type="radio"
-      :value="value"
-      name="radio"
-      @change="$emit('update:modelValue', value)"
+  <div>
+    <h3
+      class="text-gray-600 font-normal mb-2 label"
     >
-    <label
-      :for="value"
-      class="text-base"
-    >{{ label }}</label>
+      {{ label }}
+    </h3>
+    <div :class="row ? 'flex items-center gap-4' : ''">
+      <div
+        v-for="(option, index) in options"
+        :key="index"
+        class="flex space-x-2 items-center cursor-pointer"
+      >
+        <input
+          :id="`${hash}-${option[keyValue]}`"
+          type="radio"
+          :value="option[keyValue]"
+          name="radio"
+          :checked="selected == option[keyValue]"
+          @change="onChange(option)"
+        >
+        <label
+          :for="`${hash}-${option[keyValue]}`"
+          class="label"
+        >{{ option[keyName] }}</label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { computed } from '@vue/reactivity';
+import { defineComponent, getCurrentInstance, onMounted, PropType, ref } from 'vue';
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -27,14 +43,42 @@ export default defineComponent({
       required:false,
       default: ""
     },
-    value: {
-      type: String,
-      required:true
+    options: {
+      type: Array as PropType<any[]>,
+      required: true
     },
+    keyName: {
+      type: String,
+      default: "label"
+    },
+    keyValue: {
+      type: String,
+      default: "value"
+    },
+    row: {
+      type: Boolean,
+      default: false
+    }
   },
   emits:['update:modelValue'],
-  setup() {
-    //
+  setup(props, {emit}) {
+    const instance = getCurrentInstance();
+    const hash = computed(() => Date.now() +'-'+ instance?.uid)
+
+    const selected = ref()
+    const onChange = (option: any) => {
+      emit('update:modelValue', option[props.keyValue])
+    }
+
+    onMounted(() => {
+      selected.value = props.modelValue
+    })
+
+    return {
+      hash,
+      selected,
+      onChange
+    }
   }
 })
 </script>

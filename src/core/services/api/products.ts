@@ -1,3 +1,4 @@
+import { Integration } from "@/core/interfaces/Integration";
 import { CreateMessage } from "@/core/interfaces/Message";
 import { ProductCoupon, ProductEbook, ProductImage, ProductMedia, ProductMessage } from "@/core/interfaces/Product";
 import { IPagination } from "@/interfaces/IPagination";
@@ -23,3 +24,5 @@ export const fetchMessages = (product_id: number) => api.get<IPagination<Product
 export const createMessage = (product_id: number, data: CreateMessage) => api.post<ProductMessage>(`/products/${product_id}/messages`, data);
 export const updateMessage = (product_id: number, message_id:number, data: CreateMessage) => api.put<ProductMessage>(`/products/${product_id}/messages/${message_id}`, data);
 export const destroyMessage = (product_id: number, message_id:number) => api.delete(`/products/${product_id}/messages/${message_id}`);
+
+export const createIntegration = (product_id: number, data: any) => api.post<Integration>(`/products/${product_id}/integrations`, data)

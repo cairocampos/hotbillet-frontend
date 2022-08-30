@@ -128,7 +128,7 @@ const user = ref<UserData>({
   name: '',
   email:'',
   profile_id: Number(),
-  supervisor_id: Number(),
+  supervisor_id: null,
 });
 
 const getUser = async () => {
@@ -195,7 +195,7 @@ watch(() => user.value.profile_id, profile_id => {
     rules.supervisor_id = {}
   }
 
-  delete user.value.supervisor_id
+  // delete user.value.supervisor_id
 });
 
 onMounted(() => {

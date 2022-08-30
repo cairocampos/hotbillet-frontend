@@ -161,7 +161,7 @@ const onDelete = (index:number) => {
 }
 
 watch(optionSelected, () => {
-  const data = props.multiple ? optionSelected.value.map(item => item[props.keyValue]) : optionSelected.value[props.keyValue]
+  const data = props.multiple ? optionSelected.value.map((item: any) => item[props.keyValue]) : optionSelected.value[props.keyValue]
   if((Array.isArray(data) && data.length) || data[props.keyValue]) {
     emits('update:modelValue', data)
   }

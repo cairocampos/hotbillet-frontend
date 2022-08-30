@@ -110,7 +110,8 @@ const form = ref<IProductData>({
   support_email: "",
   support_phone: "",
   description: "",
-  status: 1
+  status: 1,
+  type_description: ""
 });
 
 const rules = reactive({
@@ -148,7 +149,8 @@ defineExpose({submit})
 const companiesConfig: AutocompleteConfig = {
   url: "/companies",
   processResults: (data) => {
-    const items = data.data.map(item => ({
+    const companies = data.data as any[]
+    const items = companies.map(item => ({
       id: item.id,
       text: item.name
     }));

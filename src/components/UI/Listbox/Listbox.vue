@@ -95,7 +95,7 @@ const props = defineProps({
     default: ""
   },
   modelValue: {
-    type: [String,Number],
+    type: [String,Number, null] as PropType<any>,
     required:true
   },
   searchable: {

@@ -176,7 +176,7 @@ const prepareForm = () => {
     })
 
   if(cover_id.value) {
-    formData.append('cover_id', cover_id.value);
+    formData.append('cover_id', String(cover_id.value));
   }
 
   return formData;

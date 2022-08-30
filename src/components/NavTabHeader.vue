@@ -19,16 +19,15 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from 'vue';
-import { ITab } from '../interfaces/ITab';
 
 export default defineComponent({
     props: {
         tabs: {
-          type: Array as PropType<ITab[]>,
+          type: Array as PropType<any[]>,
           required:true
         },
         tabActive: {
-          type: Object as PropType<ITab>,
+          type: Object as PropType<any>,
           required:true
         }
     },
@@ -39,7 +38,7 @@ export default defineComponent({
         }
     },
     methods: {
-        handleTab(tab: ITab){
+        handleTab(tab: any){
             this.$emit('update:tabActive', tab);
         }
     }
