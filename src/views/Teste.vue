@@ -1,15 +1,16 @@
 <template>
   <div class="m-12">
-    {{ company_id }}
+    {{ pokemons }}
     <div class="grid grid-cols-2 gap-8 items-center">
       <AppSelect
-        v-model="company_id"
+        v-model="pokemons"
         label="Empresa"
         :options="options"
         key-name="name"
         key-value="name"
         :server="true"
         :loading="loading"
+        :multiple="true"
         @load-more="fetchAPI()"
         @open="reset()"
         @search="fetchAPI($event)"
@@ -26,12 +27,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppSelect from '../components/UI/AppSelect/AppSelect.vue';
-import Select2 from '@/components/UI/Select2/Select2.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
-import { debounce } from '@/core/helpers';
 import axios from 'axios';
 
-const company_id = ref(4)
+const pokemons = ref([])
 const teste = ref('')
 const options = ref<{name:string}[]>([]);
 
@@ -41,6 +40,8 @@ const paginationProps = ref({
   currentPage: 1
 });
 const loading = ref(false)
+
+
 
 const fetchAPI = async (search = "") => {
   if(loading.value) return;

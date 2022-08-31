@@ -2,14 +2,26 @@
   <div
     ref="element"
     class="select"
+    tabindex="0"
   >
-    <!-- search - {{ search }} -->
     <label class="label text-gray-600 font-normal">{{ label }}</label>
     <div
       class="select__input"
       :data-value="search"
       @click="isOpen = !isOpen"
     >
+      <div
+        v-if="multiple && optionSelected?.length"
+        class="flex flex-wrap gap-1"
+      >
+        <Tag
+          v-for="(item, index) in optionSelected"
+          :key="index"
+          @on-delete="onDelete(index)"
+        >
+          {{ item?.[keyName] }}
+        </Tag>
+      </div>
       <input
         ref="input"
         type="text"
@@ -18,8 +30,9 @@
         :value="search"
         @input="onInput"
         @keydown="onKeydown"
+        @blur="onBlur"
       />
-      <span v-if="!search">{{ selected?.[keyName] }}</span>
+      <span v-if="!search">{{ optionSelected?.[keyName] }}</span>
     </div>
 
     <div
@@ -31,17 +44,18 @@
       <div
         v-for="(option, index) in filteredOptions"
         :key="option[keyValue]"
+        :ref="el => {option_index[index] = el}"
         :class="[
           'select__item',
           {
-            active: selected?.[keyValue] == option[keyValue],
+            active: optionSelected?.[keyValue] == option[keyValue],
             'bg-gray-100': arrowCounter === index
           }
         ]"
         @click="onSelect(index)"
       >
         <span v-html="option?.highlight || option[keyName]"></span>
-        <span v-if="selected?.[keyValue] == option[keyValue]">
+        <span v-if="isSelected(option)">
           <PhCheck size="20" />
         </span>
       </div>
@@ -54,24 +68,25 @@
       </div>
       <div
         v-if="!filteredOptions.length"
-        class="p-4 text-sm"
+        class="p-4 text-xs"
       >
-        Nenhum registro encontrado para "{{ search }}"
+        Nenhum registro encontrado para <span class="font-semibold">"{{ search }}"</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, getCurrentInstance, onBeforeUnmount, onMounted, PropType, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, PropType, ref, toRefs, watch } from 'vue';
 import { PhCheck } from 'phosphor-vue';
 import {delay} from '@/core/helpers'
 import Spinner from '../Spinner/Spinner.vue';
+import Tag from '../Tag/Tag.vue';
 
 const emit = defineEmits(['update:modelValue', 'loadMore', 'open', 'search']);
 const props = defineProps({
   modelValue: {
-    type: [Number, String],
+    type: [Number, String, Array, null] as PropType<any|null|any[]>,
     required:true
   },
   label: {
@@ -105,10 +120,18 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  selected: {
+    type: Object,
+    default: null
+  },
+  multiple: {
+    type: Boolean,
+    default: false
   }
 });
 
-const selected = ref<any>();
+const optionSelected = ref<any|any[]>();
 const isOpen = ref(false);
 const element = ref<HTMLElement>();
 const input = ref<HTMLInputElement>()
@@ -127,14 +150,40 @@ const filteredOptions = computed(() => {
         highlight: option[props.keyName].replace(match, `<span class="text-black">${search.value}</span>`)
       }
     })
-})
+});
+
+const setOptionSelected = (option: any) => {
+  if(props.multiple) {
+    optionSelected.value.push(Array.isArray(option) ? [...option] : option)
+    return
+  }
+  optionSelected.value = option;
+}
+
+const isSelected = (option: any) => {
+  if(props.multiple) {
+    return optionSelected.value
+      .map((item: any) => item[props.keyValue])
+      .includes(option?.[props.keyValue])
+  } else {
+    return optionSelected.value?.[props.keyValue] == option[props.keyValue]
+  }
+}
+const emitOption = () => {
+  if(props.multiple) {
+    emit('update:modelValue', optionSelected.value.map((item: any) => item?.[props.keyValue]));
+    return;
+  }
+
+  emit('update:modelValue', props.options.find((item: any) => item?.[props.keyValue])?.[props.keyValue]);
+}
 
 const onSelect = (index: number) => {
   const selectedOption = filteredOptions.value[index];
   if(!selectedOption) return;
-  selected.value = selectedOption;
+  setOptionSelected(selectedOption);
   search.value = ""
-  emit('update:modelValue', props.options.find(option => option[props.keyValue] == selectedOption[props.keyValue])?.[props.keyValue])
+  emitOption();
   isOpen.value = false;
 }
 
@@ -156,12 +205,38 @@ const onArrowDown = () => {
   if(!isOpen.value) isOpen.value = true;
   if(arrowCounter.value < filteredOptions.value.length) {
     arrowCounter.value++
+    fixScrolling()
   }
 }
 const onArrowUp = () => {
   if(arrowCounter.value > 0) {
     arrowCounter.value--
+    fixScrolling()
   }
+}
+
+const onEsc = () => {
+  isOpen.value = false;
+  input.value?.blur();
+}
+
+const onBlur = ({relatedTarget}: FocusEvent) => {
+  const target = relatedTarget as HTMLElement;
+  if(target && target.classList.contains('select')) {
+    return false;
+  }
+  isOpen.value = false;
+}
+
+const option_index = ref<any[]>([]);
+const fixScrolling = () => {
+  const element = option_index.value[arrowCounter.value];
+  if(!element) return;
+  element.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+    inline: 'start'
+  });
 }
 
 const onKeydown = (event: KeyboardEvent) => {
@@ -179,15 +254,28 @@ const onKeydown = (event: KeyboardEvent) => {
       onArrowUp();
       break;
     case "Escape":
-      isOpen.value = false;
-      console.log('opa')
+      onEsc()
       break;
   }
 }
 
+const onDelete = (index:number) => {
+  optionSelected.value.splice(index, 1)
+  emitOption();
+}
+
 const checkProps = () => {
-  if(!selected.value) {
-    selected.value = props.options.find(item => item[props.keyValue] === props.modelValue)
+  if(props.multiple) {
+    if(Array.isArray(props.modelValue) && props.modelValue.length && !optionSelected.value.length) {
+      const refs: any[] = props.modelValue;
+      const items = props.options.filter(item => refs.includes(item[props.keyValue]))
+      if(!items.length) return;
+      setOptionSelected([...items]);
+    }
+  } else {
+    if(!optionSelected.value) {
+      setOptionSelected(props.options.find(item => item[props.keyValue] === props.modelValue))
+    }
   }
 }
 
@@ -205,7 +293,14 @@ const onScroll = (event: Event) => {
   }
 }
 
-watch(() => props.options, () => checkProps());
+const {options, selected} = toRefs(props)
+watch(() => [...options.value], () => checkProps());
+watch(selected, () => {
+  if(props.selected && props.selected[props.keyName]) {
+    setOptionSelected(props.selected)
+    return;
+  }
+})
 watch(isOpen, val => {
   if(val) {
     arrowCounter.value = 0;
@@ -216,11 +311,6 @@ watch(isOpen, val => {
   }
 });
 
-onMounted(() => {
-  if(!props.modelValue && props.options.length) return;
-  checkProps();
-})
-
 const clickOutsideElement = (event: Event) => {
   // @ts-ignore
   if(!element.value?.contains(event.target)) {
@@ -229,6 +319,12 @@ const clickOutsideElement = (event: Event) => {
 }
 onMounted(() => {
   document.addEventListener('click', clickOutsideElement);
+  if(props.multiple) {
+    optionSelected.value = []
+  }
+
+  if(!props.modelValue && props.options.length) return;
+  checkProps();
 })
 
 onBeforeUnmount(() => {

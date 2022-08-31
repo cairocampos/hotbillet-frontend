@@ -80,7 +80,7 @@ import Loading from '@/components/UI/Loading/Loading.vue';
 import {ProductImage} from '@/core/interfaces/Product'
 import { fetchImages } from '@/core/services/api/products'
 import {generateId} from '@/core/helpers'
-import ButtonClose from "@/components/global/ButtonClose.vue";
+// import ButtonClose from "@/components/global/ButtonClose.vue";
 import Spinner from "@/components/UI/Spinner/Spinner.vue";
 
 const props = defineProps({
