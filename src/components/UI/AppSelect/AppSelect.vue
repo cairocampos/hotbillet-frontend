@@ -1,18 +1,33 @@
 <template>
   <div
     ref="element"
-    class="select"
+    class="select flex flex-col"
     tabindex="0"
   >
-    <label class="label text-gray-600 font-normal">{{ label }}</label>
+    <label class="label text-gray-600 font-normal">
+      {{ label }}
+      <span
+        v-if="multiple && options.length"
+        class="ml-2 text-xs cursor-pointer"
+      >
+        <span
+          v-if="options.length === optionSelected?.length"
+          class="text-red-500"
+          @click="onClear()"
+        >Limpar</span>
+        <span
+          v-else
+          class="text-blue-500"
+          @click="onSelectAll()"
+        >Todos</span>
+      </span>
+    </label>
     <div
       class="select__input"
-      :data-value="search"
       @click="isOpen = !isOpen"
     >
-      <div
+      <template
         v-if="multiple && optionSelected?.length"
-        class="flex flex-wrap gap-1"
       >
         <Tag
           v-for="(item, index) in optionSelected"
@@ -21,18 +36,22 @@
         >
           {{ item?.[keyName] }}
         </Tag>
-      </div>
-      <input
-        ref="input"
-        type="text"
+      </template>
+      <div
+        class="select__content"
         :data-value="search"
-        :placeholder="placeholder"
-        :value="search"
-        @input="onInput"
-        @keydown="onKeydown"
-        @blur="onBlur"
-      />
-      <span v-if="!search">{{ optionSelected?.[keyName] }}</span>
+      >
+        <input
+          ref="input"
+          type="text"
+          :data-value="search"
+          :value="search"
+          @input="onInput"
+          @keydown="onKeydown"
+          @blur="onBlur"
+        />
+        <span v-if="!search">{{ optionSelected?.[keyName] }}</span>
+      </div>
     </div>
 
     <div
@@ -228,6 +247,16 @@ const onBlur = ({relatedTarget}: FocusEvent) => {
   isOpen.value = false;
 }
 
+const onSelectAll = () => {
+  optionSelected.value = props.options;
+  emitOption();
+}
+
+const onClear = () => {
+  optionSelected.value = [];
+  emitOption();
+}
+
 const option_index = ref<any[]>([]);
 const fixScrolling = () => {
   const element = option_index.value[arrowCounter.value];
@@ -337,16 +366,40 @@ onBeforeUnmount(() => {
 .select {
   @apply relative flex flex-col gap-2 min-w-[200px];
   &__input {
-    @apply border-b border-b-zinc-300 hover:border-b-zinc-500 transition-colors px-2 pt-2 pb-1 bg-transparent outline-none w-full;
-      flex: 1 1 auto;
-      margin: 2px;
-      visibility: visible;
-      color: rgb(51, 51, 51);
-      flex: 1 1 auto;
-      display: inline-grid;
-      grid-area: 1 / 1 / 2 / 3;
-      grid-template-columns: 0px min-content;
-      box-sizing: border-box;
+    @apply border-b border-b-zinc-300 hover:border-b-zinc-500 transition-colors px-2 pt-2 pb-1 bg-transparent outline-none w-full flex gap-2 flex-wrap max-h-[100px] overflow-y-auto relative;
+      // flex: 1 1 auto;
+      // margin: 2px;
+      // visibility: visible;
+      // color: rgb(51, 51, 51);
+      // flex: 1 1 auto;
+      // display: inline-grid;
+      // grid-area: 1 / 1 / 2 / 3;
+      // grid-template-columns: 0px min-content;
+      // box-sizing: border-box;
+    // input {
+    //   color: inherit;
+    //   background: 0px center;
+    //   opacity: 1;
+    //   width: 100%;
+    //   grid-area: 1 / 2 / auto / auto;
+    //   font: inherit;
+    //   min-width: 2px;
+    //   border: 0px;
+    //   margin: 0px;
+    //   outline: 0px;
+    //   padding: 0px;
+    // }
+  }
+  &__content {
+    flex: 1 1 auto;
+    margin: 2px;
+    visibility: visible;
+    color: rgb(51, 51, 51);
+    flex: 1 1 auto;
+    display: inline-grid;
+    grid-area: 1 / 1 / 2 / 3;
+    grid-template-columns: 0px min-content;
+    box-sizing: border-box;
     input {
       color: inherit;
       background: 0px center;
@@ -374,7 +427,8 @@ onBeforeUnmount(() => {
     }
   }
   &__options {
-    @apply bg-white shadow-sm rounded-md absolute w-full top-20 max-h-[250px] overflow-y-auto;
+    @apply bg-white shadow-sm rounded-md absolute w-full max-h-[250px] overflow-y-auto;
+    top: calc(100% + 12px);
   }
   &__item {
     @apply flex items-center gap-2 p-2 text-zinc-500 hover:bg-zinc-100 transition-colors cursor-pointer;
