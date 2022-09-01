@@ -14,7 +14,7 @@
 
 <script lang='ts' setup>
 import HeadPage from '@/components/HeadPage.vue'
-import { useAuthStore } from '@/store/modules/auth';
+import { useAuthStore } from '@/core/store/modules/auth';
 const store = useAuthStore();
 </script>
 

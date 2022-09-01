@@ -1,6 +1,5 @@
-import { computed, reactive, ref } from "vue";
-import { Data, Option, Result, Rule, Rules, UnknownObject } from "vue-tiny-validate";
-import { FORM } from '../constants/messages'
+import { ref } from "vue";
+import { Data, Option, Result, Rule, Rules } from "vue-tiny-validate";
 
 type Teste = Record<string, string>;
 
@@ -124,7 +123,7 @@ export function useFormHandler(): IComposition {
     return {
       name: "required",
       test: (field:string) => Boolean(field),
-      message: FORM.REQUIRED
+      message: "Campo obrigatório"
     }
   }
 

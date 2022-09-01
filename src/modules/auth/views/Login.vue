@@ -127,15 +127,9 @@
 import { useRouter } from "vue-router";
 import { defineComponent } from "@vue/runtime-core";
 import { ref } from "vue";
-import { api } from "../../../services";
+import { api } from "@/core/services/api/base";
 import Button from "@/components/UI/Button/Button.vue";
-import { useAuthStore, Auth } from "@/store/modules/auth";
-
-interface ILogin {
-  token_access: string;
-  token_refresh: string;
-}
-
+import { useAuthStore, Auth } from "@/core/store/modules/auth";
 export default defineComponent({
   name: "Login",
   components: { Button },

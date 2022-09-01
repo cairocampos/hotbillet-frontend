@@ -48,8 +48,8 @@
 
 <script lang='ts'>
 import Container from '@/components/UI/Layout/Container.vue';
-import useNotifications from '@/composables/useNotifications';
-import { api } from '@/services/api';
+import useNotifications from '@/core/composables/useNotifications';
+import { api } from '@/core/services/api/base';
 import { defineComponent, onMounted, ref } from 'vue';
 import { ICompany } from '../interfaces/ICompany';
 import RouteBack from '@/components/RouteBack.vue';

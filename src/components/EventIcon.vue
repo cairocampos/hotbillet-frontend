@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { EVENTS } from '@/constants'
+import { EVENTS } from '@/core/constants'
 import { computed } from 'vue';
 
 const props  = defineProps({

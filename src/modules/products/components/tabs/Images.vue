@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import { ProductImage } from '@/core/interfaces/Product';
 import { fetchImages } from '@/core/services/api/products'
 import { IProduct } from '@/interfaces/IProduct';

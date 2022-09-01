@@ -96,8 +96,8 @@
 import { ref } from 'vue';
 import { onMounted, PropType, toRefs } from "vue";
 import { IProduct, IProductLink } from '@/interfaces/IProduct';
-import { api } from '@/services/api';
-import useNotifications from '@/composables/useNotifications';
+import { api } from '@/core/services/api/base';
+import useNotifications from '@/core/composables/useNotifications';
 import { PhPlus } from 'phosphor-vue'
 import Modal from '@/components/UI/Modal/Modal.vue';
 import Loading from '@/components/UI/Loading/Loading.vue';

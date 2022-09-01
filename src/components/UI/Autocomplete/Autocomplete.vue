@@ -46,7 +46,7 @@ import { PhCaretUp, PhCaretDown } from 'phosphor-vue'
 import { onMounted, PropType, ref, toRefs, watch } from 'vue';
 import SelectOptions from './AutocompleteOptions.vue';
 import SelectItem from './OptionItem.vue';
-import { api } from '@/services/api';
+import { api } from '@/core/services/api/base';
 export type Result = {
   id: string | number;
   text: string;

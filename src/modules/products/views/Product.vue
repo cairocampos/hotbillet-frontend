@@ -93,8 +93,8 @@ import NavTabHeader from '@/components/NavTabHeader.vue';
 
 import RouteBack from '@/components/RouteBack.vue'
 import { IProduct } from "@/interfaces/IProduct";
-import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services/api";
+import useNotifications from "@/core/composables/useNotifications";
+import { api } from "@/core/services/api/base";
 import Loading from "@/components/UI/Loading/Loading.vue";
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";

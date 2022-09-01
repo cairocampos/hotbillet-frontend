@@ -51,10 +51,10 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import Datatable from "@/components/UI/Datatable/Datatable.vue";
-import useLoading from "@/composables/useLoading";
-import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services/api";
-import { IHeader } from "@/interfaces/IDatatable";
+import useLoading from "@/core/composables/useLoading";
+import useNotifications from "@/core/composables/useNotifications";
+import { api } from "@/core/services/api/base";
+import { Header } from "@/core/interfaces/Datatable";
 import Tabs from "@/components/UI/Tabs/Tabs.vue";
 import Tab from "@/components/UI/Tabs/Tab.vue";
 import ButtonActions from "../components/ButtonActions.vue";
@@ -64,7 +64,7 @@ import Loading from '@/components/UI/Loading/Loading.vue';
 import Button from "@/components/UI/Button/Button.vue";
 import HeadPage from "@/components/HeadPage.vue";
 import { PhArrowRight } from 'phosphor-vue'
-import { IPagination } from "@/interfaces/IPagination";
+import { Pagination } from "@/core/interfaces/Pagination";
 export default defineComponent({
   components: {
     Datatable,
@@ -85,7 +85,7 @@ export default defineComponent({
     const companies = ref<ICompanyMetrics[]>([]);
     const showFilters = ref(false);
 
-    const headers = computed<IHeader[]>(() => [
+    const headers = computed<Header[]>(() => [
       {
         text: "Empresa",
         value: "name",
@@ -109,7 +109,7 @@ export default defineComponent({
     const fetchCompanies = async () => {
       try {
         loading.value.primary = true;
-        const { data: { data } } = await api.get<IPagination<ICompanyMetrics[]>>(
+        const { data: { data } } = await api.get<Pagination<ICompanyMetrics[]>>(
           `/companies`,
           {
             params: {

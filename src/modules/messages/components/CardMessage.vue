@@ -85,7 +85,7 @@
 <script setup lang="ts">
 import { Message } from '@/core/interfaces/Message';
 import { computed, PropType } from 'vue';
-import useFallbackImage from '@/composables/useFallbackImage';
+import useFallbackImage from '@/core/composables/useFallbackImage';
 import EventIcon from '../../../components/EventIcon.vue'
 
 const emit = defineEmits(['click', 'edit'])

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-// import { auth } from "@/services/api";
+// import { auth } from "@/core/services/api/base";
 // import { useDefaultStore } from "@/store";
 
 //routes
@@ -17,7 +17,7 @@ import { integrationsRoutes } from "../modules/integrations/router";
 import Teste from '@/views/Teste.vue'
 import NotFoundComponent from '@/views/404.vue'
 // import { useDefaultStore } from "../store";
-import { auth } from "../services";
+// import { auth } from "../services";
 
 const routes: Array<RouteRecordRaw> = [
   ...authRoutes,

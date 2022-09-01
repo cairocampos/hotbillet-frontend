@@ -1,3 +1,3 @@
-export type IOption = {
+export type Option = {
   [key: string]: string;
 };

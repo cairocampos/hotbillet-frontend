@@ -1,1 +1,0 @@
-export type ISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'

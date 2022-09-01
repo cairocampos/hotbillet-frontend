@@ -1,6 +1,12 @@
 import { Result } from 'vue-tiny-validate'
-import {FORM} from '../constants/messages'
-import {isValidURL, isEmail} from './index'
+import {isValidURL, isEmail, isCpfOrCnpj} from './validations'
+
+const FORM = {
+  REQUIRED: "Campo obrigatório",
+  CPF_CNPJ_INVALID: "Documento inválido",
+  EMAIL_INVALID: "Email inválido",
+  INVALID: "Campo inválido"
+};
 
 export const getInputError = (key: string, result: Result): string => {
   if (result[key]) {
@@ -18,11 +24,11 @@ export const testInput = (key: string, result: Result): void => {
   }
 };
 
-export const requiredField = () => {
+export const requiredField = (message = "") => {
   return {
     name: "required",
     test: (field:string) => Boolean(field),
-    message: FORM.REQUIRED,
+    message: message || FORM.REQUIRED,
     required:true
   }
 }
@@ -31,7 +37,7 @@ export const validateUrl = () => {
   return {
     name: "valid",
     test: (field:string) => isValidURL(field),
-    message: FORM.INVALID
+    message: "Link inválido"
   }
 }
 
@@ -39,6 +45,14 @@ export const validateEmail = () => {
   return {
     name: "email",
     test: (field:string) => isEmail(field),
+    message: FORM.EMAIL_INVALID
+  }
+}
+
+export const validateCnpj = () => {
+  return {
+    name: "email",
+    test: (field:string) => isCpfOrCnpj(field),
     message: FORM.EMAIL_INVALID
   }
 }

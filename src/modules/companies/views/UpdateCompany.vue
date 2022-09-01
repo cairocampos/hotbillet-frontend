@@ -16,18 +16,18 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref } from "@vue/runtime-core";
-import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services/api";
+import useNotifications from "@/core/composables/useNotifications";
+import { api } from "@/core/services/api/base";
 import Container from "@/components/UI/Layout/Container.vue";
 import { ICompany } from "../interfaces/ICompany";
 import { useRouter } from "vue-router";
 import useValidate from 'vue-tiny-validate'
-import {createCompanyRules} from '../validate'
 import FormCompany from "../components/FormCompany.vue";
 import Loading from "@/components/UI/Loading/Loading.vue";
-import useLoading from "@/composables/useLoading";
+import useLoading from "@/core/composables/useLoading";
 import RouteBack from "@/components/RouteBack.vue";
 import HeadPage from "@/components/HeadPage.vue";
+import { requiredField, validateCnpj, validateEmail } from "@/core/helpers/formValidation";
 export default defineComponent({
   components: {
     Container,
@@ -66,7 +66,12 @@ export default defineComponent({
       }
     }
 
-    const rules = reactive(createCompanyRules);
+    const rules = reactive({
+      name: [requiredField()],
+      cnpj: [requiredField(), validateCnpj()],
+      support_phone: [requiredField()],
+      support_email: [requiredField(), validateEmail()],
+    });
     const { result } = useValidate(company, rules);
 
     const updateCompany = async () => {

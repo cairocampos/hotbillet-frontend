@@ -75,13 +75,13 @@
 </template>
 
 <script lang='ts' setup>
-import useModal from '@/composables/useModal';
+import useModal from '@/core/composables/useModal';
 import { Message } from '@/core/interfaces/Message';
 import { onMounted, PropType, ref, watch } from 'vue';
 import Button from '@/components/UI/Button/Button.vue';
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import {destroyMessage} from '@/core/services/api/products'
-import useAlert from '@/composables/useAlert'
+import useAlert from '@/core/composables/useAlert'
 import EventIcon from '@/components/EventIcon.vue';
 import Modal from '@/components/UI/Modal/Modal.vue';
 

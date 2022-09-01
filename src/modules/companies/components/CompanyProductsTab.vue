@@ -43,8 +43,8 @@ import Heading from '@/components/UI/Layout/Heading.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import CardProduto from '@/modules/products/components/CardProduto.vue';
 import { IProductData } from '@/interfaces/IProduct';
-import { api } from '@/services/api';
-import useNotifications from '@/composables/useNotifications';
+import { api } from '@/core/services/api/base';
+import useNotifications from '@/core/composables/useNotifications';
 import NoRecords from '@/components/NoRecords.vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
 export default defineComponent({

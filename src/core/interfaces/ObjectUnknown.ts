@@ -1,3 +1,3 @@
-export type IObjectUnknown = {
+export interface ObjectUnknown {
   [key: string]: string | number | { [key: string]: string };
-};
+}

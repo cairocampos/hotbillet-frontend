@@ -61,24 +61,23 @@
 </template>
 
 <script setup lang="ts">
-import useConstants from "@/composables/useConstants";
-import useNotifications from "@/composables/useNotifications";
-import { IProduct, IProductLink } from "@/interfaces/IProduct"
-import { api } from "@/services/api";
-import { computed, defineComponent, onMounted, PropType, ref, toRefs, Suspense } from "vue"
+import useNotifications from "@/core/composables/useNotifications";
+import { Product, ProductLink } from "@/core/interfaces/Product"
+import { api } from "@/core/services/api/base";
+import { onMounted, PropType, ref, Suspense } from "vue"
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 });
 
 const { notifications } = useNotifications();
-const links = ref<IProductLink[]>([])
+const links = ref<ProductLink[]>([])
 const fetchProductLinks = async () => {
   try {
-    const { data } = await api.get<IProductLink[]>(`/products/${props.product.id}/links`)
+    const { data } = await api.get<ProductLink[]>(`/products/${props.product.id}/links`)
     links.value = data
   } catch (error) {
     notifications.error(error)

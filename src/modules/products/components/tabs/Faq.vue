@@ -74,8 +74,8 @@
 import { IProduct, IProductFaq } from '@/interfaces/IProduct';
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import Text from '@/components/UI/Layout/Text.vue';
-import { api } from '@/services/api';
-import useNotifications from '@/composables/useNotifications';
+import { api } from '@/core/services/api/base';
+import useNotifications from '@/core/composables/useNotifications';
 import Loading from "@/components/UI/Loading/Loading.vue";
 
 const props = defineProps({

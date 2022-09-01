@@ -4,8 +4,12 @@
     class="select flex flex-col"
     tabindex="0"
   >
-    <label class="label text-gray-600 font-normal">
+    <label class="label">
       {{ label }}
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
       <span
         v-if="multiple && options.length"
         class="ml-2 text-xs cursor-pointer"
@@ -86,7 +90,7 @@
         <span>Carregando...</span>
       </div>
       <div
-        v-if="!filteredOptions.length"
+        v-if="!filteredOptions.length && !loading"
         class="p-4 text-xs"
       >
         Nenhum registro encontrado para <span class="font-semibold">"{{ search }}"</span>
@@ -98,7 +102,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, PropType, ref, toRefs, watch } from 'vue';
 import { PhCheck } from 'phosphor-vue';
-import {delay} from '@/core/helpers'
 import Spinner from '../Spinner/Spinner.vue';
 import Tag from '../Tag/Tag.vue';
 
@@ -126,11 +129,11 @@ const props = defineProps({
   },
   keyName: {
     type: String,
-    default: "label"
+    default: "name"
   },
   keyValue: {
     type: String,
-    default: "value"
+    default: "id"
   },
   server: {
     type: Boolean,
@@ -145,6 +148,10 @@ const props = defineProps({
     default: null
   },
   multiple: {
+    type: Boolean,
+    default: false
+  },
+  required: {
     type: Boolean,
     default: false
   }
@@ -194,7 +201,8 @@ const emitOption = () => {
     return;
   }
 
-  emit('update:modelValue', props.options.find((item: any) => item?.[props.keyValue])?.[props.keyValue]);
+  emit('update:modelValue', props.options
+    .find((item: any) => item?.[props.keyValue] === optionSelected.value?.[props.keyValue])?.[props.keyValue]);
 }
 
 const onSelect = (index: number) => {
@@ -206,11 +214,13 @@ const onSelect = (index: number) => {
   isOpen.value = false;
 }
 
+let timeout = setTimeout(() => null);
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   search.value = target.value
   if(search.value.length >= 3 && props.server) {
-    delay(() => emit('search', search.value));
+    clearTimeout(timeout)
+    timeout = setTimeout(() => emit('search', search.value), 300)
   } else {
     isOpen.value = true;
   }
@@ -308,6 +318,7 @@ const checkProps = () => {
   }
 }
 
+
 const onScroll = (event: Event) => {
   if(!props.server) return;
   const target = event.target as HTMLElement;
@@ -318,7 +329,8 @@ const onScroll = (event: Event) => {
   } = target;
 
   if((scrollTop + offsetHeight) > (scrollHeight - 100)) {
-    delay(() => emit('loadMore'));
+    clearTimeout(timeout)
+    timeout = setTimeout(() => emit('loadMore'), 300)
   }
 }
 
@@ -427,7 +439,7 @@ onBeforeUnmount(() => {
     }
   }
   &__options {
-    @apply bg-white shadow-sm rounded-md absolute w-full max-h-[250px] overflow-y-auto;
+    @apply bg-white shadow-md rounded-md absolute w-full max-h-[250px] overflow-y-auto z-10;
     top: calc(100% + 12px);
   }
   &__item {

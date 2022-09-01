@@ -25,7 +25,7 @@
 import { IProduct } from '@/interfaces/IProduct';
 import { onMounted, PropType, ref } from 'vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import {fetchCoupons} from '@/core/services/api/products'
 import NoRecords from '@/components/NoRecords.vue';
 import { ProductCoupon } from '@/core/interfaces/Product'

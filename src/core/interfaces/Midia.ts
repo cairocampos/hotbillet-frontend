@@ -1,0 +1,1 @@
+export type MidiaTypes = 'THUMBNAIL' | 'IMAGE' | 'VIDEO' | 'EBOOK';

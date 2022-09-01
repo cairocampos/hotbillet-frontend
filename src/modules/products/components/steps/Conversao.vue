@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, PropType, ref } from 'vue';
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import Checkbox from '@/components/UI/Form/Input/Checkbox/Checkbox.vue';

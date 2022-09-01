@@ -78,21 +78,19 @@
 <script lang="ts">
 import TitlePage from '@/components/TitlePage.vue';
 import HeadContent from '@/components/HeadContent.vue';
-
 import {computed, defineComponent, onMounted, ref} from 'vue';
-import { IUserData } from '@/interfaces/IUser';
-import { api } from '@/services/api';
-import { useDateTime } from '@/composables/useDateTime';
-import { IHeader } from '@/interfaces/IDatatable';
+import { UserData } from '@/core/interfaces/User';
+import { useDateTime } from '@/core/composables/useDateTime';
+import { Header } from '@/core/interfaces/Datatable';
 import Datatable from '@/components/UI/Datatable/Datatable.vue';
-import useHelpers from '@/composables/useHelpers'
-import useConstants from '@/composables/useConstants';
+import {STATUS} from '@/core/constants';
 import Button from '@/components/UI/Button/Button.vue';
 import NoRecords from '@/components/NoRecords.vue';
 import {PhFingerprint,PhArrowRight} from 'phosphor-vue'
-import { IPagination } from '@/interfaces/IPagination';
 import HeadPage from '@/components/HeadPage.vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
+import {fetchUsers} from '@/core/services/api/users'
+import { ucword } from '@/core/helpers'
 
 export default defineComponent({
   components: {
@@ -109,10 +107,8 @@ export default defineComponent({
   setup() {
     const loading = ref(false);
     const { formatDateTimeISO } = useDateTime();
-    const users = ref<IUserData[]>()
-    const { ucword } = useHelpers()
-    const { STATUS } = useConstants()
-    const headers = computed<IHeader[]>(() => {
+    const users = ref<UserData[]>()
+    const headers = computed<Header[]>(() => {
       return [
         {
           text: "Nome",
@@ -141,10 +137,10 @@ export default defineComponent({
       ];
     })
 
-    const fetchUsers = async () => {
+    const getUsers = async () => {
       try {
         loading.value = true;
-        const response = await api.get<IPagination<IUserData[]>>('/users')
+        const response = await fetchUsers()
         users.value = response.data.data;
       } catch (error) {
         console.log(error)
@@ -154,7 +150,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      fetchUsers();
+      getUsers();
     })
 
     return {

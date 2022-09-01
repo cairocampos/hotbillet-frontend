@@ -101,7 +101,7 @@ import { fetchLeads } from "@/core/services/api/leads";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import {Lead} from '@/core/interfaces/Lead'
-import {firstName} from '@/helpers'
+import {firstName} from '@/core/helpers'
 const router = useRouter();
 
 const leads = ref<Lead[]>([])

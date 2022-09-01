@@ -50,7 +50,7 @@ import { useRoute } from "vue-router";
 import Alert from "./components/Alert.vue";
 
 import Notify from "./components/Notify.vue";
-import { useAuthStore } from "./store/modules/auth";
+import { useAuthStore } from "@/core/store/modules/auth";
 
 export default defineComponent({
   components: {

@@ -1,4 +1,4 @@
-import { requiredField, validateEmail } from '@/helpers/formValidation'
+import { requiredField, validateEmail } from '@/core/helpers/formValidation'
 export const userFormRequest = {
   email: [requiredField(), validateEmail()],
   name: requiredField(),

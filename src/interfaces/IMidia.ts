@@ -1,1 +1,0 @@
-export type IMidiaTypes = 'THUMBNAIL' | 'IMAGE' | 'VIDEO' | 'EBOOK';

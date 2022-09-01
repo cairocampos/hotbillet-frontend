@@ -3,94 +3,55 @@
     <div class="space-y-12">
       <TextField
         v-model="form.name"
-        variant="secondary"
         label="Nome do Produto"
       />
-      <!-- <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Nome do Produto</label>
-        <input
-          v-model="form.name"
-          type="text"
-          class="form-control form-control-line"
-        />
-      </div> -->
-      <!-- <div class="form-group">
-        <label
-          for=""
-          class="label"
-        >Empresa</label>
-        <input
-          v-model="form.company_id"
-          type="text"
-          class="form-control form-control-line"
-        />
-      </div> -->
-      <!-- <div class="form-group">
-        <label class="label">
-          Empresa
-        </label>
-        <AppSelect
-          v-model="form.company_id"
-          type="line"
-          :options="[{ label: 'Hotbillet', value: 1 }]"
-        />
-      </div> -->
-      <Autocomplete
+      <AppSelect
         v-model="form.company_id"
-        :config="companiesConfig"
+        :options="companies"
         label="Empresa"
+        required
+        :server="true"
+        :loading="loadingCompany"
         :selected="companySelected"
+        @open="getCompanies()"
+        @load-more="nextPage(() => getCompanies())"
+        @search="getCompanies($event)"
       />
       <TextField
         v-model="form.url"
         label="Link do Produto"
-        variant="secondary"
         placeholder="Cole aqui a URL da página do produto"
       />
-      <Listbox
+      <AppSelect
         v-model="form.type"
-        :options="Object.entries(PRODUCT_TYPE).map(([label,value]) => ({label, value}))"
-        label="Tipo de Produto"
+        label="Tipo do produto"
+        required
+        :options="Object.entries(PRODUCT_TYPE).map(([key,value]) => ({name: key, id: value}))"
       />
     </div>
 
     <div class="mt-10 md:mt-0 space-y-12">
-      <div class="form-group">
-        <label class="label">Contato do Suporte</label>
-        <div class="input-group input-group-line">
-          <div class="input-prepend mr-2">
-            <span class="text-default">
-              Telefone:
-            </span>
-          </div>
-          <input
-            v-model="form.support_phone"
-            v-maska="'(##) #####-####'"
-            type="text"
-            placeholder="(xx) xxxxx-xxxx"
-            class="bg-transparent outline-none"
-          >
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="label"></label>
-        <div class="input-group input-group-line">
-          <div class="input-prepend mr-2">
-            <span class="text-default">
-              Email:
-            </span>
-          </div>
-          <input
-            v-model="form.support_email"
-            type="text"
-            placeholder="suporte@suporte.com"
-            class="bg-transparent outline-none"
-          >
-        </div>
-      </div>
+      <TextField
+        v-model="form.support_phone"
+        label="Contato do suporte"
+        placeholder="(XX) X XXXX-XXXX"
+        mask="(##) # ####-####"
+        :validator="{result, field: 'support_phone'}"
+      >
+        <template #left>
+          <span>Telefone:</span>
+        </template>
+      </TextField>
+      <TextField
+        v-model="form.support_email"
+        label="Email do suporte"
+        placeholder="suporte@contato.com"
+        :validator="{result, field: 'support_email'}"
+      >
+        <template #left>
+          <span>Email:</span>
+        </template>
+      </TextField>
       <div class="form-group">
         <label
           for=""
@@ -108,23 +69,24 @@
 </template>
 
 <script lang="ts">
-import useConstants from "@/composables/useConstants";
-import useNotifications from "@/composables/useNotifications";
-import { IProduct, IProductData } from "@/interfaces/IProduct";
-import { api } from "@/services/api";
+import {PRODUCT_TYPE, STATUS} from '@/core/constants'
+import useNotifications from "@/core/composables/useNotifications";
+import { Product } from "@/core/interfaces/Product";
+import { api } from "@/core/services/api/base";
 import { defineComponent, onMounted, PropType, ref, toRefs } from "@vue/runtime-core";
-import { AutocompleteConfig } from "@/components/UI/Autocomplete/Autocomplete.vue";
-import Autocomplete from "../../../../components/UI/Autocomplete/Autocomplete.vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";
-import { placeholder } from "@babel/types";
-import Select2 from "@/components/UI/Select2/Select2.vue";
-import Listbox from "@/components/UI/Listbox/Listbox.vue";
+import AppSelect from "@/components/UI/AppSelect/AppSelect.vue";
+import { fetchCompanies, fetchCompany } from "@/core/services/api/companies";
+import usePagination from "@/core/composables/usePagination";
+import { Company } from "@/core/interfaces/Company";
+import { requiredField, validateEmail, validateUrl } from '@/core/helpers/formValidation';
+import useValidate from 'vue-tiny-validate';
 
 export default defineComponent({
-  components: { Autocomplete, TextField, Select2, Listbox },
+  components: { TextField, AppSelect },
   props: {
     product: {
-      type: Object as PropType<IProduct>,
+      type: Object as PropType<Product>,
       required: true
     },
     loading: {
@@ -135,18 +97,27 @@ export default defineComponent({
   setup(props, { emit }) {
     const { notifications } = useNotifications();
     const { product } = toRefs(props);
-    const { PRODUCT_TYPE } = useConstants();
-    const form = ref<IProductData>({
-      type: 1,
+    const form = ref<Product>({
+      type: PRODUCT_TYPE.DIGITAL,
       name: "",
-      company_id: 1,
+      company_id: Number(),
       description: "",
-      status: 1,
+      status: STATUS.ATIVO,
       support_email: "",
       support_phone: "",
       url: "",
       type_description: "",
     });
+
+    const rules = reactive({
+      name: requiredField(),
+      url: [requiredField(), validateUrl()],
+      company_id: requiredField(),
+      support_email: [requiredField(), validateEmail()]
+    })
+
+    const {result} = useValidate(form, rules)
+
     const submitForm = async () => {
       try {
         await api.put(`/products/${product.value.id}`, form.value);
@@ -160,42 +131,42 @@ export default defineComponent({
       }
     };
 
-
     const companySelected = ref<{id:number;text:string}>();
-    const fetchCompany = async () => {
-      const {data} = await api.get(`/companies/${props.product.company_id}`)
-      companySelected.value = {
-        id: data.id,
-        text: data.name
-      };
+    const getCompany = async () => {
+      const {data} = await fetchCompany(props.product.company_id as number)
+      companySelected.value = data;
     }
 
-    const companiesConfig: AutocompleteConfig = {
-      url: "/companies",
-      processResults: (data) => {
-        const items = data.data.map((item: any) => ({
-          id: item.id,
-          text: item.name
-        }));
-        return {
-          results: items,
-          pagination: {
-            more: (data.last_page > data.current_page)
-          }
-        }
+    const loadingCompany = ref(false)
+    const {pagination, data: companies, nextPage} = usePagination<Company>();
+    const getCompanies = async (search = "") => {
+      try {
+        loadingCompany.value = true;
+        const {data: {data, ...paginationProps}} = await fetchCompanies({
+          search,
+          page: pagination.value.current_page
+        });
+        companies.value = data;
+        pagination.value = paginationProps
+      } finally {
+        loadingCompany.value = false;
       }
     }
 
     onMounted(() => {
       form.value = product.value;
-      fetchCompany();
+      getCompany();
     });
     return {
       form,
       submitForm,
       PRODUCT_TYPE,
-      companiesConfig,
-      companySelected
+      companySelected,
+      loadingCompany,
+      getCompanies,
+      nextPage,
+      companies,
+      result
     };
   },
 });

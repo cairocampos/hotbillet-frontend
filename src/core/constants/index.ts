@@ -1,14 +1,13 @@
 export const PROFILES = {
-  SUPER_ADMIN: 1,
-  ADMIN: 2,
-  SUPERVISOR: 3,
-  VENDEDOR: 4,
+  GERENTE: 3,
+  SUPERVISOR: 4,
+  VENDEDOR: 5
 }
 
-export const PROFILES_NAME: {[key: number]:string} = {
+export const PROFILES_NAME = {
   1: 'Super Admin',
   2: 'Admin',
-  3: 'Empresa',
+  3: 'Gerente',
   4: 'Supervisor',
   5: 'Vendedor',
 }
@@ -27,13 +26,6 @@ export const STATUS = {
 export const LINKS =  {
   DISCOUNT: 'DISCOUNT',
   CHECKOUT: 'CHECKOUT'
-}
-
-export const MIDIAS_TYPES = {
-  THUMBNAIL: 'THUMBNAIL',
-  IMAGE: 'IMAGE',
-  VIDEO: 'VIDEO',
-  EBOOK: 'EBOOK',
 }
 
 export const EVENTS = {

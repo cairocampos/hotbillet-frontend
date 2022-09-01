@@ -97,10 +97,10 @@
 </template>
 
 <script setup lang="ts">
-import { useFormHandler } from '@/composables/useFormHandler';
-import useNotifications from '@/composables/useNotifications';
+import { useFormHandler } from '@/core/composables/useFormHandler';
+import useNotifications from '@/core/composables/useNotifications';
 import { IProduct, IProductFaq } from '@/interfaces/IProduct';
-import { api } from '@/services/api';
+import { api } from '@/core/services/api/base';
 import { onMounted, PropType, ref, toRefs } from 'vue';
 import { PhPlus } from 'phosphor-vue'
 import Loading from '@/components/UI/Loading/Loading.vue';

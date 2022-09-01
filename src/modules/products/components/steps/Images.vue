@@ -73,8 +73,8 @@
 <script setup lang="ts">
 import { IProduct } from "@/interfaces/IProduct";
 import { onMounted, PropType, ref } from "vue";
-import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services/api";
+import useNotifications from "@/core/composables/useNotifications";
+import { api } from "@/core/services/api/base";
 import { PhPlus, PhCrown } from 'phosphor-vue'
 import Loading from '@/components/UI/Loading/Loading.vue';
 import {ProductImage} from '@/core/interfaces/Product'

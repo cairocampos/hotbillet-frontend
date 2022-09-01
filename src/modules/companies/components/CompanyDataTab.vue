@@ -114,7 +114,7 @@ import Heading from '@/components/UI/Layout/Heading.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import Text from '@/components/UI/Layout/Text.vue';
 import { ICompany } from '../interfaces/ICompany';
-import { maskPhone } from '@/helpers'
+import { maskPhone } from '@/core/helpers'
 export default defineComponent({
   components: { Box, Heading, Button, Text },
   props: {

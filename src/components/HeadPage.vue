@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { useAuthStore } from "@/store/modules/auth";
+import { useAuthStore } from "@/core/store/modules/auth";
 import { defineComponent } from "@vue/runtime-core";
 import DropdownNotifications from "./DropdownNotifications/DropdownNotifications.vue";
 

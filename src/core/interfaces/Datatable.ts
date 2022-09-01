@@ -1,4 +1,4 @@
-export interface IHeader {
+export interface Header {
   text: string;
   align?: 'left' | 'right' | 'center',
   sortable?: boolean;

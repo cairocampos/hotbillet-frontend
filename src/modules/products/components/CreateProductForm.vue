@@ -4,33 +4,31 @@
       <TextField
         v-model="form.name"
         label="Nome do produto"
-        variant="secondary"
-        label-class="text-xs"
-        :error="getInputError('name', result)"
-        @input="testInput('name', result)"
+        :validator="{result, field: 'name'}"
+        required
       />
-      <Autocomplete
+
+      <AppSelect
         v-model="form.company_id"
+        :options="companies"
         label="Empresa"
-        variant="secondary"
-        label-class="text-xs"
-        :error="getInputError('company_id', result)"
-        :config="companiesConfig"
-        @input="testInput('company_id', result)"
+        required
+        :server="true"
+        :loading="loading"
+        @open="getCompanies()"
+        @load-more="nextPage(() => getCompanies())"
+        @search="getCompanies($event)"
       />
       <TextField
         v-model="form.url"
         label="Link da página do produto"
-        variant="secondary"
-        label-class="text-xs"
-        :error="getInputError('url', result)"
-        @input="testInput('url', result)"
+        :validator="{result, field: 'url'}"
       />
-      <Listbox
+      <AppSelect
         v-model="form.type"
-        :options="Object.entries(PRODUCT_TYPE).map(([key,value]) => ({label: key, value: value}))"
         label="Tipo do produto"
-        variant="secondary"
+        required
+        :options="Object.entries(PRODUCT_TYPE).map(([key,value]) => ({name: key, id: value}))"
       />
     </div>
     <div class="mt-10 md:mt-0 space-y-12">
@@ -39,10 +37,7 @@
         label="Contato do suporte"
         placeholder="(XX) X XXXX-XXXX"
         mask="(##) # ####-####"
-        variant="secondary"
-        label-class="text-xs"
-        :error="getInputError('support_tel', result)"
-        @input="testInput('support_tel', result)"
+        :validator="{result, field: 'support_phone'}"
       >
         <template #left>
           <span>Telefone:</span>
@@ -51,11 +46,8 @@
       <TextField
         v-model="form.support_email"
         label="Email do suporte"
-        variant="secondary"
-        label-class="text-xs"
         placeholder="suporte@contato.com"
-        :error="getInputError('support_email', result)"
-        @input="testInput('support_email', result)"
+        :validator="{result, field: 'support_email'}"
       >
         <template #left>
           <span>Email:</span>
@@ -79,18 +71,19 @@
 
 <script setup lang="ts">
 import {ref, reactive} from 'vue'
-import { IProduct, IProductData } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import Form from '@/components/UI/Form/Form.vue';
 import useValidate from 'vue-tiny-validate';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
-import Autocomplete, {AutocompleteConfig} from '@/components/UI/Autocomplete/Autocomplete.vue';
-import useConstants from '@/composables/useConstants';
-import { api } from '@/services/api';
-import useNotifications from '@/composables/useNotifications';
+import {PRODUCT_TYPE} from '@/core/constants';
+import { api } from '@/core/services/api/base';
+import useNotifications from '@/core/composables/useNotifications';
 import { useRouter } from 'vue-router';
-import { getInputError,testInput, requiredField, validateUrl } from '@/helpers/formValidation'
-import Listbox from '@/components/UI/Listbox/Listbox.vue';
-const { PRODUCT_TYPE } = useConstants()
+import { requiredField, validateEmail, validateUrl } from '@/core/helpers/formValidation'
+import { fetchCompanies } from '@/core/services/api/companies';
+import AppSelect from '@/components/UI/AppSelect/AppSelect.vue';
+import { Company } from "@/core/interfaces/Company";
+import usePagination from '@/core/composables/usePagination';
 const { notifications } = useNotifications()
 const router = useRouter()
 
@@ -102,7 +95,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:loading']);
 
-const form = ref<IProductData>({
+const form = ref<Product>({
   name: "",
   company_id: Number(),
   url: "",
@@ -117,7 +110,8 @@ const form = ref<IProductData>({
 const rules = reactive({
   name: requiredField(),
   url: [requiredField(), validateUrl()],
-  company_id: requiredField()
+  company_id: requiredField(),
+  support_email: [requiredField(), validateEmail()]
 })
 
 const {result} = useValidate(form, rules)
@@ -128,7 +122,7 @@ const submit = async () => {
 
   try {
     emit('update:loading', true)
-    const { data } = await api.post<IProduct>("/products", form.value);
+    const { data } = await api.post("/products", form.value);
     notifications.success("Continue cadastrando os dados do seu produto.");
     router.push({
       name: "UpdateProduct",
@@ -146,20 +140,20 @@ const submit = async () => {
 
 defineExpose({submit})
 
-const companiesConfig: AutocompleteConfig = {
-  url: "/companies",
-  processResults: (data) => {
-    const companies = data.data as any[]
-    const items = companies.map(item => ({
-      id: item.id,
-      text: item.name
-    }));
-    return {
-      results: items,
-      pagination: {
-        more: (data.last_page > data.current_page)
-      }
-    }
+
+const loading = ref(false)
+const {pagination, data: companies, nextPage} = usePagination<Company>();
+const getCompanies = async (search = "") => {
+  try {
+    loading.value = true;
+    const {data: {data, ...paginationProps}} = await fetchCompanies({
+      search,
+      page: pagination.value.current_page
+    });
+    companies.value = data;
+    pagination.value = paginationProps
+  } finally {
+    loading.value = false;
   }
 }
 

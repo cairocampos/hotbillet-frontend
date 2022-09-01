@@ -1,5 +1,5 @@
 import {useRouter} from "vue-router";
-import { api } from "@/services";
+import { api } from "@/core/services/api/base";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 

@@ -1,5 +1,22 @@
 import { Event } from "./Event";
 
+export type ProductType = "FISICO" | "DIGITAL";
+export type ProductStatus = "ATIVO" | "INATIVO";
+
+export interface Product {
+  id?: number;
+  name: string;
+  company_id: number;
+  url: string;
+  type: number;
+  type_description: string;
+  status: number;
+  support_email?: string;
+  support_phone?: string;
+  description: string;
+  cover?: string;
+}
+
 export interface ProductEbook {
   id: number;
   title: string;
@@ -36,4 +53,10 @@ export interface ProductMessage {
   product_id?:number;
   message:string;
   events: Event[],
+}
+
+export interface ProductLink {
+  id?:number;
+  url:string;
+  name:string;
 }

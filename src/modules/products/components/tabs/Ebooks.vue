@@ -83,7 +83,7 @@
 import { IProduct } from "@/interfaces/IProduct"
 import { onMounted, PropType, ref } from "vue"
 import Text from "@/components/UI/Layout/Text.vue"
-import useNotifications from "@/composables/useNotifications";
+import useNotifications from "@/core/composables/useNotifications";
 import { fetchEbooks } from "@/core/services/api/products";
 import { ProductEbook } from '@/core/interfaces/Product'
 import Loading from "@/components/UI/Loading/Loading.vue";

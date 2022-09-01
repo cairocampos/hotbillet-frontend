@@ -16,30 +16,23 @@
       <div class="space-y-12">
         <TextField
           v-model="user.name"
-          variant="secondary"
           label="Nome"
-          label-class="text-xs"
           required
           :validator="{result, field: 'name'}"
         />
 
         <TextField
           v-model="user.email"
-          variant="secondary"
-          label-class="text-xs"
           label="Email"
+          required
           :validator="{result, field: 'email'}"
         />
 
-        <Listbox
+        <AppSelect
           v-model="user.profile_id"
           :options="profiles"
-          label-name="description"
-          key-name="id"
           label="Perfil"
-          label-class="text-xs"
-          variant="secondary"
-          :validator="{result, field: 'profile_id'}"
+          key-name="description"
           required
         />
 
@@ -52,16 +45,12 @@
             Carregando...
           </Text>
         </div>
-        <Listbox
+        <AppSelect
           v-if="user.profile_id == PROFILES.VENDEDOR && supervisors?.length"
           v-model="user.supervisor_id"
           :options="supervisors"
-          label-name="name"
-          key-name="id"
           label="Supervisor"
-          label-class="text-xs"
-          variant="secondary"
-          :validator="{result, field: 'supervisor_id'}"
+          required
         />
       </div>
 
@@ -83,7 +72,7 @@
           text-loading="Salvando..."
           type="submit"
         >
-          Cadastrar
+          Atualizar
         </Button>
       </div>
     </Form>
@@ -95,22 +84,23 @@ import HeadPage from '@/components/HeadPage.vue'
 import { useRouter } from 'vue-router'
 import { ref, reactive, watch, onMounted } from 'vue';
 import { User, UserData } from '@/core/interfaces/User';
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import Form from '@/components/UI/Form/Form.vue';
 import TextField from '@/components/UI/Form/Input/TextField.vue';
 import Button from '@/components/UI/Button/Button.vue';
 import useValidate from 'vue-tiny-validate';
-import { useFormHandler } from '@/composables/useFormHandler';
+import { useFormHandler } from '@/core/composables/useFormHandler';
 import Spinner from '@/components/UI/Spinner/Spinner.vue'
 import Text from '@/components/UI/Layout/Text.vue';
 import { createUserFormRequest } from '../helpers';
 import { fetchProfiles } from '@/core/services/api/profiles'
 import { fetchUser, fetchUsers, updateUser } from '@/core/services/api/users'
 import {Profile} from '@/core/interfaces/Profile'
-import { PROFILES } from '@/constants';
+import { PROFILES } from '@/core/constants';
 import Listbox from '@/components/UI/Listbox/Listbox.vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
 import RouteBack from '@/components/RouteBack.vue';
+import AppSelect from '@/components/UI/AppSelect/AppSelect.vue';
 
 const props = defineProps({
   id: {

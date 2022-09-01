@@ -61,9 +61,9 @@ import CardProduto from '../components/CardProduto.vue'
 import Paginacao from '@/components/Paginacao.vue';
 import NavTabHeader from '@/components/NavTabHeader.vue';
 import Filtros from "../components/Filtros.vue"
-import { api } from '@/services/api';
+import { api } from '@/core/services/api/base';
 import { IProductData } from '@/interfaces/IProduct';
-import usePagination from '@/composables/usePagination';
+import usePagination from '@/core/composables/usePagination';
 import { IPagination } from '@/interfaces/IPagination';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/HeadPage.vue';

@@ -62,7 +62,7 @@ import { PhPlus } from "phosphor-vue";
 import Button from "@/components/UI/Button/Button.vue";
 import { fetchMessages } from "@/core/services/api/messages";
 import { Message } from "@/core/interfaces/Message";
-import useNotifications from "@/composables/useNotifications";
+import useNotifications from "@/core/composables/useNotifications";
 import Loading from '@/components/UI/Loading/Loading.vue'
 import MessageUpdateModal from "../components/MessageUpdateModal.vue";
 

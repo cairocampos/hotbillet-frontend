@@ -87,9 +87,9 @@
 </template>
 
 <script lang="ts" setup>
-import useNotifications from "@/composables/useNotifications";
+import useNotifications from "@/core/composables/useNotifications";
 import { User} from "@/core/interfaces/User";
-import { api } from "@/services/api";
+import { api } from "@/core/services/api/base";
 import { onMounted, ref } from "vue";
 import RouteBack from "@/components/RouteBack.vue";
 import Loading from '@/components/UI/Loading/Loading.vue';

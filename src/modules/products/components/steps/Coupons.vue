@@ -94,7 +94,7 @@ import { ref } from 'vue';
 import { onMounted, PropType, toRefs } from "vue";
 import { IProduct } from '@/interfaces/IProduct';
 import {ProductCoupon} from '@/core/interfaces/Product'
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import { PhPlus } from 'phosphor-vue'
 import ButtonCopy from '@/components/UI/Button/ButtonCopy.vue';
 import { createCoupons, fetchCoupons } from '@/core/services/api/products'

@@ -133,13 +133,13 @@
 <script setup lang="ts">
 import { IProduct, IProductEbook } from "@/interfaces/IProduct";
 import { onMounted, PropType, ref, toRefs } from "vue";
-import { useFormHandler } from "@/composables/useFormHandler";
-import useNotifications from "@/composables/useNotifications";
+import { useFormHandler } from "@/core/composables/useFormHandler";
+import useNotifications from "@/core/composables/useNotifications";
 import InputInfo from "@/components/global/InputInfo.vue";
-import { api } from "@/services/api";
+import { api } from "@/core/services/api/base";
 import { PhPlus, PhFilePdf } from 'phosphor-vue'
 import Loading from "@/components/UI/Loading/Loading.vue";
-import useLoading from "@/composables/useLoading";
+import useLoading from "@/core/composables/useLoading";
 import { MediaTypeEnum, ProductMedia } from "@/core/interfaces/Product";
 import { fetchMidias } from "@/core/services/api/products";
 import { computed } from "@vue/reactivity";

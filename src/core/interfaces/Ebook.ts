@@ -1,4 +1,4 @@
-export interface IEbook {
+export interface Ebook {
   description:string;
   file: File
 }

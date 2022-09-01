@@ -27,6 +27,7 @@
         :class="`text-${size} flex-1 w-full`"
         :value="modelValue"
         @input="onInput"
+        @blur="validate()"
       />
       <slot name="right" />
     </div>
@@ -39,7 +40,10 @@
 
 <script lang='ts'>
 import { computed, defineComponent, PropType, ref } from 'vue';
-import {Validator, useFormHandler} from '@/composables/useFormHandler'
+import {Validator, useFormHandler} from '@/core/composables/useFormHandler'
+
+const touchMap = new WeakMap();
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -93,8 +97,8 @@ export default defineComponent({
     const { getInputError, testInput } = useFormHandler()
     const computedClass = computed(() => {
       const variants = {
-        primary: "bg-white border rounded-md",
-        secondary: "border-b border-zinc-300 bg-transparent"
+        secondary: "bg-white border rounded-md",
+        primary: "border-b border-zinc-300 bg-transparent"
       }
 
       return variants[props.variant];
@@ -108,9 +112,21 @@ export default defineComponent({
       const target = event.target as HTMLInputElement;
       emit('update:modelValue', target.value);
       emit('input', target.value);
-      /*if(props.validator) {
+      delayTouch();
+    }
+
+    let timeout = setTimeout(() => null);
+    const delayTouch = () => {
+      clearTimeout(timeout);
+      if(props.validator) {
+        timeout = setTimeout(() =>  validate(), 500);
+      }
+    }
+
+    const validate = () => {
+      if(props.validator) {
         testInput(props.validator.field, props.validator.result)
-      }*/
+      }
     }
 
     const errorMessage = computed(() => {
@@ -123,7 +139,8 @@ export default defineComponent({
       inputElement,
       setFocus,
       onInput,
-      errorMessage
+      errorMessage,
+      validate
     }
   }
 })

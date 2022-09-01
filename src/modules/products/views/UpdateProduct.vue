@@ -106,8 +106,8 @@ import Faq from '../components/steps/Faq.vue'
 import Conversao from '../components/steps/Conversao.vue'
 import { useRoute } from 'vue-router';
 import { IProduct } from '@/interfaces/IProduct';
-import { api } from '@/services/api';
-import useNotifications from '@/composables/useNotifications';
+import { api } from '@/core/services/api/base';
+import useNotifications from '@/core/composables/useNotifications';
 import Button from '@/components/UI/Button/Button.vue';
 import HeadPage from '@/components/HeadPage.vue'
 import Loading from '@/components/UI/Loading/Loading.vue';

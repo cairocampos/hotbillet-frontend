@@ -12,21 +12,21 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "@vue/runtime-core";
-import useNotifications from "@/composables/useNotifications";
-import { api } from "@/services/api";
+import useNotifications from "@/core/composables/useNotifications";
+import { api } from "@/core/services/api/base";
 import Container from "@/components/UI/Layout/Container.vue";
-import { ICompany } from "../interfaces/ICompany";
+import { Company } from "@/core/interfaces/Company";
 import { useRouter } from "vue-router";
 import useValidate from 'vue-tiny-validate'
-import {createCompanyRules} from '../validate'
 import FormCompany from "../components/FormCompany.vue";
 import HeadPage from "@/components/HeadPage.vue";
+import { requiredField, validateCnpj, validateEmail } from "@/core/helpers/formValidation";
 
 const router = useRouter();
 const loading = ref(false)
 const {notifications} = useNotifications();
 
-const company = ref<Omit<ICompany, "id">>({
+const company = ref<Omit<Company, "id">>({
   name: "",
   cnpj: "",
   support_email: "",
@@ -34,7 +34,12 @@ const company = ref<Omit<ICompany, "id">>({
   producer_name:""
 });
 
-const rules = reactive(createCompanyRules);
+const rules = reactive({
+  name: [requiredField()],
+  cnpj: [requiredField(), validateCnpj()],
+  support_phone: [requiredField()],
+  support_email: [requiredField(), validateEmail()],
+});
 const { result } = useValidate(company, rules);
 
 const createCompany = async () => {
@@ -42,7 +47,7 @@ const createCompany = async () => {
     return notifications.info('Favor verificar os campos do formulário.');
   try {
     loading.value = true;
-    await api.post<{company: ICompany}>('/companies', company.value);
+    await api.post<{company: Company}>('/companies', company.value);
     notifications.success('Empresa criada!');
     router.go(-1);
   } catch (error) {

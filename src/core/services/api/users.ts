@@ -1,8 +1,8 @@
 import { User, UserData } from "@/core/interfaces/User";
-import { IPagination } from "@/interfaces/IPagination";
+import { Pagination } from "@/core/interfaces/Pagination";
 import { api } from "./base";
 
-export const fetchUsers = (params = {}) => api.get<IPagination<User[]>>('/users', {params});
+export const fetchUsers = (params = {}) => api.get<Pagination<User[]>>('/users', {params});
 
 export const fetchUser = (user_id: number) => api.get<User>(`/users/${user_id}`);
 

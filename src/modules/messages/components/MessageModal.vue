@@ -52,7 +52,7 @@
 </template>
 
 <script lang='ts' setup>
-import useModal from '@/composables/useModal';
+import useModal from '@/core/composables/useModal';
 import Select2 from '@/components/UI/Select2/Select2.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import {fetchProducts} from '@/core/services/api/products'
@@ -62,7 +62,7 @@ import Button from '@/components/UI/Button/Button.vue';
 import { Event } from '@/core/interfaces/Event';
 import { AutocompleteConfig } from '@/components/UI/Autocomplete/Autocomplete.vue';
 import Autocomplete from '../../../components/UI/Autocomplete/Autocomplete.vue';
-import useNotifications from '@/composables/useNotifications';
+import useNotifications from '@/core/composables/useNotifications';
 import {createMessage} from '@/core/services/api/products'
 import Modal from '@/components/UI/Modal/Modal.vue'
 import AppSelect from '@/components/UI/AppSelect/AppSelect.vue';

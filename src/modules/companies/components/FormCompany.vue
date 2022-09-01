@@ -6,44 +6,37 @@
     <div class="space-y-8 lg:col-span-2">
       <TextField
         v-model="company.name"
-        variant="secondary"
         label="Nome da Empresa"
         placeholder="Ex: Hotbillet"
-        :error="getInputError('name', result)"
-        @input="testInput('name', result)"
+        :validator="{result, field: 'name'}"
+        required
       />
 
       <TextField
         v-model="company.producer_name"
-        variant="secondary"
         label="Nome do responsável"
       />
 
       <TextField
         v-model="company.cnpj"
-        variant="secondary"
         label="CNPJ"
         :mask="['###.###.###-##', '##.###.###/####-##']"
-        :error="getInputError('cnpj', result)"
-        @input="testInput('cnpj', result)"
+        :validator="{result, field: 'cnpj'}"
+        required
       />
       <Box>
         <Text>Dados de Contato</Text>
       </Box>
       <TextField
         v-model="company.support_phone"
-        variant="secondary"
         mask="(##) #####-####"
         label="Telefone"
-        :error="getInputError('support_phone', result)"
-        @input="testInput('support_phone', result)"
+        :validator="{result, field: 'support_phone'}"
       />
       <TextField
         v-model="company.support_email"
-        variant="secondary"
         label="E-mail"
-        :error="getInputError('support_email', result)"
-        @input="testInput('support_email', result)"
+        :validator="{result, field: 'support_email'}"
       />
     </div>
 
@@ -76,8 +69,7 @@
 <script setup lang="ts">
 import TextField from "@/components/UI/Form/Input/TextField.vue";
 import Text from '@/components/UI/Layout/Text.vue'
-import { useFormHandler } from "@/composables/useFormHandler";
-import { PropType, reactive, ref, toRefs, watch } from "vue";
+import { PropType, reactive, toRefs, watch } from "vue";
 import { ICompany } from "../interfaces/ICompany";
 import Form from "@/components/UI/Form/Form.vue";
 import Button from "@/components/UI/Button/Button.vue";
@@ -100,7 +92,6 @@ const props = defineProps({
 })
 const emit = defineEmits(["update:modelValue", "submit"]);
 const { modelValue } = toRefs(props)
-const { getInputError, testInput } = useFormHandler();
 
 const company = reactive({ ...props.modelValue })
 

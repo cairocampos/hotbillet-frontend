@@ -1,20 +1,23 @@
 import {IPaginationProps} from "@/interfaces/IPagination";
 import { computed, Ref, ref } from "vue";
 
+
 type IComposition = {
+  data: Ref;
   pagination: Ref<IPaginationProps>;
   nextPage: (callback: () => unknown) => void;
   previousPage: (callback: () => unknown) => void;
   resetPagination: (callback: () => unknown) => void;
 };
 
-export default function usePagination(): IComposition {
+export default function usePagination<T>() {
   const INITIAL_PAGE = 1;
+  const data = ref<T[]>([]);
   const pagination = ref<IPaginationProps>({
     current_page: 1,
     per_page: 10,
     total: 0,
-    last_page: 1
+    last_page: 1,
   });
 
 
@@ -38,6 +41,7 @@ export default function usePagination(): IComposition {
   }
 
   return {
+    data,
     pagination,
     nextPage,
     previousPage,
