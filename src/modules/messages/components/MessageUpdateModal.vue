@@ -1,24 +1,24 @@
 <template>
   <Modal
     v-model:open="modalAtivo"
-    title="Adicionar Mensagem"
+    title="Editar Mensagem"
     screen="w-2/4"
+    :loading="!!Object.keys(isLoading).find(item => item)"
   >
     <template #body>
       <div class="space-y-6 h-[500px] overflow-y-scroll px-4">
-        <Autocomplete
+        <AppSelect
           v-model="form.product_id"
           label="Associar ao Produto"
-          variant="secondary"
-          label-class="text-xs"
-          :config="config"
+          :options="products"
           :selected="productSelected"
+          @open="getProducts()"
         />
-        <Select2
+        <AppSelect
           v-model="form.event_ids"
-          multiple
           label="Tipos de Transações"
           :options="events"
+          :multiple="true"
           key-name="name"
           key-value="id"
         />
@@ -44,7 +44,7 @@
           :loading="loading"
           @click="save()"
         >
-          Adicionar
+          Atualiar
         </Button>
       </div>
     </template>
@@ -53,20 +53,18 @@
 
 <script lang='ts' setup>
 import useModal from '@/core/composables/useModal';
-import Select2 from '@/components/UI/Select2/Select2.vue';
 import { computed, onMounted, PropType, ref, watch } from 'vue';
-import {fetchProducts} from '@/core/services/api/products'
+import {fetchProducts, fetchProduct} from '@/core/services/api/products'
 import {fetchEvents} from '@/core/services/api/events'
-import { IProduct } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import Button from '@/components/UI/Button/Button.vue';
 import { Event } from '@/core/interfaces/Event';
-import { AutocompleteConfig } from '@/components/UI/Autocomplete/Autocomplete.vue';
-import Autocomplete from '@/components/UI/Autocomplete/Autocomplete.vue';
 import useNotifications from '@/core/composables/useNotifications';
 import {updateMessage } from '@/core/services/api/products'
-import { CreateMessage, Message } from '@/core/interfaces/Message';
-import { api } from '@/core/services/api/base';
+import { Message } from '@/core/interfaces/Message';
 import Modal from '@/components/UI/Modal/Modal.vue';
+import AppSelect from '@/components/UI/AppSelect/AppSelect.vue';
+import useLoading from '@/core/composables/useLoading';
 
 const props = defineProps({
   message: {
@@ -78,7 +76,7 @@ const props = defineProps({
 const emits = defineEmits(['success', 'update:message'])
 
 const { modalAtivo,showModal } = useModal();
-
+const {isLoading} = useLoading();
 
 const form = ref({
   product_id: props.message.product_id,
@@ -87,7 +85,7 @@ const form = ref({
 })
 
 
-const products = ref<IProduct[]>([]);
+const products = ref<Product[]>([]);
 const events = ref<Event[]>([]);
 
 const getProducts = async () => {
@@ -100,13 +98,10 @@ const getEvents = async () => {
   events.value = data
 }
 
-const productSelected = ref<{id:number;text:string}>();
+const productSelected = ref<Product>();
 const getProduct = async () => {
-  const {data} = await api.get(`/products/${props.message.product_id}`)
-  productSelected.value = {
-    id: data.id,
-    text: data.name
-  };
+  const {data} = await fetchProduct(props.message.product_id)
+  productSelected.value = data;
 }
 
 watch(modalAtivo, val => {
@@ -118,30 +113,12 @@ watch(modalAtivo, val => {
 onMounted(() => {
   modalAtivo.value = true;
   getProduct();
-  getProducts();
   getEvents();
 });
-
-const config: AutocompleteConfig = {
-  url: "/products",
-  processResults: (data) => {
-    const items = data.data.map((item: any) => ({
-      id: item.id,
-      text: item.name
-    }));
-    return {
-      results: items,
-      pagination: {
-        more: (data.last_page > data.current_page)
-      }
-    }
-  }
-}
 
 const formDisabled = computed(() => {
   return !(form.value.event_ids.length && form.value.product_id && form.value.message.length >= 3)
 })
-
 
 const {notifications} = useNotifications();
 const loading = ref(false);

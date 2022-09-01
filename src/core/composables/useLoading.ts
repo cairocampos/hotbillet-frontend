@@ -6,16 +6,19 @@ interface ILoading {
 }
 
 interface IComposition {
-  loading: Ref<ILoading>
+  loading: Ref<ILoading>,
+  isLoading: Ref<{[key:string]: boolean}>
 }
 
 export default function useLoading(): IComposition {
+  const isLoading = ref<{[key:string]: boolean}>({});
   const loading = ref<ILoading>({
     primary:false,
     secondary: false
   })
 
   return {
-    loading
+    loading,
+    isLoading
   }
 }

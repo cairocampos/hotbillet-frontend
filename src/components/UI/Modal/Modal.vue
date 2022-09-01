@@ -15,7 +15,7 @@
         class="fixed h-screen w-screen top-0 left-0 flex items-center justify-center z-20"
       >
         <div
-          class="modal bg-white rounded-md shadow-sm py-8 px-5 space-y-5"
+          class="modal bg-white rounded-md shadow-sm py-8 px-5 space-y-5 relative overflow-hidden"
           :class="screen"
         >
           <div class="modal-header flex items-center justify-between pb-4">
@@ -45,6 +45,12 @@
           </div>
           <slot name="body"></slot>
           <slot name="footer"></slot>
+          <div
+            v-if="loading"
+            class="absolute -top-5 left-0 w-full h-full bg-black bg-opacity-20 flex items-center justify-center"
+          >
+            <spinner class="w-10 h-10" />
+          </div>
         </div>
       </div>
     </transition>
@@ -53,32 +59,37 @@
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
+import Spinner from "../Spinner/Spinner.vue";
 
 export default defineComponent({
+    components: { Spinner },
     props: {
       open: {
         type: Boolean,
-        default:false
+        default: false
       },
       title: {
-        type:String,
+        type: String,
         default: "Modal"
       },
       screen: {
         type: String,
-        default: 'md'
+        default: "md"
+      },
+      loading: {
+        type: Boolean,
+        default: false
       }
     },
-   emits: ['update:open'],
-   setup(props, {emit}) {
-      const closeModal = ()   => {
-        emit('update:open', false);       
-      }
-
-      return {
-        closeModal
-      }
-   }
+    emits: ["update:open"],
+    setup(props, { emit }) {
+        const closeModal = () => {
+            emit("update:open", false);
+        };
+        return {
+            closeModal
+        };
+    }
 });
 </script>
 

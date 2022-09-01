@@ -10,7 +10,6 @@
           v-model="form.product_id"
           label="Associar ao Produto"
           :options="products"
-          :multiple="true"
           key-name="name"
           key-value="id"
         />
@@ -53,15 +52,12 @@
 
 <script lang='ts' setup>
 import useModal from '@/core/composables/useModal';
-import Select2 from '@/components/UI/Select2/Select2.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import {fetchProducts} from '@/core/services/api/products'
 import {fetchEvents} from '@/core/services/api/events'
-import { IProduct } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import Button from '@/components/UI/Button/Button.vue';
 import { Event } from '@/core/interfaces/Event';
-import { AutocompleteConfig } from '@/components/UI/Autocomplete/Autocomplete.vue';
-import Autocomplete from '../../../components/UI/Autocomplete/Autocomplete.vue';
 import useNotifications from '@/core/composables/useNotifications';
 import {createMessage} from '@/core/services/api/products'
 import Modal from '@/components/UI/Modal/Modal.vue'
@@ -78,7 +74,7 @@ const form = ref({
 })
 
 
-const products = ref<IProduct[]>([]);
+const products = ref<Product[]>([]);
 const events = ref<Event[]>([]);
 
 const getProducts = async () => {

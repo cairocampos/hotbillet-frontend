@@ -73,7 +73,7 @@ import {PRODUCT_TYPE, STATUS} from '@/core/constants'
 import useNotifications from "@/core/composables/useNotifications";
 import { Product } from "@/core/interfaces/Product";
 import { api } from "@/core/services/api/base";
-import { defineComponent, onMounted, PropType, ref, toRefs } from "@vue/runtime-core";
+import { defineComponent, onMounted, PropType, ref, toRefs,reactive } from "vue";
 import TextField from "@/components/UI/Form/Input/TextField.vue";
 import AppSelect from "@/components/UI/AppSelect/AppSelect.vue";
 import { fetchCompanies, fetchCompany } from "@/core/services/api/companies";

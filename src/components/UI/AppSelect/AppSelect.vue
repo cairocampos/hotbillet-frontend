@@ -180,7 +180,11 @@ const filteredOptions = computed(() => {
 
 const setOptionSelected = (option: any) => {
   if(props.multiple) {
-    optionSelected.value.push(Array.isArray(option) ? [...option] : option)
+    if(Array.isArray(option)) {
+      optionSelected.value.push(...option)
+    } else {
+      optionSelected.value.push(option)
+    }
     return
   }
   optionSelected.value = option;
@@ -309,7 +313,7 @@ const checkProps = () => {
       const refs: any[] = props.modelValue;
       const items = props.options.filter(item => refs.includes(item[props.keyValue]))
       if(!items.length) return;
-      setOptionSelected([...items]);
+      setOptionSelected(items);
     }
   } else {
     if(!optionSelected.value) {
