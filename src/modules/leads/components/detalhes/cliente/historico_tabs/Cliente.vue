@@ -1,6 +1,12 @@
 <template>
   <div class="historico_cliente">
     <div
+      v-if="loading"
+      class="flex justify-center my-4"
+    >
+      <Spinner class="h-10 w-10" />
+    </div>
+    <div
       v-for="item in 5"
       :key="item"
       class="historico_cliente__item py-4"
@@ -32,9 +38,36 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {};
-</script>
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue';
+import Spinner from '@/components/UI/Spinner/Spinner.vue';
+import {getDateDiff} from '@/core/helpers'
+import { customerService } from '@/core/services/api/customers';
+import { CustomerHistoric } from '@/core/interfaces/Customer';
+    
+  const props = defineProps({
+    leadId: {
+      type: Number,
+      required:true
+    }
+  })
+  
+  const loading = ref(false);
+  const historic = ref<CustomerHistoric[]>([])
+  const getHistoric = async () => {
+    try {
+      loading.value = true;
+      const {data} = await customerService.historic(props.leadId);
+      historic.value = data;
+    } finally {
+      loading.value = false;
+    }
+  }
+  
+  onMounted(() => {
+    getHistoric();
+  })
+  </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables";

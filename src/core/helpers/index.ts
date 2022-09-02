@@ -1,3 +1,5 @@
+import { useDateTime } from "../composables/useDateTime";
+
 export const generateId = function () {
   return Date.now().toString(32).substr(4) + '_' + Math.random().toString(36).substr(2, 9);
 };
@@ -33,7 +35,7 @@ export const maskCpfOrCnpj = (value: string) => {
 };
 
 export const maskPhone = (value: string) => {
-  return value.replace(/([0-9]{2})([0-9]{1})([0-9]{4})([0-9]{4})/, '($1) $2 $3-$4')
+  return value.replace(/^55/, '').replace(/([0-9]{2})([0-9]{1})([0-9]{4})([0-9]{4})/, '($1) $2 $3-$4')
 }
 
 export const generatePassword = (length: number) => {
@@ -42,3 +44,20 @@ export const generatePassword = (length: number) => {
 }
 
 export const firstName = (value: string) => value.split(" ")[0]
+
+
+const { dateDiffNow } = useDateTime()
+export const getDateDiff = (date:string) => {
+  const diff = dateDiffNow(date);
+  if(diff?.days) {
+    return `${diff.days} atrás`;
+  }
+
+  if(diff.hours) {
+    return `${diff.hours}hr atrás`
+  }
+
+  if(diff.minutes) {
+    return `${diff.minutes} min`
+  }
+}

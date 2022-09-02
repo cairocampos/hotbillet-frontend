@@ -56,8 +56,9 @@
       <div>
         <Button
           variant="dark"
+          radius="sm"
         >
-          Buscar
+          Filtrar
         </Button>
       </div>
     </div>

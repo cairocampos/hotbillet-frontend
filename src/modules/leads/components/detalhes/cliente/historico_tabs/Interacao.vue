@@ -27,10 +27,33 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
+<script lang="ts" setup>
+import { leadService } from '@/core/services/api/leads';
+import { onMounted, ref } from 'vue';
 
+const props = defineProps({
+  leadId: {
+    type: Number,
+    required:true
+  }
+})
+
+
+const loading = ref(false);
+const getFeeds = async () => {
+  try {
+    loading.value = true;
+    const {data} = await leadService.feeds(props.leadId);
+
+  } finally {
+    loading.value = false;
+  }
 }
+
+onMounted(() => {
+  getFeeds();
+})
+
 </script>
 
 <style scoped lang="scss">

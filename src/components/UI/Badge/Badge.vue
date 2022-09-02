@@ -3,7 +3,7 @@
     :class="['rounded-full px-2 text-white flex items-center space-x-2 bg-opacity-30 notificacoes', `bg-${variant}`]"
   >
     <div :class="['text-xs uppercase font-semibold', opacity ? `text-${variant}` : '']">
-      <slot />
+      <slot></slot>
     </div>
     <div
       v-if="close"

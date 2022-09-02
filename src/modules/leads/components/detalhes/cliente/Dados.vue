@@ -6,16 +6,16 @@
       </h4>
       <ul class="text-sm text-default font-light">
         <li>
-          <span>Motivo:</span> Abandono de Carrinho
+          <span>Motivo:</span> {{ lead.event.name }}
         </li>
         <li>
-          <span>Plataforma:</span> Monetizze
+          <span>Plataforma:</span> {{ lead.platform.name }}
         </li>
         <li>
-          <span>Código da Transação:</span> 123456789
+          <span>Código da Transação:</span> {{ lead.transaction_id ?? "" }}
         </li>
         <li>
-          <span>Data:</span> 22/02/2021
+          <span>Data:</span> {{ formatDateTimeISO(lead.created_at) }}
         </li>
       </ul>
     </div>
@@ -45,16 +45,16 @@
       </div>
       <ul class="text-sm text-default font-light">
         <li>
-          <span>Nome:</span> Cláudia Moreno da Silva
+          <span>Nome:</span> {{ lead.customer.name }}
         </li>
         <li>
-          <span>Telefone:</span> +55 11 98454-5100
+          <span>Telefone:</span> {{ lead.customer.phone ? maskPhone(lead.customer.phone) : '---' }}
         </li>
         <li>
-          <span>Email:</span> claudiamoreno@gmail.com
+          <span>Email:</span> {{ lead.customer.email ?? "---" }}
         </li>
         <li>
-          <span>CPF:</span> 003.454.568-45
+          <span>CPF:</span> {{ lead.customer.document ?? '---' }}
         </li>
       </ul>
     </div>
@@ -65,29 +65,48 @@
       </h4>
       <ul class="text-sm text-default font-light">
         <li>
-          <span>logradouro:</span> Rua Sete de Setembro
+          <span>logradouro:</span> {{ lead.customer.address ?? '---' }}
         </li>
         <li>
-          <span>Número:</span> 05
+          <span>Número:</span> {{ lead.customer.address_number ?? '---' }}
         </li>
         <li>
-          <span>Bairro:</span> Flores
+          <span>Bairro:</span> {{ lead.customer.district ?? '---' }}
         </li>
         <li>
-          <span>Cidade/UF:</span> São Paulo - SP
+          <span>Cidade/UF:</span> {{ cityState }}
         </li>
         <li>
-          <span>Cep:</span> 15645-582
+          <span>Cep:</span> {{ lead.customer.zipcode ?? '---' }}
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-export default {
+<script lang="ts" setup>
+import { useDateTime } from '@/core/composables/useDateTime';
+import { maskPhone } from '@/core/helpers';
+import { Lead } from '@/core/interfaces/Lead';
+import { computed } from '@vue/reactivity';
+import { PropType } from 'vue';
 
-}
+const { formatDateTimeISO } = useDateTime()
+
+const props = defineProps({
+  lead: {
+    type: Object as PropType<Lead>,
+    required:true
+  }
+})
+
+const cityState = computed(() => {
+  if(props.lead.customer.city) {
+    return `${props.lead.customer.city} - ${props.lead.customer.state}`
+  }
+  return '---'
+})
+
 </script>
 
 <style scoped lang="scss">

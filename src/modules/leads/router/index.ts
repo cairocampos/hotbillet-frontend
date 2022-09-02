@@ -20,6 +20,7 @@ const leads: RouteRecordRaw[] = [
     path: "/leads/:id",
     name: "Lead",
     component: Lead,
+    props:true,
     meta: { requiresAuth: true },
   },
 ];

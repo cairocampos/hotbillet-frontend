@@ -1,30 +1,61 @@
 <template>
   <div class="historico_lead">
     <div
-      v-for="item in 5"
-      :key="item"
+      v-if="loading"
+      class="flex justify-center my-4"
+    >
+      <Spinner class="h-10 w-10" />
+    </div>
+    <div
+      v-for="item in historic"
+      :key="item.id"
       class="historico_lead__item py-4"
     >
       <div class="historico_lead__item--border-left pl-4">
         <div class="flex items-start justify-between">
           <p class="text-sm text-gray-800 font-medium">
-            Comprometeu-se
+            {{ item.status_description }}
           </p>
-          <span class="text-xs text-default">Há 12 min</span>
+          <span class="text-xs text-default">{{ getDateDiff(item.created_at) }}</span>
         </div>
         <div class="py-2 text-xs text-default">
-          <p>Transação: Cartão de Crédito</p>
-          <p>Código da Transação: 123456789</p>
+          <p>Transação: {{ item.event.name }}</p>
+          <p>Código da Transação: {{ item.transaction_id ?? '---' }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-export default {
+<script lang="ts" setup>
+import { LeadHistoric } from '@/core/interfaces/Lead';
+import { leadService } from '@/core/services/api/leads';
+import { onMounted, ref } from 'vue';
+import Spinner from '@/components/UI/Spinner/Spinner.vue';
+import {getDateDiff} from '@/core/helpers'
+  
+const props = defineProps({
+  leadId: {
+    type: Number,
+    required:true
+  }
+})
 
+const loading = ref(false);
+const historic = ref<LeadHistoric[]>([])
+const getHistoric = async () => {
+  try {
+    loading.value = true;
+    const {data} = await leadService.historic(props.leadId);
+    historic.value = data;
+  } finally {
+    loading.value = false;
+  }
 }
+
+onMounted(() => {
+  getHistoric();
+})
 </script>
 
 <style scoped lang="scss">
