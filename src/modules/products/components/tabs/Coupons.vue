@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { IProduct } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import { onMounted, PropType, ref } from 'vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
 import useNotifications from '@/core/composables/useNotifications';
@@ -36,7 +36,7 @@ import ListContainer from '@/components/UI/List/ListContainer.vue';
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required:true
   }
 })

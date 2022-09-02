@@ -3,18 +3,20 @@
     <div class="grid grid-cols-2">
       <div>
         <p class="text-sm text-dark">
-          Subtitulo
+          Empresa
         </p>
-        <span class="text-default text-xs">
-          ---
-        </span>
+        <span class="text-default text-xs">Hotbillet</span>
       </div>
 
       <div>
         <p class="text-sm text-dark">
-          Empresa
+          Link do Produto
         </p>
-        <span class="text-default text-xs">Hotbillet</span>
+        <a
+          :href="product?.url"
+          target="_blank"
+          class="text-blue-500 text-xs"
+        >{{ product?.url ?? '---' }}</a>
       </div>
 
       <div class="space-y-1">
@@ -30,18 +32,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-3">
-      <div>
-        <p class="text-sm text-dark">
-          Link do Produto
-        </p>
-        <a
-          :href="product?.url"
-          target="_blank"
-          class="text-blue-500 text-xs"
-        >{{ product?.url ?? '---' }}</a>
-      </div>
-
+    <div class="grid grid-cols-2">
       <div>
         <p class="text-sm text-dark">
           Tipo
@@ -53,28 +44,11 @@
 
       <div>
         <p class="text-sm text-dark">
-          Meios de Pagamento
+          Produto adicionado em:
         </p>
-        <ul class="flex items-center space-x-2 text-default text-xs">
-          <li class="flex items-center space-x-2">
-            <img
-              src="@/assets/icons/boleto.svg"
-              alt=""
-            > <span>Boleto</span>
-          </li>
-          <li class="flex items-center space-x-2">
-            <img
-              src="@/assets/icons/boleto.svg"
-              alt=""
-            > <span>Cartão</span>
-          </li>
-          <li class="flex items-center space-x-2">
-            <img
-              src="@/assets/icons/pix.svg"
-              alt=""
-            > <span>Pix</span>
-          </li>
-        </ul>
+        <span class="text-default text-xs">
+          {{ formatDateTimeISO(product.created_at) }}
+        </span>
       </div>
     </div>
 
@@ -90,12 +64,15 @@
 </template>
 
 <script setup lang="ts">
-import { IProduct } from "@/interfaces/IProduct";
+import { useDateTime } from "@/core/composables/useDateTime";
+import { Product } from "@/core/interfaces/Product";
 import { PropType } from "@vue/runtime-core";
+
+const { formatDateTimeISO } = useDateTime();
 
 defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 })

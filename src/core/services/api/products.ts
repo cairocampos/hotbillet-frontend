@@ -20,3 +20,8 @@ export const createMessage = (product_id: number, data: CreateMessage) => api.po
 export const updateMessage = (product_id: number, message_id:number, data: CreateMessage) => api.put<ProductMessage>(`/products/${product_id}/messages/${message_id}`, data);
 export const destroyMessage = (product_id: number, message_id:number) => api.delete(`/products/${product_id}/messages/${message_id}`);
 export const createIntegration = (product_id: number, data: any) => api.post<Integration>(`/products/${product_id}/integrations`, data)
+
+export const productService = {
+  all: () => api.get<Pagination<Product[]>>('/products'),
+  findById: (id:number) => api.get<Product>(`/products/${id}`)
+}

@@ -97,7 +97,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { notifications } = useNotifications();
     const { product } = toRefs(props);
-    const form = ref<Product>({
+    const form = ref<Omit<Product, 'created_at'>>({
       type: PRODUCT_TYPE.DIGITAL,
       name: "",
       company_id: Number(),
@@ -122,6 +122,7 @@ export default defineComponent({
       try {
         await api.put(`/products/${product.value.id}`, form.value);
         emit("change-step");
+        notifications.success('Dados atualizados com sucesso!');
       }
       catch (error) {
         notifications.error(error);

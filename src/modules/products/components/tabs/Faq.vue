@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { IProduct, IProductFaq } from '@/interfaces/IProduct';
+import { Product, ProductFaq } from '@/core/interfaces/Product';
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import Text from '@/components/UI/Layout/Text.vue';
 import { api } from '@/core/services/api/base';
@@ -80,7 +80,7 @@ import Loading from "@/components/UI/Loading/Loading.vue";
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 })
@@ -88,11 +88,11 @@ const props = defineProps({
 const faqAtivo = ref(0);
 const { notifications } = useNotifications();
 const loading = ref(false)
-const faqs = ref<IProductFaq[]>([])
+const faqs = ref<ProductFaq[]>([])
 const fetchProductLinks = async () => {
   try {
     loading.value = true;
-    const { data } = await api.get<IProductFaq[]>(`/products/${props.product.id}/faqs`)
+    const { data } = await api.get<ProductFaq[]>(`/products/${props.product.id}/faqs`)
     faqs.value = data
   } catch (error) {
     notifications.error(error)

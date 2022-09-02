@@ -35,7 +35,9 @@
             >
               <td>{{ ebook.title }}</td>
               <td class="text-default font-light">
-                {{ ebook.url }}
+                <div class="overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px]">
+                  {{ ebook.url }}
+                </div>
               </td>
               <td
                 align="right"
@@ -97,7 +99,7 @@
 import useNotifications from '@/core/composables/useNotifications';
 import { ProductMedia } from '@/core/interfaces/Product';
 import { fetchMidias } from '@/core/services/api/products'
-import { IProduct } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import {onMounted, PropType, ref} from 'vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
 import YoutubeThumbnail from '@/components/youtube/YoutubeThumbnail.vue';
@@ -107,7 +109,7 @@ const { notifications } = useNotifications()
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 });

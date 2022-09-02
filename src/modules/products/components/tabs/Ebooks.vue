@@ -80,7 +80,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IProduct } from "@/interfaces/IProduct"
+import { Product } from "@/core/interfaces/Product"
 import { onMounted, PropType, ref } from "vue"
 import Text from "@/components/UI/Layout/Text.vue"
 import useNotifications from "@/core/composables/useNotifications";
@@ -90,7 +90,7 @@ import Loading from "@/components/UI/Loading/Loading.vue";
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 });

@@ -7,7 +7,7 @@
         </p>
         <table
           v-if="links.length"
-          class="table-white text-xs w-full lg:w-3/4"
+          :class="[`table-white text-xs w-full ${lead ? 'w-full' : 'lg:w-3/4'}`]"
         >
           <tbody>
             <tr
@@ -70,6 +70,10 @@ const props = defineProps({
   product: {
     type: Object as PropType<Product>,
     required: true
+  },
+  lead: {
+    type: Boolean,
+    default:false
   }
 });
 

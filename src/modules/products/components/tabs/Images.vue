@@ -27,7 +27,7 @@
 import useNotifications from '@/core/composables/useNotifications';
 import { ProductImage } from '@/core/interfaces/Product';
 import { fetchImages } from '@/core/services/api/products'
-import { IProduct } from '@/interfaces/IProduct';
+import { Product } from '@/core/interfaces/Product';
 import {onMounted, PropType, ref} from 'vue';
 import Loading from '@/components/UI/Loading/Loading.vue';
 import NoRecords from '@/components/NoRecords.vue';
@@ -35,7 +35,7 @@ const { notifications } = useNotifications()
 
 const props = defineProps({
   product: {
-    type: Object as PropType<IProduct>,
+    type: Object as PropType<Product>,
     required: true
   }
 });

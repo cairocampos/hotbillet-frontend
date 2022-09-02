@@ -1,46 +1,41 @@
 <template>
   <Card>
     <template #header>
-      <div class="w-full mb-2">
+      <div
+        v-if="product?.id"
+        class="w-full mb-2"
+      >
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
             <div class="w-16 h-16">
               <img
-                src="@/assets/fake/produto.png"
+                :src="product.cover"
                 class="object-cover w-full h-full rounded-full"
+                @error="useFallbackImage"
               />
             </div>
             <div>
               <h3 class="text-dark text-lg font-medium">
-                Just4You
+                {{ product.name }}
               </h3>
               <a
-                href="#"
+                v-if="product.url"
+                :href="product.url"
                 target="_blank"
                 class="text-xs flex items-center space-x-1 text-blue-500"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-1 transform rotate-45"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>
-                Link do Site
+                <PhLinkSimpleHorizontal size="20" />
+                <span class="ml-2">Link do Site</span>
               </a>
             </div>
           </div>
         </div>
       </div>
     </template>
-    <template #body>
+    <template
+      v-if="product?.id"
+      #body
+    >
       <MenuTab
         v-model:tabActive="tabActive"
         :tabs="tabs"
@@ -54,6 +49,8 @@
           <component
             :is="tabActive.component"
             :key="tabActive.label"
+            :product="product"
+            v-bind="tabActive.props"
           />
         </transition>
       </section>
@@ -61,8 +58,8 @@
   </Card>
 </template>
 
-<script lang="ts">
-import {defineComponent, ref} from 'vue';
+<script lang="ts" setup>
+import {onMounted, PropType, ref, shallowRef} from 'vue';
 import MenuTab from '@/components/MenuTab.vue';
 import Dados from '@/modules/products/components/tabs/Dados.vue';
 import Links from '@/modules/products/components/tabs/Links.vue';
@@ -70,35 +67,51 @@ import Midias from '@/modules/products/components/tabs/Midias.vue';
 import Ebooks from '@/modules/products/components/tabs/Ebooks.vue';
 import Faq from '@/modules/products/components/tabs/Faq.vue';
 import Comissionados from './Comissionados.vue';
+import { Lead } from '@/core/interfaces/Lead';
+import { Product } from '@/core/interfaces/Product';
+import {productService} from '@/core/services/api/products'
+import useFallbackImage from '@/core/composables/useFallbackImage';
+import { PhLinkSimpleHorizontal } from 'phosphor-vue'
 
-export default defineComponent({
-  components: {
-    MenuTab,
-    Dados,
-    Links,
-    Midias,
-    Ebooks,
-    Faq,
-    Comissionados
-  },
-  setup() {
-      const tabs = [
-          {label: "Dados", component: 'Dados'},
-          {label: "Links", component: 'Links'},
-          {label: "Mídias", component: 'Midias'},
-          {label: "Ebooks", component: 'Ebooks'},
-          {label: "FAQ", component: 'Faq'},
-          {label: "Comissionados", component: 'Comissionados'}
-      ];
-
-      const tabActive = ref(tabs[0])
-
-      return {
-          tabs,
-          tabActive
-      }
+const props = defineProps({
+  lead: {
+    type: Object as PropType<Lead>,
+    required:true
   }
 })
+
+const dadosTab = shallowRef(Dados);
+const linksTab = shallowRef(Links);
+const midiasTab = shallowRef(Midias);
+const ebooksTab = shallowRef(Ebooks);
+const faqTab = shallowRef(Faq);
+const comissionadosTab = shallowRef(Comissionados);
+
+const tabs = [
+  {label: "Dados", component: dadosTab},
+  {label: "Links", component: linksTab, props: {lead: true}},
+  {label: "Mídias", component: midiasTab},
+  {label: "Ebooks", component: ebooksTab},
+  {label: "FAQ", component: faqTab},
+  {label: "Comissionados", component: comissionadosTab}
+];
+
+const tabActive = ref(tabs[0])
+
+const loading = ref(false)
+const product = ref<Product>();
+const getProduct = async () => {
+  try {
+    loading.value = true;
+    const {data} = await productService.findById(props.lead.product_id);
+    product.value = data
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(() => getProduct());
+
 </script>
 
 <style>

@@ -15,6 +15,7 @@ export interface Product {
   support_phone?: string;
   description: string;
   cover?: string;
+  created_at: string;
 }
 
 export interface ProductEbook {
@@ -59,4 +60,10 @@ export interface ProductLink {
   id?:number;
   url:string;
   name:string;
+}
+
+export interface ProductFaq {
+  id?:number;
+  title: string;
+  description:string;
 }
